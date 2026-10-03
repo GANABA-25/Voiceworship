@@ -1,12 +1,51 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import Button from "@/components/ui/button";
+import ProgressBar from "@/components/progress-bar";
+import { useVoice } from "@/store/voice-recognition-context";
+
+interface VoiceRecognitionInstance {
+  lang: string;
+  continuous: boolean;
+  interimResults: boolean;
+  maxAlternatives: number;
+  onstart: ((event: Event) => void) | null;
+  onspeechstart: ((event: Event) => void) | null;
+  onresult: ((event: SpeechRecognitionEvent) => void) | null;
+  onerror: ((event: SpeechRecognitionErrorEvent) => void) | null;
+  onend: ((event: Event) => void) | null;
+  start(): void;
+  stop(): void;
+  abort(): void;
+}
+
+interface VoiceRecognitionConstructor {
+  new (): VoiceRecognitionInstance;
+}
+
+declare global {
+  interface Window {
+    SpeechRecognition?: VoiceRecognitionConstructor;
+    webkitSpeechRecognition?: VoiceRecognitionConstructor;
+  }
+}
 
 export default function VoiceCard() {
-  const [volume, setVolume] = useState(0);
-  const [status, setStatus] = useState("Checking microphone...");
+  const {
+    volume,
+    transcript,
+    isListening,
+    startListening,
+    stopListening,
+    setMicrophoneStatus,
+    setRecognitionStatus,
+    setVolume,
+    setTranscript,
+  } = useVoice();
 
   const animationRef = useRef<number | null>(null);
+  const recognitionRef = useRef<VoiceRecognitionInstance | null>(null);
 
   useEffect(() => {
     let stream: MediaStream | null = null;
@@ -14,6 +53,8 @@ export default function VoiceCard() {
 
     const start = async () => {
       try {
+        setMicrophoneStatus("checking");
+
         stream = await navigator.mediaDevices.getUserMedia({
           audio: {
             echoCancellation: false,
@@ -33,12 +74,12 @@ export default function VoiceCard() {
 
         track.addEventListener("mute", () => {
           console.log("🔇 Microphone track muted");
-          setStatus("Microphone muted");
+          setMicrophoneStatus("muted");
         });
 
         track.addEventListener("unmute", () => {
           console.log("🔊 Microphone track unmuted");
-          setStatus("Microphone active");
+          setMicrophoneStatus("active");
         });
 
         audioContext = new AudioContext();
@@ -58,7 +99,7 @@ export default function VoiceCard() {
 
         const data = new Uint8Array(analyser.fftSize);
 
-        setStatus("Microphone active");
+        setMicrophoneStatus("active");
 
         const update = () => {
           analyser.getByteTimeDomainData(data);
@@ -81,7 +122,12 @@ export default function VoiceCard() {
         update();
       } catch (error) {
         console.error("❌ Microphone error:", error);
-        setStatus("Microphone unavailable");
+
+        if (error instanceof DOMException && error.name === "NotAllowedError") {
+          setMicrophoneStatus("permission-denied");
+        } else {
+          setMicrophoneStatus("unavailable");
+        }
       }
     };
 
@@ -96,45 +142,190 @@ export default function VoiceCard() {
 
       audioContext?.close();
     };
-  }, []);
+  }, [setMicrophoneStatus, setVolume]);
+
+  const handleStartListening = () => {
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      setRecognitionStatus("error");
+      console.error("❌ Speech recognition is not supported");
+      return;
+    }
+
+    if (isListening) {
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+
+    recognition.lang = "en-US";
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.maxAlternatives = 1;
+
+    recognition.onstart = () => {
+      console.log("🎤 Speech recognition started");
+      startListening();
+    };
+
+    recognition.onspeechstart = () => {
+      console.log("🗣️ Speech detected");
+    };
+
+    recognition.onresult = (event) => {
+      let finalTranscript = "";
+      let interimTranscript = "";
+
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const result = event.results[i];
+        const text = result[0].transcript;
+
+        if (result.isFinal) {
+          finalTranscript += text;
+        } else {
+          interimTranscript += text;
+        }
+      }
+
+      const currentTranscript = finalTranscript || interimTranscript;
+
+      setTranscript(currentTranscript);
+
+      console.log("🎤 Transcript:", currentTranscript);
+
+      if (finalTranscript) {
+        console.log("✅ Final transcript:", finalTranscript);
+        setRecognitionStatus("processing");
+      }
+    };
+
+    recognition.onerror = (event) => {
+      console.error("❌ Speech recognition error:", event);
+
+      if (event.error === "not-allowed") {
+        setMicrophoneStatus("permission-denied");
+      } else if (event.error === "audio-capture") {
+        setMicrophoneStatus("unavailable");
+      }
+
+      setRecognitionStatus("error");
+    };
+
+    recognition.onend = () => {
+      console.log("🛑 Speech recognition ended");
+
+      if (recognitionRef.current) {
+        stopListening();
+      }
+
+      recognitionRef.current = null;
+    };
+
+    recognitionRef.current = recognition;
+
+    try {
+      recognition.start();
+    } catch (error) {
+      console.error("❌ Failed to start speech recognition:", error);
+      setRecognitionStatus("error");
+      recognitionRef.current = null;
+    }
+  };
+
+  const handleStopListening = () => {
+    if (!recognitionRef.current) {
+      stopListening();
+      return;
+    }
+
+    recognitionRef.current.stop();
+  };
+
+  {
+    /* <div className="mt-3 flex items-center justify-center gap-2 text-xs text-muted">
+            <span
+              className={`h-2.5 w-2.5 rounded-full ${
+                isListening
+                  ? "animate-pulse bg-danger"
+                  : speaking
+                    ? "animate-pulse bg-success"
+                    : "bg-muted"
+              }`}
+            />
+
+            <span>Volume: {volume}</span>
+          </div> */
+  }
+  {
+    /* <div className="mt-4 flex gap-2">
+            {!isListening ? (
+              <Button onClick={handleStartListening} label="Start Listening" />
+            ) : (
+              <Button onClick={handleStopListening} label="Stop Listening" />
+            )}
+          </div> */
+  }
 
   const speaking = volume > 10;
 
   return (
-    <div className="rounded-md border border-border bg-card p-4">
-      <p className="text-xs uppercase tracking-wide text-muted">
-        Microphone Test
-      </p>
+    <div className="flex items-start gap-4">
+      <section className="flex h-30 flex-6 flex-col justify-between space-y-2 rounded-md border border-border bg-background p-3">
+        <div className="space-y-1">
+          <p className="text-xs uppercase tracking-wide text-muted">Heard</p>
 
-      <p className="mt-1 text-sm text-text">{status}</p>
+          <h1 className="mt-1 font-bold text-text">
+            "{transcript || "Say a Bible reference..."}"
+          </h1>
+        </div>
 
-      <div className="mt-5 flex h-10 items-center justify-center gap-1">
-        {Array.from({ length: 32 }).map((_, index) => {
-          const distance = Math.abs(index - 15.5);
-          const strength = Math.max(0, 1 - distance / 16);
-          const height = Math.max(3, volume * strength);
+        <div className="flex h-10 items-center gap-0.75">
+          {Array.from({ length: 55 }).map((_, index) => {
+            const distance = Math.abs(index - 15.5);
+            const strength = Math.max(0.2, 1 - distance / 18);
+            const idleHeights = [
+              4, 7, 5, 11, 6, 15, 8, 12, 5, 9, 6, 14, 7, 11, 8, 16, 9, 13, 6,
+              10, 7, 15, 5, 11, 8, 14, 6, 9, 5, 12, 7, 10, 15, 5, 11, 8, 14, 6,
+              9, 5, 12, 7, 10, 15, 5, 11, 8, 14, 6, 9, 5, 12, 7, 10, 4,
+            ];
 
-          return (
-            <span
-              key={index}
-              className="w-1 rounded-full bg-primary transition-all duration-75"
-              style={{
-                height: `${Math.min(height, 36)}px`,
-              }}
-            />
-          );
-        })}
-      </div>
+            const idleHeight = idleHeights[index];
+            const activeHeight = Math.max(4, volume * strength);
+            const height =
+              volume > 10 ? Math.min(activeHeight, 28) : idleHeight;
 
-      <div className="mt-3 flex items-center justify-center gap-2 text-xs text-muted">
-        <span
-          className={`h-2 w-2 rounded-full ${
-            speaking ? "animate-pulse bg-success" : "bg-muted"
-          }`}
-        />
+            return (
+              <span
+                key={index}
+                className={`w-0.75 rounded-full transition-all duration-100 ${
+                  volume > 10 ? "bg-primary" : "bg-primary/40"
+                }`}
+                style={{
+                  height: `${height}px`,
+                }}
+              />
+            );
+          })}
+        </div>
+      </section>
 
-        <span>Volume: {volume}</span>
-      </div>
+      <section className="flex h-30 flex-4 flex-col justify-between rounded-md border border-border bg-background p-3">
+        <div className="space-y-1">
+          <p className="text-xs uppercase tracking-wide text-muted">
+            Interpreted
+          </p>
+
+          <h1 className="mt-1 font-black text-primary">
+            "{transcript || "Genesis 1:1"}"
+          </h1>
+        </div>
+
+        <div className="space-y-2">
+          <ProgressBar progress={95} />
+        </div>
+      </section>
     </div>
   );
 }

@@ -1,8 +1,17 @@
-import { MicAudioLines, Mic, Settings, Bell } from "lucide-react";
+import {
+  MicAudioLines,
+  Microscope,
+  Mic,
+  MicSignal,
+  Settings,
+  Bell,
+} from "lucide-react";
 import ThemeToggle from "../theme-toggle";
 import SearchInput from "../search-Input";
+import { useVoice } from "@/store/voice-recognition-context";
 
 export default function Header() {
+  const { microphoneStatus, recognitionStatus, isListening } = useVoice();
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex h-16 items-center gap-4 border-b border-border bg-background px-4">
       <div className="flex items-center gap-12">
@@ -26,18 +35,32 @@ export default function Header() {
             <p className="text-xs text-muted">House of Faith Ministries FIC</p>
           </span>
 
-          <div className="flex h-8 items-center gap-2 rounded-md border border-danger/40 bg-danger/5 px-3 text-danger">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="absolute h-full w-full animate-pulse rounded-full bg-danger/40" />
-              <span className="relative h-2.5 w-2.5 rounded-full bg-danger" />
-            </span>
+          <div
+            className={`flex h-8 items-center gap-2 rounded-md border  px-3  ${microphoneStatus === "active" ? "border-success/40 bg-success/5 text-success" : "border-danger/40 bg-danger/5 text-danger"}`}
+          >
+            <span
+              className={`h-2.5 w-2.5 rounded-full ${
+                microphoneStatus === "active"
+                  ? "animate-pulse bg-success"
+                  : "bg-danger"
+              }`}
+            />
 
-            <span className="text-xs uppercase tracking-wide">Live</span>
+            <span className="text-xs uppercase tracking-wide">
+              {microphoneStatus}
+            </span>
           </div>
 
-          <div className="flex h-8 items-center gap-2 rounded-md border border-border bg-danger/5 px-3 text-primary">
-            <Mic size={14} />
-            <span className="text-xs tracking-wide">Listening</span>
+          <div
+            className={`flex h-8 items-center gap-2 rounded-md border  px-3  ${isListening ? "border-success bg-success/5 text-success" : "border-danger bg-danger/5 text-danger"}`}
+          >
+            {isListening ? (
+              <MicAudioLines size={14} />
+            ) : (
+              <Microscope size={14} />
+            )}
+
+            <span className="text-xs tracking-wide">{recognitionStatus}</span>
           </div>
         </div>
 
