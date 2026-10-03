@@ -15,9 +15,9 @@ export default function DashboardLayout({
         <SideBar />
 
         <main
-          className={`h-screen overflow-y-auto transition-all duration-300 lg:ml-50`}
+          className={`h-screen overflow-y-auto transition-all duration-300 lg:ml-51 mt-16`}
         >
-          <div className="mx-2 min-w-0 md:mx-4">{children}</div>
+          <div className="mx-2 min-w-0">{children}</div>
         </main>
       </div>
     </>

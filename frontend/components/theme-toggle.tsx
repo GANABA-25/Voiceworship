@@ -22,10 +22,16 @@ export default function ThemeToggle() {
     <button
       type="button"
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-md border border-border bg-card text-muted transition-colors hover:bg-hover hover:text-text"
-      aria-label="Toggle theme"
+      aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
+      className="flex h-9 items-center gap-2 rounded-md border border-border bg-card px-3 text-muted transition-all duration-200 hover:border-primary/40 hover:bg-hover hover:text-text cursor-pointer"
     >
-      {isDark ? <Sun size={17} /> : <Moon size={17} />}
+      <span className="flex h-6 w-6 items-center justify-center rounded-md bg-hover text-primary">
+        {isDark ? <Sun size={15} /> : <Moon size={15} />}
+      </span>
+
+      <span className="text-xs font-medium uppercase tracking-wide">
+        {isDark ? "Dark Mode" : "Light Mode"}
+      </span>
     </button>
   );
 }
