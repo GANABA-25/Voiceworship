@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import AppContextProvider from "@/store/app-context-provider";
+import ToastProvider from "./toastProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -24,7 +25,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           defaultTheme="dark"
           enableSystem={false}
         >
-          <AppContextProvider>{children}</AppContextProvider>
+          <AppContextProvider>
+            <ToastProvider>{children}</ToastProvider>
+          </AppContextProvider>
         </ThemeProvider>
       </body>
     </html>

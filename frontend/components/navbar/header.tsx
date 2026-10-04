@@ -1,6 +1,7 @@
 import {
   MicAudioLines,
   Microscope,
+  MicOff,
   Mic,
   MicSignal,
   Settings,
@@ -11,7 +12,8 @@ import SearchInput from "../search-Input";
 import { useVoice } from "@/store/voice-recognition-context";
 
 export default function Header() {
-  const { microphoneStatus, recognitionStatus, isListening } = useVoice();
+  const { microphoneStatus, recognitionStatus, isListening, isMuted } =
+    useVoice();
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex h-16 items-center gap-4 border-b border-border bg-background px-4">
       <div className="flex items-center gap-12">
@@ -38,13 +40,17 @@ export default function Header() {
           <div
             className={`flex h-8 items-center gap-2 rounded-md border  px-3  ${microphoneStatus === "active" ? "border-success/40 bg-success/5 text-success" : "border-danger/40 bg-danger/5 text-danger"}`}
           >
-            <span
-              className={`h-2.5 w-2.5 rounded-full ${
-                microphoneStatus === "active"
-                  ? "animate-pulse bg-success"
-                  : "bg-danger"
-              }`}
-            />
+            {isMuted ? (
+              <MicOff size={15} />
+            ) : (
+              <span
+                className={`h-2.5 w-2.5 rounded-full ${
+                  microphoneStatus === "active"
+                    ? "animate-pulse bg-success"
+                    : "bg-danger"
+                }`}
+              />
+            )}
 
             <span className="text-xs uppercase tracking-wide">
               {microphoneStatus}
@@ -52,7 +58,7 @@ export default function Header() {
           </div>
 
           <div
-            className={`flex h-8 items-center gap-2 rounded-md border  px-3  ${isListening ? "border-success bg-success/5 text-success" : "border-danger bg-danger/5 text-danger"}`}
+            className={`flex h-8 items-center gap-2 rounded-md border px-3 ${isListening ? "border-success bg-success/5 text-success" : "border-muted bg-muted/5 text-muted"}`}
           >
             {isListening ? (
               <MicAudioLines size={14} />

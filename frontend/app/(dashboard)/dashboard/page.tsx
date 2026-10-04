@@ -1,9 +1,22 @@
+"use client";
+
 import Button from "@/components/ui/button";
 import Button2 from "@/components/ui/button-2";
-import { Play, Mic, X } from "lucide-react";
-import VoiceCard from "@/features/voiceCard";
+import { Play, MicOff, Mic, X } from "lucide-react";
+import VoiceCard from "@/features/voice/components/voiceCard";
+import { useVoice } from "@/store/voice-recognition-context";
 
 export default function page() {
+  const {
+    isListening,
+    startListening,
+    stopListening,
+    muteMicrophone,
+    unmuteMicrophone,
+    setMicrophoneStatus,
+    isMuted,
+  } = useVoice();
+
   return (
     <div className="flex h-[calc(100vh-3.5rem)] min-h-0 overflow-hidden">
       <section className="space-y-4 flex-8 min-h-0 scrollbar-yellow">
@@ -34,7 +47,13 @@ export default function page() {
                 <p className="font-black">Voice Control</p>
               </div>
 
-              <p className="text-xs text-muted">Reference detected</p>
+              <div>
+                {!isListening ? (
+                  <Button onClick={startListening} label="Start Listening" />
+                ) : (
+                  <Button onClick={stopListening} label="Stop Listening" />
+                )}
+              </div>
             </div>
 
             <span className="p-4">
@@ -49,7 +68,20 @@ export default function page() {
               </span>
 
               <span className="flex items-center gap-2">
-                <Button2 label="Mute mic" />
+                {isMuted ? (
+                  <Button2
+                    icon={<MicOff size={15} />}
+                    onClick={unmuteMicrophone}
+                    label="Muted"
+                  />
+                ) : (
+                  <Button2
+                    icon={<Mic size={15} />}
+                    onClick={muteMicrophone}
+                    label="Mute mic"
+                  />
+                )}
+
                 <Button2 label="Simulate command" icon={<X size={15} />} />
               </span>
             </div>

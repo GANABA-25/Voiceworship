@@ -11,7 +11,7 @@ export default function ProgressBar({ progress = 0 }: ProgressBarProps) {
     <div className="space-y-2">
       <div className="flex justify-between items-center">
         <p className="text-xs text-muted">Reference confidence</p>
-        <p className="font-bold">92%</p>
+        <p className="font-bold">{progress}%</p>
       </div>
       <div className="h-1 w-full overflow-hidden rounded-full bg-border">
         <div
