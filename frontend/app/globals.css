@@ -26,9 +26,9 @@
 }
 
 :root {
-  --primary: #d9a936;
-  --primary-light: #f3be47;
-  --primary-dark: #b88724;
+  --primary: #f3be47;
+  --primary-light: #fac449;
+  --primary-dark: #c99a32;
 
   --background: #f8f8f6;
   --surface: #ffffff;
@@ -36,7 +36,7 @@
   --card-light: #f4f4f2;
   --hover: #eeeeeb;
 
-  --border: #deded9;
+  --border: #e5e7eb;
   --border-light: #cfcfca;
 
   --text: #171717;

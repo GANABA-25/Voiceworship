@@ -9,10 +9,9 @@ export default function VoiceCard() {
 
   return (
     <div className="flex items-start gap-4">
-      <section className="flex flex-6 flex-col justify-between space-y-2 rounded-md border border-border bg-background p-3">
+      <section className="flex flex-6 flex-col justify-between space-y-2 rounded-md border border-border shadow-xs bg-card p-3">
         <div className="space-y-1">
           <p className="text-xs uppercase tracking-wide text-muted">Heard</p>
-
           <h1 className="font-bold text-text">
             "{transcript || "Say a Bible reference..."}"
           </h1>
@@ -21,7 +20,7 @@ export default function VoiceCard() {
         <VoiceWaveform volume={volume} />
       </section>
 
-      <section className="flex h-30 flex-4 flex-col justify-between rounded-md border border-border bg-background p-3">
+      <section className="flex h-30 flex-4 flex-col justify-between rounded-md border border-border shadow-xs bg-card p-3">
         <div className="space-y-1">
           <p className="text-xs uppercase tracking-wide text-muted">
             Interpreted

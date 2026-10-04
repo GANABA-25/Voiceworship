@@ -15,7 +15,7 @@ export default function Header() {
   const { microphoneStatus, recognitionStatus, isListening, isMuted } =
     useVoice();
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 flex h-16 items-center gap-4 border-b border-border bg-background px-4">
+    <div className="fixed top-0 left-0 right-0 z-50 flex h-16 items-center gap-4 border-b border-border shadow-sm bg-card px-4">
       <div className="flex items-center gap-12">
         <div className="flex items-center gap-1 overflow-hidden">
           <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary font-bold text-white">
