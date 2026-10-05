@@ -4,10 +4,12 @@
   "description": "Voice Worship",
   "license": "ISC",
   "author": "Nathaniel Owusu",
-  "type": "commonjs",
+  "type": "module",
   "main": "app.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "tsc",
+    "start": "tsx src/app.ts",
+    "import:bible": "tsx src/modules/bible/import-bible.ts",
     "postinstall": "prisma skills sync || exit 0"
   },
   "devDependencies": {
@@ -18,17 +20,19 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^26.6.3",
     "tsx": "^4.23.15",
-    "typescript": "^7.0.2",
-    "prisma": "8.0.0-rc.17"
+    "typescript": "^7.0.2"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.10.0",
     "@prisma/client": "^7.10.0",
     "bcryptjs": "^3.0.3",
     "body-parser": "^2.3.0",
     "cors": "^2.8.6",
+    "dotenv": "^18.0.5",
     "express": "^5.2.1",
     "express-validator": "^7.3.2",
     "jsonwebtoken": "^9.0.3",
-    "pg": "^8.23.0"
+    "pg": "^8.23.1",
+    "prisma": "^7.10.0"
   }
 }
