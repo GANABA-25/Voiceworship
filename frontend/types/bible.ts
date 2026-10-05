@@ -1,17 +1,17 @@
-export type BibleVerse = {
+export type bibleVerse = {
   verse: number;
   text: string;
 };
 
-export type BiblePassage = {
+export type biblePassage = {
   translation: string;
   translationName: string;
   book: string;
   chapter: number;
-  verses: BibleVerse[];
+  verses: bibleVerse[];
 };
 
-export type BibleReference = {
+export type bibleReference = {
   book: string;
   chapter: number;
   verseStart: number;

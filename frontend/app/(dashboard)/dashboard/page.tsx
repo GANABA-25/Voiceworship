@@ -6,7 +6,6 @@ import Button from "@/components/ui/button";
 import Button2 from "@/components/ui/button-2";
 import VoiceCard from "@/features/voice/components/voiceCard";
 import PresentationCard from "@/components/presentation-card";
-import PresentationQueueCard from "@/components/presentation-queue-card";
 import MediaCard from "@/components/media-card";
 
 import { Play, MicOff, Mic, X } from "lucide-react";
@@ -19,7 +18,7 @@ export default function page() {
     stopListening,
     muteMicrophone,
     unmuteMicrophone,
-    setMicrophoneStatus,
+
     isMuted,
   } = useVoice();
 
@@ -161,49 +160,4 @@ export default function page() {
       </main>
     </section>
   );
-}
-
-{
-  /* <section className="space-y-4 flex-2 min-h-0 scrollbar-yellow p-4 border-l border-border">
-        <div className="space-y-4">
-          <div className="flex justify-between items-center">
-            <p className="text-muted text-xs">Live output</p>
-            <p className="text-muted text-xs">1920 × 1080</p>
-          </div>
-
-          <div className="border border-border rounded-md shadow-xs space-y-2 text-center p-8 bg-card">
-            <h1 className="font-black tracking-wider text-primary">
-              Genesis 1:2
-            </h1>
-
-            <p className="leading-5 tracking-wide text-text">
-              And the earth was without form, and void and darkness was upon the
-              face of the deep.
-            </p>
-          </div>
-        </div>
-
-        <div className="space-y-4">
-          <div className="flex justify-between items-center">
-            <p className="text-muted text-xs">Preview / Next</p>
-            <p className="text-muted text-xs">clear</p>
-          </div>
-
-          <div className="border border-border rounded-md shadow-xs space-y-2 text-center p-8 bg-card">
-            <h1 className="font-black tracking-wider text-primary">
-              Genesis 1:2
-            </h1>
-
-            <p className="leading-5 tracking-wide text-text">
-              And the earth was without form, and void and darkness was upon the
-              face of the deep.
-            </p>
-          </div>
-        </div>
-
-        <button className="flex w-full items-center justify-center text-xs gap-2 p-4 hover:bg-primary-light cursor-pointer font-bold bg-primary text-background shadow-xs rounded-md">
-          <Play size={15} fill="black" color="black" />
-          Go live
-        </button>
-      </section> */
 }

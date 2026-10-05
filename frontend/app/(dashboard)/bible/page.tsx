@@ -18,7 +18,7 @@ export default function page() {
       </header>
       <main className="space-y-4 m-4">
         {!passage ? (
-          <div className="flex justify-center items-center mt-50">
+          <div className="flex justify-center items-center mt-30">
             <EmptyState
               image="/illustrations/bible.svg"
               alt="Bible"
@@ -38,13 +38,7 @@ export default function page() {
             </div>
 
             <div className="space-y-4">
-              {passage?.verses.map((verse) => (
-                <BibleVerseCard
-                  key={verse.verse}
-                  verse={verse.verse}
-                  text={verse.text}
-                />
-              ))}
+              <BibleVerseCard data={passage} />
             </div>
           </main>
         )}
