@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import AppContextProvider from "@/store/app-context-provider";
 import ToastProvider from "./toastProvider";
+import Provider from "./provider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -25,9 +26,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           defaultTheme="dark"
           enableSystem={false}
         >
-          <AppContextProvider>
-            <ToastProvider>{children}</ToastProvider>
-          </AppContextProvider>
+          <Provider>
+            <AppContextProvider>
+              <ToastProvider>{children}</ToastProvider>
+            </AppContextProvider>
+          </Provider>
         </ThemeProvider>
       </body>
     </html>

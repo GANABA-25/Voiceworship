@@ -1,31 +1,46 @@
 "use client";
 
-import { Search, Funnel } from "lucide-react";
-
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import { getPassage } from "@/services/https";
+import { parseBibleReference } from "@/util/parse-bible-reference";
+import { Search, Funnel } from "lucide-react";
+import { toast } from "react-toastify";
 
 export default function SearchInput() {
   const router = useRouter();
   const [searchWord, setSearchWord] = useState("");
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: getPassage,
+    onSuccess: (data) => {
+      console.log("checking", data);
+    },
+
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
   const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const search = searchWord.trim();
+    const reference = parseBibleReference(searchWord);
 
-    if (!search) {
-      router.push("/browse");
+    if (!reference) {
+      console.log("Invalid Bible reference");
+      toast.error("Invalid Bible reference");
       return;
     }
 
-    router.push(`/browse?keyword=${encodeURIComponent(search)}`);
+    mutate(reference);
   };
 
   return (
     <form onSubmit={handleSubmit} className="relative hidden w-100 lg:block">
       <input
-        className="h-10 w-full rounded-xl border border-border bg-background pl-9 pr-20 text-sm text-text placeholder:text-text outline-none transition focus:border-primary-light focus:ring-1 focus:ring-primary-light"
+        className="h-10 w-full rounded-md border border-border bg-background pl-9 pr-20 text-sm text-text placeholder:text-text outline-none transition focus:border-primary-light focus:ring-1 focus:ring-primary-light"
         type="text"
         placeholder="Search library..."
         value={searchWord}

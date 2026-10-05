@@ -10,7 +10,7 @@ import PresentationQueueCard from "@/components/presentation-queue-card";
 import MediaCard from "@/components/media-card";
 
 import { Play, MicOff, Mic, X } from "lucide-react";
-import BibleHistoryCard from "@/components/bible-history-card";
+import BibleHistoryCard from "@/components/bible/bible-history-card";
 
 export default function page() {
   const {
