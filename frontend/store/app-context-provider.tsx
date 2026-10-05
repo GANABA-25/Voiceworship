@@ -1,5 +1,6 @@
 import { AuthProvider } from "./auth-context";
 import { VoiceProvider } from "./voice-recognition-context";
+import { BibleProvider } from "./bible-context";
 
 export default function AppContextProvider({
   children,
@@ -8,7 +9,9 @@ export default function AppContextProvider({
 }) {
   return (
     <AuthProvider>
-      <VoiceProvider>{children}</VoiceProvider>
+      <VoiceProvider>
+        <BibleProvider>{children}</BibleProvider>
+      </VoiceProvider>
     </AuthProvider>
   );
 }

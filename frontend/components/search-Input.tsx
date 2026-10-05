@@ -7,15 +7,16 @@ import { getPassage } from "@/services/https";
 import { parseBibleReference } from "@/util/parse-bible-reference";
 import { Search, Funnel } from "lucide-react";
 import { toast } from "react-toastify";
+import { useBible } from "@/store/bible-context";
 
 export default function SearchInput() {
-  const router = useRouter();
+  const { searchedPassage } = useBible();
   const [searchWord, setSearchWord] = useState("");
 
   const { mutate, isPending } = useMutation({
     mutationFn: getPassage,
     onSuccess: (data) => {
-      console.log("checking", data);
+      searchedPassage(data);
     },
 
     onError: (error) => {
