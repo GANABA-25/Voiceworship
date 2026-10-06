@@ -1,10 +1,9 @@
 "use client";
 
-import Button from "@/components/ui/button";
 import SearchInput from "@/components/search-Input";
-import { Play } from "lucide-react";
+
 import BibleVerseCard from "@/components/bible/bible-verse-card";
-import { SquareDot, Ellipsis, Dot } from "lucide-react";
+import { Dot } from "lucide-react";
 import { useBible } from "@/store/bible-context";
 import EmptyState from "@/components/empty-state";
 
@@ -12,9 +11,9 @@ export default function page() {
   const { passage } = useBible();
 
   return (
-    <section className="space-y-4 min-h-0 overflow-y-auto scrollbar-yellow">
+    <section className="space-y-4 min-h-0 overflow-y-auto scrollbar-yellow ">
       <header className="flex items-center justify-between border-b border-border bg-card p-4">
-        <SearchInput />
+        <SearchInput placeHolder="Enter a Bible reference, e.g. Genesis 1:2-5" />
       </header>
       <main className="space-y-4 m-4">
         {!passage ? (

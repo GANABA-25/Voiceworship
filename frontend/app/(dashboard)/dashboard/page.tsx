@@ -5,7 +5,7 @@ import { useVoice } from "@/store/voice-recognition-context";
 import Button from "@/components/ui/button";
 import Button2 from "@/components/ui/button-2";
 import VoiceCard from "@/features/voice/components/voiceCard";
-import PresentationCard from "@/components/presentation-card";
+import PresentationCard from "@/components/PresentationQueue/presentation-card";
 import MediaCard from "@/components/media-card";
 
 import { Play, MicOff, Mic, X } from "lucide-react";
@@ -23,7 +23,7 @@ export default function page() {
   } = useVoice();
 
   return (
-    <section className="space-y-4 min-h-0 overflow-y-auto scrollbar-yellow pb-60">
+    <section className="space-y-4 min-h-0 overflow-y-auto scrollbar-yellow">
       <header className="flex items-center justify-between border-b border-border bg-card p-4">
         <div className="flex flex-col gap-1">
           <h1>Service Dashboard</h1>

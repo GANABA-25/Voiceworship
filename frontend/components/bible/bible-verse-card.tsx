@@ -11,7 +11,7 @@ type BibleVerseCardProps = {
 };
 
 export default function BibleVerseCard({ data }: BibleVerseCardProps) {
-  const { goLive, preview } = usePresentation();
+  const { goLive, preview, addToQueue } = usePresentation();
 
   return (
     <div className="space-y-4">
@@ -71,6 +71,7 @@ export default function BibleVerseCard({ data }: BibleVerseCardProps) {
               </button>
 
               <button
+                onClick={() => addToQueue(dataToView)}
                 type="button"
                 className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border border-primary/30 text-muted transition-all duration-200 hover:scale-110 hover:border-primary hover:bg-primary/10 hover:text-primary active:scale-95"
               >

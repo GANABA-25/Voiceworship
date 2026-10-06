@@ -9,7 +9,11 @@ import { Search, Funnel } from "lucide-react";
 import { toast } from "react-toastify";
 import { useBible } from "@/store/bible-context";
 
-export default function SearchInput() {
+type searchInputType = {
+  placeHolder: string;
+};
+
+export default function SearchInput({ placeHolder }: searchInputType) {
   const { searchedPassage } = useBible();
   const [searchWord, setSearchWord] = useState("");
 
@@ -41,9 +45,9 @@ export default function SearchInput() {
   return (
     <form onSubmit={handleSubmit} className="relative hidden w-100 lg:block">
       <input
-        className="h-10 w-full rounded-md border border-border bg-background pl-9 pr-20 text-sm text-text placeholder:text-text outline-none transition focus:border-primary-light focus:ring-1 focus:ring-primary-light"
+        className="h-10 w-full rounded-md border border-border bg-background pl-9 pr-20 text-sm text-text placeholder:text-muted outline-none transition focus:border-primary-light focus:ring-1 focus:ring-primary-light"
         type="text"
-        placeholder="Search library..."
+        placeholder={placeHolder}
         value={searchWord}
         onChange={(event) => setSearchWord(event.target.value)}
       />

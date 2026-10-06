@@ -14,19 +14,18 @@ export default function EmptyState({
   description,
 }: EmptyStateProps) {
   return (
-    <div className="flex min-h-100 flex-col items-center justify-center rounded-lg border border-border bg-card p-8 text-center">
+    <div className="space-y-4 flex flex-col items-center justify-center rounded-md border border-border bg-card p-8 text-center">
       <Image
         src={image}
         alt={alt}
         width={208}
         height={208}
-        className="mb-6 h-52 w-52"
+        className="h-20 w-20"
       />
 
-      <div className="max-w-md space-y-2">
-        <h1 className="text-lg font-semibold text-text">{title}</h1>
-
-        <p className="text-sm leading-6 text-muted">{description}</p>
+      <div className="space-y-2">
+        <h1 className="font-semibold text-text">{title}</h1>
+        <p className="text-xs leading-6 text-muted">{description}</p>
       </div>
     </div>
   );

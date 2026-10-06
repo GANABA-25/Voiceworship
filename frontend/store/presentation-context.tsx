@@ -121,7 +121,6 @@ export function PresentationProvider({ children }: PresentationProviderProps) {
 
     setCurrentIndex(previousIndex);
     setLiveSlide(slide);
-    setPreviewSlide(slide);
   }, [queue, currentIndex]);
 
   const nextSlide = useCallback(() => {
@@ -139,7 +138,6 @@ export function PresentationProvider({ children }: PresentationProviderProps) {
 
     setCurrentIndex(nextIndex);
     setLiveSlide(slide);
-    setPreviewSlide(slide);
   }, [queue, currentIndex]);
 
   const toggleBlock = useCallback(() => {
