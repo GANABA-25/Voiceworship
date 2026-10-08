@@ -6,10 +6,10 @@ import { usePresentation } from "@/store/presentation-context";
 import Button from "@/components/ui/button";
 import Button2 from "@/components/ui/button-2";
 import VoiceCard from "@/features/voice/components/voiceCard";
-import PresentationCard from "@/components/PresentationQueue/presentation-card";
 import MediaCard from "@/components/media-card";
+import EmptyState from "@/components/empty-state";
 
-import { Play, MicOff, Mic, X, Power } from "lucide-react";
+import { Play, MicOff, Mic, X, Power, Clock } from "lucide-react";
 import BibleHistoryCard from "@/components/bible/bible-history-card";
 
 export default function page() {
@@ -19,10 +19,9 @@ export default function page() {
     stopListening,
     muteMicrophone,
     unmuteMicrophone,
-
     isMuted,
   } = useVoice();
-  const { liveSlide, isOnAir, isBlocked, history } = usePresentation();
+  const { history } = usePresentation();
 
   return (
     <section className="space-y-4 min-h-0 overflow-y-auto scrollbar-yellow">
@@ -53,6 +52,20 @@ export default function page() {
                 </span>
                 <p className="font-black">Voice Control</p>
               </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  window.open(
+                    "/display",
+                    "voiceworship-display",
+                    "popup=yes,width=1280,height=720",
+                  );
+                }}
+                className="flex cursor-pointer items-center justify-center rounded-md bg-primary px-4 py-2 font-semibold text-background transition-all duration-150 ease-out hover:-translate-y-0.5 hover:bg-primary-light hover:shadow-sm active:translate-y-0 active:scale-95"
+              >
+                Open Display
+              </button>
             </div>
 
             <span className="px-4">
@@ -97,30 +110,16 @@ export default function page() {
 
           <div className="border border-border bg-card rounded-md">
             <div className="flex justify-between items-center py-2 px-4 border-b border-border">
-              <p className="font-black text-muted">Current Presentation</p>
-            </div>
-
-            <div className="p-4">
-              <div className="flex items-start gap-4">
-                <div className="flex-4">
-                  <PresentationCard />
-                </div>
-                <div className="flex-6 space-y-4">
-                  <div className="space-y-4">
-                    <p>Genesis 1:1</p>
-                    <p className="text-sm text-muted">
-                      6 items queued for this service · Genesis reading, worship
-                      set, announcements.
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <Button2 label="Open Bible" />
-                    <Button2 label="Edit slides" />
-                  </div>
-                </div>
+              <div className="flex items-center gap-2">
+                <Clock size={15} color="#f3be47" />
+                <p className="font-black">Service Order</p>
+                <p className="text-xs">7 segments · 1h 25m</p>
               </div>
+
+              <p className="text-sm text-muted">10:33 Pm</p>
             </div>
+
+            <div className="p-4"></div>
           </div>
 
           <div className="grid grid-cols-3 gap-4">
@@ -137,9 +136,20 @@ export default function page() {
             </div>
 
             <div className="">
-              {history.map((item) => (
-                <BibleHistoryCard key={item.slide.id} item={item} />
-              ))}
+              {history.length === 0 ? (
+                <EmptyState
+                  image="/illustrations/bible-history.svg"
+                  alt="Bible history"
+                  title="Bible history"
+                  description="Bible verses you project live will appear here."
+                />
+              ) : (
+                <>
+                  {history.map((item) => (
+                    <BibleHistoryCard key={item.slide.id} item={item} />
+                  ))}
+                </>
+              )}
             </div>
           </div>
 
@@ -149,11 +159,12 @@ export default function page() {
             </div>
 
             <div className="">
-              {/* <BibleHistoryCard />
-              <BibleHistoryCard />
-              <BibleHistoryCard />
-              <BibleHistoryCard />
-              <BibleHistoryCard /> */}
+              <EmptyState
+                image="/illustrations/history.svg"
+                alt="Projection history"
+                title="Projection history"
+                description="Content you project live will appear here."
+              />
             </div>
           </div>
         </div>
