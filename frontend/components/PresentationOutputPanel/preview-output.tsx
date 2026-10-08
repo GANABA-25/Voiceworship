@@ -13,13 +13,17 @@ export default function PreviewOutput() {
 
       <div className="relative flex h-full flex-col items-center justify-center">
         {previewSlide ? (
-          <div className="flex w-full max-w-xl flex-col items-center">
+          <div className="space-y-4 flex w-full max-w-xl flex-col items-center">
             <h1 className="shrink-0 font-black tracking-wider text-primary">
               {previewSlide.reference || previewSlide.title}
             </h1>
 
-            <p className="mt-2 line-clamp-5 overflow-hidden leading-6 tracking-wide text-text">
+            <p className="line-clamp-5 overflow-hidden leading-6 tracking-wide text-text">
               {previewSlide.content}
+            </p>
+
+            <p className="text-xs font-medium">
+              {previewSlide?.metadata?.translation}
             </p>
           </div>
         ) : (

@@ -1,6 +1,7 @@
 "use client";
 
 import { useVoice } from "@/store/voice-recognition-context";
+import { usePresentation } from "@/store/presentation-context";
 
 import Button from "@/components/ui/button";
 import Button2 from "@/components/ui/button-2";
@@ -8,7 +9,7 @@ import VoiceCard from "@/features/voice/components/voiceCard";
 import PresentationCard from "@/components/PresentationQueue/presentation-card";
 import MediaCard from "@/components/media-card";
 
-import { Play, MicOff, Mic, X } from "lucide-react";
+import { Play, MicOff, Mic, X, Power } from "lucide-react";
 import BibleHistoryCard from "@/components/bible/bible-history-card";
 
 export default function page() {
@@ -21,6 +22,7 @@ export default function page() {
 
     isMuted,
   } = useVoice();
+  const { liveSlide, isOnAir, isBlocked, history } = usePresentation();
 
   return (
     <section className="space-y-4 min-h-0 overflow-y-auto scrollbar-yellow">
@@ -51,14 +53,6 @@ export default function page() {
                 </span>
                 <p className="font-black">Voice Control</p>
               </div>
-
-              <div>
-                {!isListening ? (
-                  <Button onClick={startListening} label="Start Listening" />
-                ) : (
-                  <Button onClick={stopListening} label="Stop Listening" />
-                )}
-              </div>
             </div>
 
             <span className="px-4">
@@ -67,8 +61,17 @@ export default function page() {
 
             <div className="flex justify-between items-center p-4 border-t border-border">
               <span className="flex items-center gap-2">
-                <Button label="Project" />
-                <Button2 label="Preview" />
+                <div>
+                  {!isListening ? (
+                    <Button
+                      icon={<Power size={15} />}
+                      onClick={startListening}
+                      label="Start Listening"
+                    />
+                  ) : (
+                    <Button onClick={stopListening} label="Stop Listening" />
+                  )}
+                </div>
                 <Button2 label="Dismiss" icon={<X size={15} />} />
               </span>
 
@@ -99,12 +102,12 @@ export default function page() {
 
             <div className="p-4">
               <div className="flex items-start gap-4">
-                <div className="flex-3">
+                <div className="flex-4">
                   <PresentationCard />
                 </div>
                 <div className="flex-6 space-y-4">
-                  <div className="space-y-1">
-                    <h1>Genesis 1:2</h1>
+                  <div className="space-y-4">
+                    <p>Genesis 1:1</p>
                     <p className="text-sm text-muted">
                       6 items queued for this service · Genesis reading, worship
                       set, announcements.
@@ -134,12 +137,9 @@ export default function page() {
             </div>
 
             <div className="">
-              <BibleHistoryCard />
-              <BibleHistoryCard />
-              <BibleHistoryCard />
-              <BibleHistoryCard />
-              <BibleHistoryCard />
-              <BibleHistoryCard />
+              {history.map((item) => (
+                <BibleHistoryCard key={item.slide.id} item={item} />
+              ))}
             </div>
           </div>
 
@@ -149,11 +149,11 @@ export default function page() {
             </div>
 
             <div className="">
+              {/* <BibleHistoryCard />
               <BibleHistoryCard />
               <BibleHistoryCard />
               <BibleHistoryCard />
-              <BibleHistoryCard />
-              <BibleHistoryCard />
+              <BibleHistoryCard /> */}
             </div>
           </div>
         </div>

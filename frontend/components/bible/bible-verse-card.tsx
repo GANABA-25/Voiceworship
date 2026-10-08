@@ -49,7 +49,10 @@ export default function BibleVerseCard({ data }: BibleVerseCardProps) {
 
             <div className="flex translate-x-2 scale-95 pointer-events-none items-center gap-2 opacity-0 transition-all duration-200 ease-out group-hover:pointer-events-auto group-hover:translate-x-0 group-hover:scale-100 group-hover:opacity-100">
               <button
-                onClick={() => preview(dataToView)}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  preview(dataToView);
+                }}
                 type="button"
                 className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border border-primary/30 text-muted transition-all duration-200 hover:scale-110 hover:border-primary hover:bg-primary/10 hover:text-primary active:scale-95"
               >
@@ -57,7 +60,10 @@ export default function BibleVerseCard({ data }: BibleVerseCardProps) {
               </button>
 
               <button
-                onClick={() => goLive(dataToView)}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  goLive(dataToView);
+                }}
                 type="button"
                 className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-md bg-primary text-background transition-all duration-200 hover:scale-110 hover:bg-primary-light hover:shadow-sm active:scale-95"
               >
@@ -65,6 +71,9 @@ export default function BibleVerseCard({ data }: BibleVerseCardProps) {
               </button>
 
               <button
+                onClick={(event) => {
+                  event.stopPropagation();
+                }}
                 type="button"
                 className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border border-primary/30 text-muted transition-all duration-200 hover:scale-110 hover:border-primary hover:bg-primary/10 hover:text-primary active:scale-95"
               >
@@ -72,7 +81,10 @@ export default function BibleVerseCard({ data }: BibleVerseCardProps) {
               </button>
 
               <button
-                onClick={() => addToQueue(dataToView)}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  addToQueue(dataToView);
+                }}
                 type="button"
                 className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border border-primary/30 text-muted transition-all duration-200 hover:scale-110 hover:border-primary hover:bg-primary/10 hover:text-primary active:scale-95"
               >

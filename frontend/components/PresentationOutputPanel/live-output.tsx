@@ -21,13 +21,17 @@ export default function LiveOutput() {
             Output offline
           </p>
         ) : liveSlide ? (
-          <div className="flex w-full max-w-xl flex-col items-center">
+          <div className="space-y-4 flex w-full max-w-xl flex-col items-center">
             <h1 className="shrink-0 font-black tracking-wider text-primary">
               {liveSlide.reference || liveSlide.title}
             </h1>
 
-            <p className="mt-2 line-clamp-5 overflow-hidden leading-6 tracking-wide text-text">
+            <p className="line-clamp-5 overflow-hidden leading-6 tracking-wide text-text">
               {liveSlide.content}
+            </p>
+
+            <p className="text-xs font-medium">
+              {liveSlide?.metadata?.translation}
             </p>
           </div>
         ) : (

@@ -91,7 +91,7 @@ export default function VoiceCard() {
             Interpreted
           </p>
 
-          <h1 className="font-black text-primary">
+          <h1 className="font-black text-primary truncate">
             "{finalTranscript || "Waiting for a Bible reference..."}"
           </h1>
         </div>

@@ -10,6 +10,8 @@ import { usePresentation } from "@/store/presentation-context";
 import EmptyState from "../empty-state";
 import Button2 from "../ui/button-2";
 
+import { Plus } from "lucide-react";
+
 export default function PresentationQueue() {
   const { queue } = usePresentation();
   const sliderRef = useRef<Slider | null>(null);
@@ -41,7 +43,7 @@ export default function PresentationQueue() {
   }
 
   return (
-    <div className="space-y-1">
+    <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-sm font-medium uppercase text-muted">
           Presentation Queue
@@ -50,14 +52,27 @@ export default function PresentationQueue() {
           <span className="text-xs text-muted">8 items</span>
 
           <div className="flex gap-2">
-            <Button2
-              label="Prev"
+            <button
               onClick={() => sliderRef.current?.slickPrev()}
-            />
-            <Button2
-              label="Next"
+              className="flex cursor-pointer items-center justify-center gap-2 rounded-md border border-border bg-border p-1 px-4 text-text shadow-xs transition-all duration-150 ease-out hover:-translate-y-0.5 hover:bg-hover hover:shadow-sm active:translate-y-0 active:scale-95 active:shadow-none"
+            >
+              Prev
+            </button>
+
+            <button
               onClick={() => sliderRef.current?.slickNext()}
-            />
+              className="flex cursor-pointer items-center justify-center gap-2 rounded-md border border-border bg-border p-1 px-4 text-text shadow-xs transition-all duration-150 ease-out hover:-translate-y-0.5 hover:bg-hover hover:shadow-sm active:translate-y-0 active:scale-95 active:shadow-none"
+            >
+              Next
+            </button>
+
+            <button
+              onClick={() => sliderRef.current?.slickNext()}
+              className="flex cursor-pointer items-center justify-center gap-2 rounded-md border border-border bg-border p-1 px-4 text-text shadow-xs transition-all duration-150 ease-out hover:-translate-y-0.5 hover:bg-hover hover:shadow-sm active:translate-y-0 active:scale-95 active:shadow-none"
+            >
+              <Plus size={15} />
+              Add slide
+            </button>
           </div>
         </div>
       </div>

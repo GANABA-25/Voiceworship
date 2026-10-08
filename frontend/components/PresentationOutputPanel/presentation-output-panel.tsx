@@ -22,6 +22,7 @@ export default function PresentationOutputPanel() {
   const {
     goLivePreview,
     clearPreview,
+    clearLive,
     previousSlide,
     nextSlide,
     toggleBlock,
@@ -64,8 +65,11 @@ export default function PresentationOutputPanel() {
       />
 
       <div className="grid grid-cols-3 gap-2">
-        <Button2 icon={<Eye size={15} />} label="Preview" />
-
+        <Button2
+          icon={<Eraser size={15} />}
+          label="Clear"
+          onClick={clearLive}
+        />
         <Button2
           icon={<ChevronLeft size={15} />}
           label="Prev"
@@ -76,12 +80,6 @@ export default function PresentationOutputPanel() {
           icon2={<ChevronRight size={15} />}
           label="Next"
           onClick={nextSlide}
-        />
-
-        <Button2
-          icon={<Eraser size={15} />}
-          label="Clear"
-          onClick={clearPreview}
         />
 
         <Button2

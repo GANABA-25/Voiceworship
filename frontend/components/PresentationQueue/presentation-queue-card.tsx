@@ -1,14 +1,17 @@
 import { X } from "lucide-react";
 import { PresentationSlide } from "@/types/presentation";
+import { usePresentation } from "@/store/presentation-context";
 
 type QueueDataType = {
   data: PresentationSlide;
 };
 
 export default function PresentationQueueCard({ data }: QueueDataType) {
+  const { removeFromQueue } = usePresentation();
   return (
     <div className="group relative flex h-40 w-full cursor-pointer flex-col overflow-hidden rounded-md border border-border bg-card shadow-sm transition-all duration-200 hover:border-primary/40 hover:shadow-md">
       <button
+        onClick={() => removeFromQueue(data.id)}
         type="button"
         className="absolute right-2 top-2 z-10 flex h-6 w-6 cursor-pointer items-center justify-center rounded-md bg-black/60 text-white opacity-0 backdrop-blur-sm transition-all duration-200 hover:bg-danger hover:text-white group-hover:opacity-100"
       >
