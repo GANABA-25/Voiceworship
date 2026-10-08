@@ -16,7 +16,7 @@ export default function Header() {
     useVoice();
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex h-16 items-center gap-4 border-b border-border shadow-sm bg-card px-4">
-      <div className="flex items-center gap-12">
+      <div className="flex items-center gap-16">
         <div className="flex items-center gap-1 overflow-hidden">
           <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary font-bold text-white">
             <MicAudioLines size={15} />
@@ -33,8 +33,8 @@ export default function Header() {
       <div className="flex flex-1 items-center justify-between gap-4">
         <div className="flex gap-4">
           <span>
-            <h1 className="text-sm font-medium text-text">Sunday Service</h1>
-            <p className="text-xs text-muted">House of Faith Ministries FIC</p>
+            <h1 className="font-medium text-text">Sunday Service</h1>
+            <p className="text-sm text-muted">House of Faith Ministries FIC</p>
           </span>
 
           <div
@@ -52,7 +52,7 @@ export default function Header() {
               />
             )}
 
-            <span className="text-xs uppercase tracking-wide">
+            <span className="text-sm uppercase tracking-wide">
               {microphoneStatus}
             </span>
           </div>
@@ -66,12 +66,12 @@ export default function Header() {
               <Microscope size={14} />
             )}
 
-            <span className="text-xs tracking-wide">{recognitionStatus}</span>
+            <span className="text-sm tracking-wide">{recognitionStatus}</span>
           </div>
         </div>
 
         <span className="flex items-center gap-4">
-          <SearchInput />
+          <SearchInput placeHolder="Search library..." />
 
           <Settings size={15} />
 

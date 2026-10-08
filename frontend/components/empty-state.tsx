@@ -25,7 +25,7 @@ export default function EmptyState({
 
       <div className="space-y-2">
         <h1 className="font-semibold text-text">{title}</h1>
-        <p className="text-xs leading-6 text-muted">{description}</p>
+        <p className="text-sm leading-6 text-muted truncate">{description}</p>
       </div>
     </div>
   );

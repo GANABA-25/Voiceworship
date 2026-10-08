@@ -34,6 +34,7 @@ export default function BibleVerseCard({ data }: BibleVerseCardProps) {
         return (
           <div
             key={verse.verse}
+            onClick={() => preview(dataToView)}
             className="group flex cursor-pointer items-center justify-between gap-4 rounded-md border border-border bg-card p-4 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-primary-light hover:bg-card-light hover:shadow-xs"
           >
             <div className="flex items-center gap-4">
@@ -41,7 +42,7 @@ export default function BibleVerseCard({ data }: BibleVerseCardProps) {
                 {verse.verse}
               </h1>
 
-              <p className="text-sm transition-colors duration-200 group-hover:text-text">
+              <p className="transition-colors duration-200 group-hover:text-text">
                 {verse.text}
               </p>
             </div>

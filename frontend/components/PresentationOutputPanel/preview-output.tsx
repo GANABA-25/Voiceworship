@@ -8,7 +8,7 @@ export default function PreviewOutput() {
   const { previewSlide } = usePresentation();
 
   return (
-    <div className="relative h-56 overflow-hidden rounded-md border border-border bg-linear-to-br from-[#171717] via-[#111111] to-[#080808] p-8 text-center shadow-xs">
+    <div className="relative h-56 overflow-hidden rounded-md border border-border bg-background p-8 text-center shadow-xs">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(243,190,71,0.08),transparent_45%)]" />
 
       <div className="relative flex h-full flex-col items-center justify-center">
@@ -18,7 +18,7 @@ export default function PreviewOutput() {
               {previewSlide.reference || previewSlide.title}
             </h1>
 
-            <p className="mt-2 line-clamp-5 overflow-hidden leading-6 tracking-wide text-white">
+            <p className="mt-2 line-clamp-5 overflow-hidden leading-6 tracking-wide text-text">
               {previewSlide.content}
             </p>
           </div>
@@ -33,11 +33,9 @@ export default function PreviewOutput() {
             />
 
             <div>
-              <h1 className="text-sm font-semibold text-text">
-                No preview selected
-              </h1>
+              <h1 className="font-semibold text-text">No preview selected</h1>
 
-              <p className="text-xs leading-6 text-muted">
+              <p className="text-sm leading-6 text-muted">
                 Select an item to preview it before going live.
               </p>
             </div>

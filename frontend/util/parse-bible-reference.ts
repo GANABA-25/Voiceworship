@@ -1,25 +1,53 @@
-export type BibleReference = {
-  book: string;
-  chapter: number;
-  verseStart: number;
-  verseEnd: number;
-};
+import { bibleReference } from "@/types/bible";
 
-export function parseBibleReference(input: string): BibleReference | null {
-  const value = input.trim();
+export function parseBibleReference(input: string): bibleReference | null {
+  const value = input
+    .trim()
+    .replace(/^(open|show|display|read)\s+/i, "")
+    .replace(/\s+/g, " ");
 
-  const match = value.match(/^(.+?)\s+(\d+):(\d+)(?:-(\d+))?$/);
+  const colonMatch = value.match(/^(.+?)\s+(\d+):(\d+)(?:\s*-\s*(\d+))?$/i);
 
-  if (!match) {
-    return null;
+  if (colonMatch) {
+    const [, book, chapter, verseStart, verseEnd] = colonMatch;
+
+    return {
+      book: book.trim(),
+      chapter: Number(chapter),
+      verseStart: Number(verseStart),
+      verseEnd: verseEnd ? Number(verseEnd) : Number(verseStart),
+    };
   }
 
-  const [, book, chapter, verseStart, verseEnd] = match;
+  const spokenMatch = value.match(
+    /^(.+?)\s+chapter\s+(\d+)\s+verses?\s+(\d+)(?:\s+(?:to|through|-)\s+(\d+))?$/i,
+  );
 
-  return {
-    book: book.trim(),
-    chapter: Number(chapter),
-    verseStart: Number(verseStart),
-    verseEnd: verseEnd ? Number(verseEnd) : Number(verseStart),
-  };
+  if (spokenMatch) {
+    const [, book, chapter, verseStart, verseEnd] = spokenMatch;
+
+    return {
+      book: book.trim(),
+      chapter: Number(chapter),
+      verseStart: Number(verseStart),
+      verseEnd: verseEnd ? Number(verseEnd) : Number(verseStart),
+    };
+  }
+
+  const shortSpokenMatch = value.match(
+    /^(.+?)\s+(\d+)\s+verses?\s+(\d+)(?:\s+(?:to|through|-)\s+(\d+))?$/i,
+  );
+
+  if (shortSpokenMatch) {
+    const [, book, chapter, verseStart, verseEnd] = shortSpokenMatch;
+
+    return {
+      book: book.trim(),
+      chapter: Number(chapter),
+      verseStart: Number(verseStart),
+      verseEnd: verseEnd ? Number(verseEnd) : Number(verseStart),
+    };
+  }
+
+  return null;
 }

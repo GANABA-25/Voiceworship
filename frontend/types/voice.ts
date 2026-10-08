@@ -1,3 +1,7 @@
+//
+
+import { bibleReference } from "./bible";
+
 export type MicrophoneStatus =
   | "checking"
   | "active"
@@ -36,6 +40,7 @@ export interface VoiceContextType {
   recognitionStatus: RecognitionStatus;
   volume: number;
   transcript: string;
+  finalTranscript: string;
   isListening: boolean;
   isMuted: boolean;
   startListening: () => void;
@@ -49,6 +54,7 @@ export interface VoiceContextType {
   setRecognitionStatus: (status: RecognitionStatus) => void;
   setVolume: (volume: number) => void;
   setTranscript: (transcript: string) => void;
+  setFinalTranscript: (transcript: string) => void;
 }
 
 declare global {

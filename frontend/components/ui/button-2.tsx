@@ -3,16 +3,24 @@ import { ReactNode } from "react";
 type buttonProps = {
   label: string;
   icon?: ReactNode;
+  icon2?: ReactNode;
   onClick?: () => void;
 };
 
-export default function Button2({ onClick, label, icon: Icon }: buttonProps) {
+export default function Button2({
+  onClick,
+  label,
+  icon: Icon,
+  icon2: Icon2,
+}: buttonProps) {
   return (
     <button
       onClick={onClick}
-      className="flex items-center justify-center text-xs gap-2 p-2 px-4 hover:bg-hover cursor-pointer border border-border shadow-xs text-text rounded-md"
+      className="flex cursor-pointer items-center justify-center gap-2 rounded-md border border-border bg-border p-2 px-4 text-text shadow-xs transition-all duration-150 ease-out hover:-translate-y-0.5 hover:bg-hover hover:shadow-sm active:translate-y-0 active:scale-95 active:shadow-none"
     >
-      {Icon} {label}
+      {Icon}
+      {label}
+      {Icon2}
     </button>
   );
 }

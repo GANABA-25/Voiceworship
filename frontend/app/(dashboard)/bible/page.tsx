@@ -10,6 +10,8 @@ import EmptyState from "@/components/empty-state";
 export default function page() {
   const { passage } = useBible();
 
+  console.log("checking passage", passage);
+
   return (
     <section className="space-y-4 min-h-0 overflow-y-auto scrollbar-yellow ">
       <header className="flex items-center justify-between border-b border-border bg-card p-4">
@@ -27,8 +29,11 @@ export default function page() {
           </div>
         ) : (
           <main className="space-y-4">
-            <div className="flex items-end gap-4">
-              <h1 className="font-black">{passage?.book}</h1>
+            <div className="flex items-end gap-2">
+              <div className="flex items-center gap-2 font-black">
+                <h1>{passage?.book}</h1>
+                <p>{passage.chapter}</p>
+              </div>
               <div className="flex items-center text-xs text-muted">
                 <p>{passage?.translation}</p>
                 <Dot size={15} />

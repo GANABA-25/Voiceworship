@@ -35,7 +35,6 @@ export function BibleProvider({ children }: BibleProviderProps) {
 
   const searchedPassage = useCallback((data: biblePassage) => {
     setPassage(data);
-    console.log("checking", data);
     setError(null);
   }, []);
 

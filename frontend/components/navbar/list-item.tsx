@@ -6,8 +6,6 @@ type ListItemProps = {
   icon: LucideIcon;
   href: string;
   isActive?: boolean;
-  isOpen: boolean;
-  onClick?: () => void;
 };
 
 export default function ListItem({
@@ -15,8 +13,6 @@ export default function ListItem({
   icon: Icon,
   href,
   isActive = false,
-  isOpen,
-  onClick,
 }: ListItemProps) {
   return (
     <Link

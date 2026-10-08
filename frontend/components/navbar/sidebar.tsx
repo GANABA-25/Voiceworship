@@ -12,7 +12,7 @@ export default function SideBar() {
 
   return (
     <aside
-      className={`fixed w-53 top-0 left-0 z-50 shadow-sm transition-all duration-300 hidden lg:flex flex-col h-screen border-r border-border bg-card mt-16`}
+      className={`fixed w-60 top-0 left-0 z-50 shadow-sm transition-all duration-300 hidden lg:flex flex-col h-screen border-r border-border bg-card mt-16`}
     >
       <span className="p-4">
         <Button label="Create" icon={<Plus size={15} />} />
@@ -26,7 +26,6 @@ export default function SideBar() {
             label={item.label}
             icon={item.icon}
             href={item.href}
-            isOpen={true}
           />
         ))}
       </div>

@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
-import { getPassage } from "@/services/https";
-import { parseBibleReference } from "@/util/parse-bible-reference";
 import { Search, Funnel } from "lucide-react";
 import { toast } from "react-toastify";
+
+import { getPassage } from "@/services/https";
+import { parseBibleReference } from "@/util/parse-bible-reference";
 import { useBible } from "@/store/bible-context";
 
 type searchInputType = {
@@ -17,24 +17,22 @@ export default function SearchInput({ placeHolder }: searchInputType) {
   const { searchedPassage } = useBible();
   const [searchWord, setSearchWord] = useState("");
 
-  const { mutate, isPending } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: getPassage,
     onSuccess: (data) => {
       searchedPassage(data);
     },
-
-    onError: (error) => {
-      console.log(error);
+    onError: () => {
+      toast.error("Failed to fetch Bible passage");
     },
   });
 
-  const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const reference = parseBibleReference(searchWord);
 
     if (!reference) {
-      console.log("Invalid Bible reference");
       toast.error("Invalid Bible reference");
       return;
     }

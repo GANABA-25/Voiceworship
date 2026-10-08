@@ -26,9 +26,9 @@ export default function page() {
     <section className="space-y-4 min-h-0 overflow-y-auto scrollbar-yellow">
       <header className="flex items-center justify-between border-b border-border bg-card p-4">
         <div className="flex flex-col gap-1">
-          <h1>Service Dashboard</h1>
+          <h1 className="font-black">Service Dashboard</h1>
 
-          <p className="text-xs text-muted">
+          <p className="text-sm text-muted">
             Sunday Worship · 10:30 AM · Main Auditorium
           </p>
         </div>
@@ -42,7 +42,7 @@ export default function page() {
       </header>
 
       <main className="flex items-start px-4 gap-4">
-        <div className="space-y-4 flex-7">
+        <div className="space-y-4 flex-6">
           <div className="flex flex-col gap-4 border border-border bg-card rounded-md">
             <div className="flex justify-between items-center p-2 border-b border-border">
               <div className="flex items-center gap-2">
@@ -105,7 +105,7 @@ export default function page() {
                 <div className="flex-6 space-y-4">
                   <div className="space-y-1">
                     <h1>Genesis 1:2</h1>
-                    <p className="text-xs text-muted">
+                    <p className="text-sm text-muted">
                       6 items queued for this service · Genesis reading, worship
                       set, announcements.
                     </p>
@@ -127,10 +127,10 @@ export default function page() {
           </div>
         </div>
 
-        <div className="flex-3 space-y-4">
+        <div className="flex-4 space-y-4">
           <div className="border border-border rounded-md bg-card">
             <div className="border-b border-border p-2 text-muted uppercase">
-              <p className="text-sm">Recent Bible References</p>
+              <p className="">Recent Bible References</p>
             </div>
 
             <div className="">
@@ -145,7 +145,7 @@ export default function page() {
 
           <div className="border border-border rounded-md bg-card">
             <div className="border-b border-border p-2 text-muted uppercase">
-              <p className="text-sm">Recent Presentations</p>
+              <p className="">Recent Presentations</p>
             </div>
 
             <div className="">
