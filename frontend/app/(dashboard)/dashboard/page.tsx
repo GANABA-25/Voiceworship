@@ -9,7 +9,7 @@ import VoiceCard from "@/features/voice/components/voiceCard";
 import MediaCard from "@/components/media-card";
 import EmptyState from "@/components/empty-state";
 
-import { Play, MicOff, Mic, X, Power, Clock } from "lucide-react";
+import { Airplay, MicOff, Mic, X, Power, Clock } from "lucide-react";
 import BibleHistoryCard from "@/components/bible/bible-history-card";
 
 export default function page() {
@@ -21,7 +21,7 @@ export default function page() {
     unmuteMicrophone,
     isMuted,
   } = useVoice();
-  const { history } = usePresentation();
+  const { history, openOutput } = usePresentation();
 
   return (
     <section className="space-y-4 min-h-0 overflow-y-auto scrollbar-yellow">
@@ -36,8 +36,9 @@ export default function page() {
 
         <span>
           <Button
+            onClick={openOutput}
             label="Start Service"
-            icon={<Play size={15} stroke="black" fill="black" />}
+            icon={<Airplay size={15} stroke="black" fill="black" />}
           />
         </span>
       </header>
@@ -52,20 +53,6 @@ export default function page() {
                 </span>
                 <p className="font-black">Voice Control</p>
               </div>
-
-              <button
-                type="button"
-                onClick={() => {
-                  window.open(
-                    "/display",
-                    "voiceworship-display",
-                    "popup=yes,width=1280,height=720",
-                  );
-                }}
-                className="flex cursor-pointer items-center justify-center rounded-md bg-primary px-4 py-2 font-semibold text-background transition-all duration-150 ease-out hover:-translate-y-0.5 hover:bg-primary-light hover:shadow-sm active:translate-y-0 active:scale-95"
-              >
-                Open Display
-              </button>
             </div>
 
             <span className="px-4">

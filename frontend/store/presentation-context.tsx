@@ -6,10 +6,12 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
-import { broadcastDisplayMessage } from "@/services/display-channel";
+import { usePathname } from "next/navigation";
+
 import { PresentationSlide, BibleHistoryItem } from "@/types/presentation";
 
 type PresentationContextType = {
@@ -35,6 +37,7 @@ type PresentationContextType = {
   toggleOnAir: () => void;
   history: BibleHistoryItem[];
   clearHistory: () => void;
+  openOutput: () => void;
 };
 
 const PresentationContext = createContext<PresentationContextType | undefined>(
@@ -49,27 +52,57 @@ export function PresentationProvider({ children }: PresentationProviderProps) {
   const [queue, setQueue] = useState<PresentationSlide[]>([]);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [liveSlide, setLiveSlide] = useState<PresentationSlide | null>(null);
-  const [previewSlide, setPreviewSlide] = useState<PresentationSlide | null>(
-    null,
-  );
   const [isOnAir, setIsOnAir] = useState(true);
   const [isBlocked, setIsBlocked] = useState(false);
   const [history, setHistory] = useState<BibleHistoryItem[]>([]);
+  const pathname = usePathname();
+  const channelRef = useRef<BroadcastChannel | null>(null);
+  const outputWindowRef = useRef<Window | null>(null);
+  const outputStateRef = useRef({ liveSlide, isOnAir, isBlocked });
+  const [previewSlide, setPreviewSlide] = useState<PresentationSlide | null>(
+    null,
+  );
 
+  // 1. Open the channel (skipped inside the /output window itself)
   useEffect(() => {
-    if (!liveSlide) {
-      broadcastDisplayMessage({
-        type: "CLEAR_LIVE",
-      });
+    if (pathname.startsWith("/output")) return;
 
+    const ch = new BroadcastChannel("projection");
+    channelRef.current = ch;
+
+    // a freshly opened output window asks for the current state
+    ch.onmessage = (e) => {
+      if (e.data?.type === "hello") {
+        ch.postMessage({ type: "state", state: outputStateRef.current });
+      }
+    };
+
+    return () => {
+      ch.close();
+      channelRef.current = null;
+    };
+  }, [pathname]);
+
+  // 2. Push the live state to the output window on every change
+  useEffect(() => {
+    const state = { liveSlide, isOnAir, isBlocked };
+    outputStateRef.current = state;
+    channelRef.current?.postMessage({ type: "state", state });
+  }, [liveSlide, isOnAir, isBlocked]);
+
+  // 3. Open the output window
+  const openOutput = useCallback(() => {
+    if (outputWindowRef.current && !outputWindowRef.current.closed) {
+      outputWindowRef.current.focus();
       return;
     }
 
-    broadcastDisplayMessage({
-      type: "LIVE_SLIDE",
-      slide: liveSlide,
-    });
-  }, [liveSlide]);
+    outputWindowRef.current = window.open(
+      "/output",
+      "output-window",
+      "popup,width=1280,height=720",
+    );
+  }, []);
 
   const addLiveSlideToHistory = useCallback((slide: PresentationSlide) => {
     if (slide.type !== "bible") {
@@ -186,9 +219,9 @@ export function PresentationProvider({ children }: PresentationProviderProps) {
     const slide = queue[previousIndex];
 
     setCurrentIndex(previousIndex);
-    // setLiveSlide(slide);
+    setLiveSlide(slide);
     setPreviewSlide(slide);
-    // addLiveSlideToHistory(slide);
+    addLiveSlideToHistory(slide);
   }, [queue, currentIndex, addLiveSlideToHistory]);
 
   const nextSlide = useCallback(() => {
@@ -205,9 +238,9 @@ export function PresentationProvider({ children }: PresentationProviderProps) {
     const slide = queue[nextIndex];
 
     setCurrentIndex(nextIndex);
-    // setLiveSlide(slide);
+    setLiveSlide(slide);
     setPreviewSlide(slide);
-    // addLiveSlideToHistory(slide);
+    addLiveSlideToHistory(slide);
   }, [queue, currentIndex, addLiveSlideToHistory]);
 
   const toggleBlock = useCallback(() => {
@@ -246,6 +279,7 @@ export function PresentationProvider({ children }: PresentationProviderProps) {
       toggleOnAir,
       history,
       clearHistory,
+      openOutput,
     }),
     [
       liveSlide,
@@ -269,6 +303,7 @@ export function PresentationProvider({ children }: PresentationProviderProps) {
       toggleOnAir,
       history,
       clearHistory,
+      openOutput,
     ],
   );
 
