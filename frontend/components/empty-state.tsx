@@ -14,7 +14,7 @@ export default function EmptyState({
   description,
 }: EmptyStateProps) {
   return (
-    <div className="space-y-4 flex flex-col items-center justify-center rounded-md border border-border bg-card p-8 text-center">
+    <div className="space-y-4 flex flex-col items-center justify-center rounded-md p-8 text-center">
       <Image
         src={image}
         alt={alt}

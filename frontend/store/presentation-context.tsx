@@ -63,7 +63,6 @@ export function PresentationProvider({ children }: PresentationProviderProps) {
     null,
   );
 
-  // 1. Open the channel (skipped inside the /output window itself)
   useEffect(() => {
     if (pathname.startsWith("/output")) return;
 
@@ -83,14 +82,12 @@ export function PresentationProvider({ children }: PresentationProviderProps) {
     };
   }, [pathname]);
 
-  // 2. Push the live state to the output window on every change
   useEffect(() => {
     const state = { liveSlide, isOnAir, isBlocked };
     outputStateRef.current = state;
     channelRef.current?.postMessage({ type: "state", state });
   }, [liveSlide, isOnAir, isBlocked]);
 
-  // 3. Open the output window
   const openOutput = useCallback(() => {
     if (outputWindowRef.current && !outputWindowRef.current.closed) {
       outputWindowRef.current.focus();

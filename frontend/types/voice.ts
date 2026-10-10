@@ -1,5 +1,3 @@
-//
-
 import { bibleReference } from "./bible";
 
 export type MicrophoneStatus =
