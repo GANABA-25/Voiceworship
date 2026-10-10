@@ -11,7 +11,15 @@ import EmptyState from "@/components/empty-state";
 import ProgressBar from "@/components/progress-bar";
 import ServiceOrderCard from "@/components/service-order-card";
 
-import { Airplay, MicOff, Mic, X, Power, Clock } from "lucide-react";
+import {
+  Airplay,
+  MicOff,
+  Mic,
+  X,
+  Power,
+  Clock,
+  ChevronRight,
+} from "lucide-react";
 import BibleHistoryCard from "@/components/bible/bible-history-card";
 
 import { ServiceOrder } from "@/data/dummy";
@@ -119,6 +127,15 @@ export default function page() {
               {ServiceOrder.map((order) => (
                 <ServiceOrderCard key={order.id} {...order} />
               ))}
+            </div>
+
+            <div className="flex justify-between items-center p-4 border-t border-border">
+              <h1 className="text-sm text-muted">Segment 3 of 7</h1>
+
+              <div className="flex items-center text-primary cursor-pointer">
+                <p className="text-sm">Service Mode</p>
+                <ChevronRight size={15} />
+              </div>
             </div>
           </div>
 

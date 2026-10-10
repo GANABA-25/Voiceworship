@@ -17,7 +17,7 @@ export default function DashboardLayout({
       <SideBar />
 
       <div className="flex h-[calc(100vh-4rem)] min-h-0 pt-16 lg:ml-60">
-        <main className="min-h-0 min-w-0 flex-1 overflow-y-auto scrollbar-yellow pb-48">
+        <main className="min-h-0 min-w-0 flex-1 overflow-y-auto scrollbar-yellow pb-45">
           <div className="mx-auto w-full">{children}</div>
         </main>
 

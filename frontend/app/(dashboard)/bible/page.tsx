@@ -1,21 +1,22 @@
 "use client";
 
-import SearchInput from "@/components/search-Input";
-
-import BibleVerseCard from "@/components/bible/bible-verse-card";
-import { Dot } from "lucide-react";
 import { useBible } from "@/store/bible-context";
+
+import SearchInput from "@/components/search-Input";
+import BibleVerseCard from "@/components/bible/bible-verse-card";
 import EmptyState from "@/components/empty-state";
+import BiblePassageFilters from "@/features/bible/components/bible-passage-filters";
+
+import { Dot } from "lucide-react";
 
 export default function page() {
   const { passage } = useBible();
-
-  console.log("checking passage", passage);
 
   return (
     <section className="space-y-4 min-h-0 overflow-y-auto scrollbar-yellow ">
       <header className="flex items-center justify-between border-b border-border bg-card p-4">
         <SearchInput placeHolder="Enter a Bible reference, e.g. Genesis 1:2-5" />
+        <BiblePassageFilters />
       </header>
       <main className="space-y-4 m-4">
         {!passage ? (

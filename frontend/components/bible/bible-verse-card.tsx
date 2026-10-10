@@ -5,6 +5,7 @@ import { Eye, Play, ListOrdered, Plus } from "lucide-react";
 import { usePresentation } from "@/store/presentation-context";
 import { biblePassage } from "@/types/bible";
 import { PresentationSlide } from "@/types/presentation";
+import PresentationActionButton from "../ui/presentation-action-button";
 
 type BibleVerseCardProps = {
   data: biblePassage;
@@ -48,48 +49,24 @@ export default function BibleVerseCard({ data }: BibleVerseCardProps) {
             </div>
 
             <div className="flex translate-x-2 scale-95 pointer-events-none items-center gap-2 opacity-0 transition-all duration-200 ease-out group-hover:pointer-events-auto group-hover:translate-x-0 group-hover:scale-100 group-hover:opacity-100">
-              <button
-                onClick={(event) => {
-                  event.stopPropagation();
-                  preview(dataToView);
-                }}
-                type="button"
-                className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border border-primary/30 text-muted transition-all duration-200 hover:scale-110 hover:border-primary hover:bg-primary/10 hover:text-primary active:scale-95"
-              >
-                <Eye size={12} />
-              </button>
+              <PresentationActionButton
+                onClick={() => preview(dataToView)}
+                icon={<Eye size={12} />}
+                label="Preview"
+              />
 
-              <button
-                onClick={(event) => {
-                  event.stopPropagation();
-                  goLive(dataToView);
-                }}
-                type="button"
-                className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-md bg-primary text-background transition-all duration-200 hover:scale-110 hover:bg-primary-light hover:shadow-sm active:scale-95"
-              >
-                <Play size={12} fill="currentColor" />
-              </button>
+              <PresentationActionButton
+                bg="bg-primary text-background hover:bg-primary-light"
+                onClick={() => goLive(dataToView)}
+                icon={<Play size={12} fill="currentColor" />}
+                label="Go live"
+              />
 
-              <button
-                onClick={(event) => {
-                  event.stopPropagation();
-                }}
-                type="button"
-                className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border border-primary/30 text-muted transition-all duration-200 hover:scale-110 hover:border-primary hover:bg-primary/10 hover:text-primary active:scale-95"
-              >
-                <ListOrdered size={12} />
-              </button>
-
-              <button
-                onClick={(event) => {
-                  event.stopPropagation();
-                  addToQueue(dataToView);
-                }}
-                type="button"
-                className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border border-primary/30 text-muted transition-all duration-200 hover:scale-110 hover:border-primary hover:bg-primary/10 hover:text-primary active:scale-95"
-              >
-                <Plus size={12} />
-              </button>
+              <PresentationActionButton
+                onClick={() => addToQueue(dataToView)}
+                icon={<Plus size={12} />}
+                label="Add to queue"
+              />
             </div>
           </div>
         );
