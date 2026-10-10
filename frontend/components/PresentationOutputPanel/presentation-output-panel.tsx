@@ -1,13 +1,11 @@
 "use client";
 
 import Button2 from "../ui/button-2";
-
 import LiveOutput from "./live-output";
 import PreviewOutput from "./preview-output";
 
 import {
   Play,
-  Eye,
   ChevronLeft,
   ChevronRight,
   Eraser,
@@ -82,17 +80,35 @@ export default function PresentationOutputPanel() {
           onClick={nextSlide}
         />
 
-        <Button2
-          icon={<MonitorX size={15} />}
-          label={isBlocked ? "Unblock" : "Block"}
-          onClick={toggleBlock}
-        />
+        {isBlocked ? (
+          <Button2
+            bg="bg-danger hover:bg-live text-white"
+            icon={<MonitorX size={15} />}
+            label="UnBlock"
+            onClick={toggleBlock}
+          />
+        ) : (
+          <Button2
+            icon={<MonitorX size={15} />}
+            label="Block"
+            onClick={toggleBlock}
+          />
+        )}
 
-        <Button2
-          icon={<Airplay size={15} />}
-          label={isOnAir ? "On Air" : "Off Air"}
-          onClick={toggleOnAir}
-        />
+        {isOnAir ? (
+          <Button2
+            bg="bg-danger hover:bg-live text-white"
+            icon={<Airplay size={15} />}
+            label="Off Air"
+            onClick={toggleOnAir}
+          />
+        ) : (
+          <Button2
+            icon={<Airplay size={15} />}
+            label="On Air"
+            onClick={toggleOnAir}
+          />
+        )}
       </div>
     </section>
   );

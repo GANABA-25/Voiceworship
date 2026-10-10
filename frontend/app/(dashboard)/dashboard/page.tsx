@@ -8,9 +8,13 @@ import Button2 from "@/components/ui/button-2";
 import VoiceCard from "@/features/voice/components/voiceCard";
 import MediaCard from "@/components/media-card";
 import EmptyState from "@/components/empty-state";
+import ProgressBar from "@/components/progress-bar";
+import ServiceOrderCard from "@/components/service-order-card";
 
 import { Airplay, MicOff, Mic, X, Power, Clock } from "lucide-react";
 import BibleHistoryCard from "@/components/bible/bible-history-card";
+
+import { ServiceOrder } from "@/data/dummy";
 
 export default function page() {
   const {
@@ -37,7 +41,7 @@ export default function page() {
         <span>
           <Button
             onClick={openOutput}
-            label="Start Service"
+            label="Start Projection"
             icon={<Airplay size={15} stroke="black" fill="black" />}
           />
         </span>
@@ -103,10 +107,19 @@ export default function page() {
                 <p className="text-xs">7 segments · 1h 25m</p>
               </div>
 
-              <p className="text-sm text-muted">10:33 Pm</p>
+              <p className="text-sm">10:33 Pm</p>
             </div>
 
-            <div className="p-4"></div>
+            <div className="space-y-4 p-4">
+              <div className="space-y-4">
+                <p>Through the service</p>
+                <ProgressBar progress={50} />
+              </div>
+
+              {ServiceOrder.map((order) => (
+                <ServiceOrderCard key={order.id} {...order} />
+              ))}
+            </div>
           </div>
 
           <div className="grid grid-cols-3 gap-4">
