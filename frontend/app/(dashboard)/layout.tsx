@@ -26,7 +26,7 @@ export default function DashboardLayout({
         </aside>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 z-30 h-60 overflow-hidden border-t border-border bg-card p-4 shadow-lg backdrop-blur-md lg:left-60 xl:right-110">
+      <div className="fixed bottom-0 left-0 right-0 z-30 h-60 overflow-hidden border-t border-border bg-card p-4 lg:left-60 xl:right-110">
         <PresentationQueue />
       </div>
     </div>

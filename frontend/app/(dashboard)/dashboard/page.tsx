@@ -140,9 +140,9 @@ export default function page() {
           </div>
 
           <div className="grid grid-cols-3 gap-4">
-            <MediaCard />
-            <MediaCard />
-            <MediaCard />
+            <MediaCard name="Offering" type="image" />
+            <MediaCard name="Offering" type="image" />
+            <MediaCard name="Offering" type="image" />
           </div>
         </div>
 
