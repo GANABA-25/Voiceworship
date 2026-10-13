@@ -8,7 +8,7 @@ import Slider from "react-slick";
 import PresentationQueueCard from "@/components/PresentationQueue/presentation-queue-card";
 import { usePresentation } from "@/store/presentation-context";
 import EmptyState from "../empty-state";
-import Button2 from "../ui/button-2";
+import Dialog from "../Dialog";
 
 import { Plus } from "lucide-react";
 
@@ -66,13 +66,44 @@ export default function PresentationQueue() {
               Next
             </button>
 
-            <button
+            {/* <button
               onClick={() => sliderRef.current?.slickNext()}
               className="flex cursor-pointer items-center justify-center gap-2 rounded-md border border-border bg-border p-1 px-4 text-text shadow-xs transition-all duration-150 ease-out hover:-translate-y-0.5 hover:bg-hover hover:shadow-sm active:translate-y-0 active:scale-95 active:shadow-none"
             >
               <Plus size={15} />
               Add slide
-            </button>
+            </button> */}
+
+            <Dialog
+              trigger={
+                <button
+                  onClick={() => sliderRef.current?.slickNext()}
+                  className="flex cursor-pointer items-center justify-center gap-2 rounded-md border border-border bg-border p-1 px-4 text-text shadow-xs transition-all duration-150 ease-out hover:-translate-y-0.5 hover:bg-hover hover:shadow-sm active:translate-y-0 active:scale-95 active:shadow-none"
+                >
+                  <Plus size={15} />
+                  Add slide
+                </button>
+              }
+              title="Add to Presentation Queue"
+              description="Choose content to add to your upcoming service presentation."
+              // footer={
+              //   <>
+              //     <Button label="Cancel" />
+              //     <Button label="Add song" />
+              //   </>
+              // }
+            >
+              <div className="space-y-3">
+                <input
+                  placeholder="Song title"
+                  className="w-full rounded-md border border-border bg-background px-3 py-2"
+                />
+                <input
+                  placeholder="Artist or singer"
+                  className="w-full rounded-md border border-border bg-background px-3 py-2"
+                />
+              </div>
+            </Dialog>
           </div>
         </div>
       </div>

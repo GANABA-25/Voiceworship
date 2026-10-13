@@ -6,6 +6,7 @@ import type { SongTypes } from "@/types/songs-types";
 import { songs } from "@/data/dummy";
 import SongListCard from "@/components/songs/song-list-card";
 import SongCard from "@/components/songs/song-card";
+import Dialog from "@/components/Dialog";
 import Button from "@/components/ui/button";
 
 import { Dot } from "lucide-react";
@@ -32,9 +33,32 @@ export default function Page() {
             </p>
           </div>
 
-          <button className="flex cursor-pointer items-center justify-center gap-2 rounded-md bg-primary p-2 px-2 font-bold text-xs text-background shadow-xs transition-all duration-150 ease-out hover:-translate-y-0.5 hover:bg-primary-light hover:shadow-sm active:translate-y-0 active:scale-95 active:shadow-none">
-            Add song
-          </button>
+          <Dialog
+            trigger={
+              <button className="flex cursor-pointer items-center justify-center gap-2 rounded-md bg-primary p-2 px-2 font-bold text-xs text-background shadow-xs transition-all duration-150 ease-out hover:-translate-y-0.5 hover:bg-primary-light hover:shadow-sm active:translate-y-0 active:scale-95 active:shadow-none">
+                Add song
+              </button>
+            }
+            title="Add a new song"
+            description="Add a song to your worship library."
+            footer={
+              <>
+                <Button label="Cancel" />
+                <Button label="Add song" />
+              </>
+            }
+          >
+            <div className="space-y-3">
+              <input
+                placeholder="Song title"
+                className="w-full rounded-md border border-border bg-background px-3 py-2"
+              />
+              <input
+                placeholder="Artist or singer"
+                className="w-full rounded-md border border-border bg-background px-3 py-2"
+              />
+            </div>
+          </Dialog>
         </header>
 
         {songs.map((song) => (
