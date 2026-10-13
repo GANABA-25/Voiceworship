@@ -63,7 +63,7 @@ export default function Page() {
     });
   }
 
-  const filters = ["All", "Image", "Video", "Audio", "Background"];
+  const filters = ["All", "Image", "Video", "Audio"];
 
   const filteredFiles = mediaFiles.filter((media) => {
     if (activeFilter === "All") return true;
