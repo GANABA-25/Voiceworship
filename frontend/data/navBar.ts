@@ -30,29 +30,14 @@ export const items = [
     href: "/songs",
   },
   {
-    label: "Presentations",
-    icon: Presentation,
-    href: "/presentation",
-  },
-  {
     label: "Media",
     icon: Image,
     href: "/media",
   },
   {
-    label: "Playlists",
-    icon: ListMusic,
-    href: "/playlists",
-  },
-  {
     label: "Announcements",
     icon: Megaphone,
     href: "/announcements",
-  },
-  {
-    label: "History",
-    icon: History,
-    href: "/history",
   },
   {
     label: "Settings",
