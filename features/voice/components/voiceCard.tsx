@@ -1,62 +1,29 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useEffect, useRef, useTransition } from "react";
 import { toast } from "react-toastify";
 
-import ProgressBar from "@/components/progress-bar";
-import { getPassage } from "@/services/https";
+import type { PresentationSlide } from "@/types/presentation";
+import { getBiblePassageByReference } from "@/features/bible/actions";
 import { useBible } from "@/store/bible-context";
 import { usePresentation } from "@/store/presentation-context";
 import { useVoice } from "@/store/voice-recognition-context";
-import type { PresentationSlide } from "@/types/presentation";
 import { parseBibleReference } from "@/util/parse-bible-reference";
+
+import ProgressBar from "@/components/progress-bar";
 import VoiceWaveform from "./voice-waveform";
 
 export default function VoiceCard() {
   const { volume, transcript, finalTranscript } = useVoice();
   const { searchedPassage } = useBible();
   const { presentSlides } = usePresentation();
-
   const lastProcessedTranscriptRef = useRef("");
-
-  const { mutate } = useMutation({
-    mutationFn: getPassage,
-
-    onSuccess: (data) => {
-      searchedPassage(data);
-
-      const slides: PresentationSlide[] = data.verses.map((verse: any) => ({
-        id: `bible-${data.book}-${data.chapter}-${verse.verse}`,
-        type: "bible",
-        title: `${data.book} ${data.chapter}:${verse.verse}`,
-        reference: `${data.book} ${data.chapter}:${verse.verse}`,
-        content: verse.text,
-        metadata: {
-          translation: data.translation,
-          translationName: data.translationName,
-          book: data.book,
-          chapter: data.chapter,
-          verse: verse.verse,
-        },
-      }));
-
-      presentSlides(slides);
-    },
-
-    onError: () => {
-      toast.error("Failed to fetch Bible passage");
-    },
-  });
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     const value = finalTranscript.trim();
 
-    if (!value) {
-      return;
-    }
-
-    if (lastProcessedTranscriptRef.current === value) {
+    if (!value || lastProcessedTranscriptRef.current === value) {
       return;
     }
 
@@ -68,8 +35,40 @@ export default function VoiceCard() {
 
     lastProcessedTranscriptRef.current = value;
 
-    mutate(reference);
-  }, [finalTranscript, mutate]);
+    startTransition(async () => {
+      try {
+        const result = await getBiblePassageByReference(reference);
+
+        if (!result.success || !result.passage) {
+          toast.error(result.message || "Failed to fetch Bible passage");
+          return;
+        }
+
+        const data = result.passage;
+
+        searchedPassage(data);
+
+        const slides: PresentationSlide[] = data.verses.map((verse) => ({
+          id: `bible-${data.book}-${data.chapter}-${verse.verse}`,
+          type: "bible",
+          title: `${data.book} ${data.chapter}:${verse.verse}`,
+          reference: `${data.book} ${data.chapter}:${verse.verse}`,
+          content: verse.text,
+          metadata: {
+            translation: data.translation,
+            translationName: data.translationName,
+            book: data.book,
+            chapter: data.chapter,
+            verse: verse.verse,
+          },
+        }));
+
+        presentSlides(slides);
+      } catch {
+        toast.error("Failed to fetch Bible passage");
+      }
+    });
+  }, [finalTranscript, searchedPassage, presentSlides]);
 
   return (
     <div className="flex items-start gap-4">
@@ -91,13 +90,13 @@ export default function VoiceCard() {
             Interpreted
           </p>
 
-          <h1 className="font-black text-primary truncate">
+          <h1 className="truncate font-black text-primary">
             "{finalTranscript || "Waiting for a Bible reference..."}"
           </h1>
         </div>
 
         <div className="space-y-2">
-          <ProgressBar progress={0} />
+          <ProgressBar progress={isPending ? 50 : 0} />
         </div>
       </section>
     </div>

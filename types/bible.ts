@@ -16,4 +16,20 @@ export type bibleReference = {
   chapter: number;
   verseStart: number;
   verseEnd: number;
+  translation: string;
+};
+
+export type BiblePassageState = {
+  success: boolean;
+  message: string;
+  passage?: {
+    translation: string;
+    translationName: string;
+    book: string;
+    chapter: number;
+    verses: {
+      verse: number;
+      text: string;
+    }[];
+  };
 };

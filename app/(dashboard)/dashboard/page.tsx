@@ -139,11 +139,11 @@ export default function page() {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-4">
+          {/* <div className="grid grid-cols-3 gap-4">
             <MediaCard name="Offering" type="image" />
             <MediaCard name="Offering" type="image" />
             <MediaCard name="Offering" type="image" />
-          </div>
+          </div> */}
         </div>
 
         <div className="flex-4 space-y-4">

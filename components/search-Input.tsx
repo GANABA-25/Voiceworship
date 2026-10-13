@@ -1,53 +1,51 @@
 "use client";
 
-import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useActionState, useEffect, useState } from "react";
 import { Search, Funnel } from "lucide-react";
 import { toast } from "react-toastify";
 
-import { getPassage } from "@/services/https";
-import { parseBibleReference } from "@/util/parse-bible-reference";
+import { getBiblePassage } from "@/features/bible/actions";
+import { BiblePassageState } from "@/types/bible";
 import { useBible } from "@/store/bible-context";
 
-type searchInputType = {
+type SearchInputProps = {
   placeHolder: string;
 };
 
-export default function SearchInput({ placeHolder }: searchInputType) {
+const initialState: BiblePassageState = {
+  success: false,
+  message: "",
+};
+
+export default function SearchInput({ placeHolder }: SearchInputProps) {
   const { searchedPassage } = useBible();
   const [searchWord, setSearchWord] = useState("");
 
-  const { mutate } = useMutation({
-    mutationFn: getPassage,
-    onSuccess: (data) => {
-      searchedPassage(data);
-    },
-    onError: () => {
-      toast.error("Failed to fetch Bible passage");
-    },
-  });
+  const [state, formAction, isPending] = useActionState(
+    getBiblePassage,
+    initialState,
+  );
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  useEffect(() => {
+    if (!state.message) return;
 
-    const reference = parseBibleReference(searchWord);
-
-    if (!reference) {
-      toast.error("Invalid Bible reference");
-      return;
+    if (state.success && state.passage) {
+      searchedPassage(state.passage);
+    } else {
+      toast.error(state.message);
     }
-
-    mutate(reference);
-  };
+  }, [state, searchedPassage]);
 
   return (
-    <form onSubmit={handleSubmit} className="relative hidden w-100 lg:block">
+    <form action={formAction} className="relative hidden w-100 lg:block">
       <input
         className="h-10 w-full rounded-md border border-border bg-background pl-9 pr-20 text-sm text-text placeholder:text-muted outline-none transition focus:border-primary-light focus:ring-1 focus:ring-primary-light"
         type="text"
+        name="searchWord"
         placeholder={placeHolder}
         value={searchWord}
         onChange={(event) => setSearchWord(event.target.value)}
+        disabled={isPending}
       />
 
       <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted">
