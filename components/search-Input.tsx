@@ -4,7 +4,7 @@ import { useActionState, useEffect, useState } from "react";
 import { Search, Funnel } from "lucide-react";
 import { toast } from "react-toastify";
 
-import { getBiblePassage } from "@/features/bible/actions";
+import { getBiblePassage } from "@/actions/bible-actions";
 import { BiblePassageState } from "@/types/bible";
 import { useBible } from "@/store/bible-context";
 
@@ -30,6 +30,7 @@ export default function SearchInput({ placeHolder }: SearchInputProps) {
     if (!state.message) return;
 
     if (state.success && state.passage) {
+      console.log("checking passage", state.passage);
       searchedPassage(state.passage);
     } else {
       toast.error(state.message);

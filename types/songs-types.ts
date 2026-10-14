@@ -7,6 +7,7 @@ export type SongSection = {
 
 export type SongTypes = {
   id: number;
+  type: "song";
   title: string;
   singer: string;
   lyrics: SongSection[];

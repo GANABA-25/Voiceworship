@@ -1,3 +1,5 @@
+import { SongSection } from "./songs-types";
+
 export type BibleSlideMetadata = {
   translation: string;
   translationName: string;
@@ -12,7 +14,7 @@ export type PresentationContentType =
   | "video"
   | "audio"
   | "document"
-  | "text";
+  | "song";
 
 export type PresentationSlide = {
   id: string;
@@ -22,6 +24,9 @@ export type PresentationSlide = {
   source?: string;
   reference?: string;
   metadata?: BibleSlideMetadata;
+  lyric?: SongSection;
+  lyrics?: string;
+  singer?: string;
 };
 
 export type PresentationItem = PresentationSlide;

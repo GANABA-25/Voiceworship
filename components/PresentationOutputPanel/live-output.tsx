@@ -21,19 +21,46 @@ export default function LiveOutput() {
             Output offline
           </p>
         ) : liveSlide ? (
-          <div className="space-y-4 flex w-full max-w-xl flex-col items-center">
-            <h1 className="shrink-0 font-black tracking-wider text-primary">
-              {liveSlide.reference || liveSlide.title}
-            </h1>
+          <>
+            {liveSlide.type === "bible" && (
+              <div className="space-y-4 flex w-full max-w-xl flex-col items-center">
+                <h1 className="shrink-0 font-black tracking-wider text-primary">
+                  {liveSlide.reference || liveSlide.title}
+                </h1>
 
-            <p className="line-clamp-5 overflow-hidden leading-6 tracking-wide text-text">
-              {liveSlide.content}
-            </p>
+                <p className="line-clamp-5 overflow-hidden leading-6 tracking-wide text-text">
+                  {liveSlide.content}
+                </p>
 
-            <p className="text-xs font-medium">
-              {liveSlide?.metadata?.translation}
-            </p>
-          </div>
+                <p className="text-xs font-medium">
+                  {liveSlide?.metadata?.translation}
+                </p>
+              </div>
+            )}
+
+            {liveSlide.type === "song" && (
+              <div className="flex w-full flex-col items-center space-y-3">
+                <p className="text-xs font-medium text-muted">
+                  {liveSlide.reference}
+                  {liveSlide.singer ? `· ${liveSlide.singer}` : ""}
+                </p>
+
+                <h1 className="font-black tracking-wider text-primary">
+                  {liveSlide.title}
+                </h1>
+
+                <p className="line-clamp-5 whitespace-pre-line text-text leading-6 tracking-wide">
+                  {liveSlide.lyrics || liveSlide.content}
+                </p>
+              </div>
+            )}
+
+            {liveSlide?.type === "image" && <h1>Preview Image</h1>}
+
+            {liveSlide?.type === "video" && <h1>Preview video</h1>}
+
+            {liveSlide?.type === "audio" && <h1>Preview audio</h1>}
+          </>
         ) : (
           <div className="flex flex-col items-center justify-center space-y-2 text-center">
             <Image

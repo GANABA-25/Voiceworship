@@ -4,7 +4,7 @@ import { useEffect, useRef, useTransition } from "react";
 import { toast } from "react-toastify";
 
 import type { PresentationSlide } from "@/types/presentation";
-import { getBiblePassageByReference } from "@/features/bible/actions";
+import { getBiblePassageByReference } from "@/actions/bible-actions";
 import { useBible } from "@/store/bible-context";
 import { usePresentation } from "@/store/presentation-context";
 import { useVoice } from "@/store/voice-recognition-context";
