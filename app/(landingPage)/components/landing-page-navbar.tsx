@@ -6,7 +6,7 @@ import Button2 from "@/components/ui/button-2";
 
 export default function LandingPageNavbar() {
   return (
-    <div className="border-y border-border rounded-md bg-background shadow-sm">
+    <div className="fixed w-full z-10 border-y border-border rounded-md bg-background shadow-sm">
       <div className="max-w-360 m-auto flex justify-between items-center gap-4  p-4">
         <Logo />
         <NavItems />
