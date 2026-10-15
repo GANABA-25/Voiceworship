@@ -1,14 +1,16 @@
 "use client";
 
 import Image from "next/image";
-
+import VideoPlayer from "../media/video-player";
 import { usePresentation } from "@/store/presentation-context";
 
 export default function LiveOutput() {
   const { liveSlide, isOnAir, isBlocked } = usePresentation();
 
   return (
-    <div className="relative h-56 overflow-hidden rounded-md border border-border to-background p-8 text-center shadow-xs">
+    <div
+      className={`relative h-56 overflow-hidden rounded-md border border-border to-background ${liveSlide?.type === "image" || "video" ? "p-0" : "p-8"} text-center shadow-xs`}
+    >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(243,190,71,0.12),transparent_45%)]" />
 
       <div className="relative flex h-full flex-col items-center justify-center">
@@ -55,11 +57,35 @@ export default function LiveOutput() {
               </div>
             )}
 
-            {liveSlide?.type === "image" && <h1>Preview Image</h1>}
+            {liveSlide?.type === "image" && (
+              <div className="relative h-full w-full overflow-hidden rounded-md">
+                <Image
+                  src={liveSlide.media.src}
+                  alt={liveSlide.media.name || liveSlide.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 672px"
+                  className="object-cover"
+                />
+              </div>
+            )}
 
-            {liveSlide?.type === "video" && <h1>Preview video</h1>}
+            {liveSlide?.type === "video" && (
+              <div className="relative h-full w-full overflow-hidden rounded-md">
+                <VideoPlayer src={liveSlide.media.src} />
+              </div>
+            )}
 
-            {liveSlide?.type === "audio" && <h1>Preview audio</h1>}
+            {liveSlide?.type === "audio" && (
+              <div className="flex h-full w-full items-center justify-center rounded-md p-4">
+                <audio
+                  key={liveSlide.media.src}
+                  src={liveSlide.media.src}
+                  controls
+                  preload="metadata"
+                  className="w-full"
+                />
+              </div>
+            )}
           </>
         ) : (
           <div className="flex flex-col items-center justify-center space-y-2 text-center">

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-
+import VideoPlayer from "../media/video-player";
 import { usePresentation } from "@/store/presentation-context";
 
 export default function PreviewOutput() {
@@ -10,7 +10,9 @@ export default function PreviewOutput() {
   console.log("checking in preview", previewSlide);
 
   return (
-    <div className="relative h-56 overflow-hidden rounded-md border border-border bg-background p-8 text-center shadow-xs">
+    <div
+      className={`relative h-56 overflow-hidden rounded-md border border-border bg-background ${previewSlide?.type === "image" || "video" ? "p-0" : "p-8"}  text-center shadow-xs`}
+    >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(243,190,71,0.08),transparent_45%)]" />
 
       <div className="relative flex h-full flex-col items-center justify-center">
@@ -49,11 +51,35 @@ export default function PreviewOutput() {
               </div>
             )}
 
-            {previewSlide?.type === "image" && <h1>Preview Image</h1>}
+            {previewSlide?.type === "image" && (
+              <div className="relative h-full w-full overflow-hidden rounded-md">
+                <Image
+                  src={previewSlide.media.src}
+                  alt={previewSlide.media.name || previewSlide.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 672px"
+                  className="object-cover"
+                />
+              </div>
+            )}
 
-            {previewSlide?.type === "video" && <h1>Preview video</h1>}
+            {previewSlide?.type === "video" && (
+              <div className="relative h-full w-full overflow-hidden rounded-md">
+                <VideoPlayer src={previewSlide.media.src} controller />
+              </div>
+            )}
 
-            {previewSlide?.type === "audio" && <h1>Preview audio</h1>}
+            {previewSlide?.type === "audio" && (
+              <div className="flex h-full w-full items-center justify-center rounded-md p-4">
+                <audio
+                  key={previewSlide.media.src}
+                  src={previewSlide.media.src}
+                  controls
+                  preload="metadata"
+                  className="w-full"
+                />
+              </div>
+            )}
           </>
         ) : (
           <div className="flex flex-col items-center justify-center space-y-2 text-center">

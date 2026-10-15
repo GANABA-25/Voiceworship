@@ -27,6 +27,11 @@ export type PresentationSlide = {
   lyric?: SongSection;
   lyrics?: string;
   singer?: string;
+  media: {
+    src: string;
+    name: string;
+    type: "image" | "video" | "audio";
+  };
 };
 
 export type PresentationItem = PresentationSlide;

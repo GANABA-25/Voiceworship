@@ -9,10 +9,20 @@ import {
   useRef,
   useState,
   type ReactNode,
+  type Dispatch,
+  type SetStateAction,
 } from "react";
 import { usePathname } from "next/navigation";
 
 import { PresentationSlide, BibleHistoryItem } from "@/types/presentation";
+
+type VideoPlaybackState = {
+  src: string | null;
+  currentTime: number;
+  isPlaying: boolean;
+  volume: number;
+  muted: boolean;
+};
 
 type PresentationContextType = {
   liveSlide: PresentationSlide | null;
@@ -38,6 +48,8 @@ type PresentationContextType = {
   history: BibleHistoryItem[];
   clearHistory: () => void;
   openOutput: () => void;
+  videoPlayback: VideoPlaybackState;
+  setVideoPlayback: Dispatch<SetStateAction<VideoPlaybackState>>;
 };
 
 const PresentationContext = createContext<PresentationContextType | undefined>(
@@ -58,10 +70,22 @@ export function PresentationProvider({ children }: PresentationProviderProps) {
   const pathname = usePathname();
   const channelRef = useRef<BroadcastChannel | null>(null);
   const outputWindowRef = useRef<Window | null>(null);
-  const outputStateRef = useRef({ liveSlide, isOnAir, isBlocked });
   const [previewSlide, setPreviewSlide] = useState<PresentationSlide | null>(
     null,
   );
+  const [videoPlayback, setVideoPlayback] = useState<VideoPlaybackState>({
+    src: null,
+    currentTime: 0,
+    isPlaying: false,
+    volume: 1,
+    muted: false,
+  });
+  const outputStateRef = useRef({
+    liveSlide,
+    isOnAir,
+    isBlocked,
+    videoPlayback,
+  });
 
   useEffect(() => {
     if (pathname.startsWith("/output")) return;
@@ -83,10 +107,15 @@ export function PresentationProvider({ children }: PresentationProviderProps) {
   }, [pathname]);
 
   useEffect(() => {
-    const state = { liveSlide, isOnAir, isBlocked };
+    const state = {
+      liveSlide,
+      isOnAir,
+      isBlocked,
+      videoPlayback,
+    };
     outputStateRef.current = state;
     channelRef.current?.postMessage({ type: "state", state });
-  }, [liveSlide, isOnAir, isBlocked]);
+  }, [liveSlide, isOnAir, isBlocked, videoPlayback]);
 
   const openOutput = useCallback(() => {
     if (outputWindowRef.current && !outputWindowRef.current.closed) {
@@ -277,6 +306,8 @@ export function PresentationProvider({ children }: PresentationProviderProps) {
       history,
       clearHistory,
       openOutput,
+      videoPlayback,
+      setVideoPlayback,
     }),
     [
       liveSlide,
@@ -301,6 +332,8 @@ export function PresentationProvider({ children }: PresentationProviderProps) {
       history,
       clearHistory,
       openOutput,
+      videoPlayback,
+      setVideoPlayback,
     ],
   );
 

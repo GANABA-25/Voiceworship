@@ -1,9 +1,10 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { Upload } from "lucide-react";
+
 import Button2 from "@/components/ui/button-2";
 import MediaCard from "@/components/media-card";
-import { Upload } from "lucide-react";
 
 type MediaType = "image" | "video" | "audio";
 

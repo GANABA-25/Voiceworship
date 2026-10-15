@@ -1,5 +1,6 @@
 "use client";
 
+import { usePresentation } from "@/store/presentation-context";
 import PresentationActionButton from "./ui/presentation-action-button";
 import { Eye, Play, Plus, Trash, Video, FileHeadphone } from "lucide-react";
 
@@ -16,6 +17,19 @@ export default function MediaCard({
   type,
   onDelete,
 }: MediaCardProps) {
+  const { goLive, preview } = usePresentation();
+
+  const media = {
+    id: crypto.randomUUID(),
+    type,
+    title: name,
+    media: {
+      src,
+      name,
+      type,
+    },
+  };
+
   return (
     <div className="group relative h-60 w-full overflow-hidden rounded-md border border-border bg-card">
       <div className="flex h-[84%] items-center justify-center overflow-hidden bg-linear-to-br from-primary/40 to-card">
@@ -53,13 +67,20 @@ export default function MediaCard({
       </div>
 
       <div className="absolute inset-0 z-20 flex items-center justify-center gap-2 bg-black/60 opacity-0 backdrop-blur-[2px] transition-all duration-200 group-hover:opacity-100">
-        <PresentationActionButton icon={<Eye size={14} />} label="Preview" />
-
         <PresentationActionButton
-          bg="bg-primary text-background hover:bg-primary-light"
-          icon={<Play size={14} fill="currentColor" />}
-          label="Go live"
+          onClick={() => preview(media)}
+          icon={<Eye size={14} />}
+          label="Preview"
         />
+
+        {type !== "video" && (
+          <PresentationActionButton
+            onClick={() => goLive(media)}
+            bg="bg-primary text-background hover:bg-primary-light"
+            icon={<Play size={14} fill="currentColor" />}
+            label="Go live"
+          />
+        )}
 
         <PresentationActionButton
           icon={<Plus size={14} />}

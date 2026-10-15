@@ -2,14 +2,13 @@ import {
   MicAudioLines,
   Microscope,
   MicOff,
-  Mic,
-  MicSignal,
   Settings,
   Bell,
 } from "lucide-react";
 import ThemeToggle from "../theme-toggle";
 import SearchInput from "../search-Input";
 import { useVoice } from "@/store/voice-recognition-context";
+import Logo from "../logo";
 
 export default function Header() {
   const { microphoneStatus, recognitionStatus, isListening, isMuted } =
@@ -17,15 +16,7 @@ export default function Header() {
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex h-16 items-center gap-4 border-b border-border shadow-sm bg-card px-4">
       <div className="flex items-center gap-16">
-        <div className="flex items-center gap-1 overflow-hidden">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary font-bold text-white">
-            <MicAudioLines size={15} />
-          </div>
-
-          <h1 className="whitespace-nowrap font-bold text-text">
-            VoiceWorship
-          </h1>
-        </div>
+        <Logo />
 
         <div className="h-5 w-0.5 bg-border" />
       </div>
