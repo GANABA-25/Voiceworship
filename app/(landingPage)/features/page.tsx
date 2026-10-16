@@ -10,8 +10,8 @@ import { featuresData, workFlowData } from "@/data/landingPage";
 
 export default function Features() {
   return (
-    <div className="space-y-60 max-w-360 m-auto pt-40">
-      <section className="space-y-12 ">
+    <div className="space-y-20 md:space-y-60 max-w-360 m-auto pt-40 px-4 lg:px-0">
+      <section className="space-y-8">
         <div className="flex items-center justify-center">
           <div className="flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1 text-sm text-primary">
             <div className="relative h-2 w-2 rounded-full bg-primary before:absolute before:inset-0 before:animate-ping before:rounded-full before:bg-primary" />
@@ -34,7 +34,7 @@ export default function Features() {
         </div>
       </section>
 
-      <section className="space-y-8 relative isolate min-h-[calc(100vh-56px)] overflow-hidden py-24">
+      <section className="space-y-8 relative isolate overflow-hidden pt-24">
         <div className="pointer-events-none absolute inset-0 -z-10">
           <div className="absolute left-1/2 top-0 h-130 w-212.5 -translate-x-1/2 rounded-full bg-primary/15 blur-[140px]" />
           <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-background" />
@@ -68,8 +68,8 @@ export default function Features() {
         />
       </section>
 
-      <section className="flex justify-between items-start">
-        <div className="space-y-12">
+      <section className="flex flex-col gap-8 lg:gap-0 lg:flex-row justify-between items-start">
+        <div className="space-y-8 md:space-y-12">
           <div className="flex items-center w-50 gap-2 rounded-full border border-border bg-card px-4 py-1 text-sm text-primary">
             <div className="relative h-2 w-2 rounded-full bg-primary before:absolute before:inset-0 before:animate-ping before:rounded-full before:bg-primary" />
             <p className="uppercase">Why VoiceWorship</p>
@@ -84,7 +84,7 @@ export default function Features() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 lg:gap-0 md:grid-cols-2">
           {workFlowData.map((features) => (
             <FeaturesCard
               key={features.id}
@@ -96,7 +96,7 @@ export default function Features() {
         </div>
       </section>
 
-      <section className="relative lg:mx-auto max-w-360 space-y-16 overflow-hidden rounded-md border border-border bg-[linear-gradient(135deg,color-mix(in_srgb,var(--primary)_12%,var(--card))_0%,var(--card)_50%,color-mix(in_srgb,var(--primary)_6%,var(--background))_100%)] p-16 shadow-sm mx-4">
+      <section className="relative lg:mx-auto max-w-360 space-y-16 overflow-hidden rounded-md border border-border bg-[linear-gradient(135deg,color-mix(in_srgb,var(--primary)_12%,var(--card))_0%,var(--card)_50%,color-mix(in_srgb,var(--primary)_6%,var(--background))_100%)] p-8 md:p-16  shadow-sm">
         <div className="relative flex flex-col items-center justify-center gap-8 text-center">
           <h1 className="text-2xl md:text-4xl font-bold leading-[1.08] tracking-tight text-text">
             Bring a smarter workflow to

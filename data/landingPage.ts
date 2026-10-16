@@ -202,3 +202,57 @@ export const workFlowData = [
     description: "Made for the booth, the pulpit, and everyone in between.",
   },
 ];
+
+export const pricingData = [
+  {
+    id: 1,
+    name: "Starter",
+    description: "For churches getting started.",
+    monthlyPrice: 100,
+    yearlyPrice: 960,
+    billing: "Free to start",
+    popular: false,
+    features: [
+      "Basic Bible search",
+      "Limited presentations",
+      "Voice command access",
+      "Basic media support",
+    ],
+    buttonLabel: "Get Started",
+  },
+  {
+    id: 2,
+    name: "Growth",
+    description: "For growing worship and media teams.",
+    monthlyPrice: 200,
+    yearlyPrice: 1920,
+    billing: "Placeholder pricing",
+    popular: true,
+    features: [
+      "Full Bible workflow",
+      "Unlimited presentations",
+      "Voice-controlled projection",
+      "Media management",
+      "Service management",
+      "Advanced features",
+    ],
+    buttonLabel: "Get Started",
+  },
+  {
+    id: 3,
+    name: "Premium",
+    description: "For churches with larger teams and production needs.",
+    monthlyPrice: 300,
+    yearlyPrice: 2880,
+    billing: "Placeholder pricing",
+    popular: false,
+    features: [
+      "Multiple users",
+      "Team management",
+      "Advanced presentation workflows",
+      "Organization features",
+      "Priority support",
+    ],
+    buttonLabel: "Get Started",
+  },
+];

@@ -25,7 +25,7 @@ import {
 
 export default function LandingPage() {
   return (
-    <main className="space-y-60 min-h-screen overflow-hidden text-text">
+    <main className="space-y-20 md:space-y-60 min-h-screen overflow-hidden text-text">
       <header className="space-y-20">
         <section className="relative isolate min-h-[calc(100vh-56px)] overflow-hidden">
           <div className="pointer-events-none absolute inset-0 -z-10">
@@ -243,7 +243,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="relative lg:mx-auto max-w-360 space-y-16 overflow-hidden rounded-md border border-border bg-[linear-gradient(135deg,color-mix(in_srgb,var(--primary)_12%,var(--card))_0%,var(--card)_50%,color-mix(in_srgb,var(--primary)_6%,var(--background))_100%)] p-16 shadow-sm mx-4">
+      <section className="relative lg:mx-auto max-w-360 space-y-16 overflow-hidden rounded-md border border-border bg-[linear-gradient(135deg,color-mix(in_srgb,var(--primary)_12%,var(--card))_0%,var(--card)_50%,color-mix(in_srgb,var(--primary)_6%,var(--background))_100%)] p-8 md:p-16 shadow-sm mx-4">
         <div className="relative flex flex-col items-center justify-center gap-8 text-center">
           <h1 className="text-2xl md:text-4xl font-bold leading-[1.08] tracking-tight text-text">
             Bring a smarter workflow to
