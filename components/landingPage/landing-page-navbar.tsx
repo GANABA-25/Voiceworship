@@ -9,7 +9,7 @@ import { Menu } from "lucide-react";
 export default function LandingPageNavbar() {
   return (
     <div className="fixed w-full z-10 border-y border-border rounded-md bg-background/90 shadow-sm">
-      <div className="max-w-360 m-auto flex justify-between items-center gap-4  p-4">
+      <div className="max-w-360 m-auto flex justify-between items-center gap-4 p-4 lg:px-0">
         <Logo />
         <NavItems />
 

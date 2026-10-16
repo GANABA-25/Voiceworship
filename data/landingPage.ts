@@ -8,6 +8,16 @@ import {
   MicAudioLines,
   ScanText,
   Radio,
+  Music,
+  Presentation,
+  Image,
+  TvMinimalPlay,
+  RotateCcwClock,
+  Zap,
+  LayoutGrid,
+  SlidersHorizontal,
+  Film,
+  UserGroup,
 } from "lucide-react";
 
 export const worshipFlowData = [
@@ -97,5 +107,98 @@ export const clientData = [
     id: 4,
     user: "Church administrators",
     description: "Organize your service workflow.",
+  },
+];
+
+export const featuresData = [
+  {
+    id: 1,
+    icon: MicAudioLines,
+    title: "Voice-Controlled Bible Projection",
+    description:
+      "Speak a Bible reference and quickly bring the passage into your presentation workflow.",
+  },
+  {
+    id: 2,
+    icon: BookSearch,
+    title: "Bible Management",
+    description: "Search, browse, and prepare Bible passages for projection.",
+  },
+  {
+    id: 3,
+    icon: Music,
+    title: "Worship Lyrics",
+    description: "Prepare and display worship lyrics during your service.",
+  },
+  {
+    id: 4,
+    icon: Presentation,
+    title: "Presentations",
+    description:
+      "Build and manage presentation slides for sermons, announcements, and services.",
+  },
+  {
+    id: 5,
+    icon: Image,
+    title: "Media",
+    description: "Manage images, videos, and other service media.",
+  },
+  {
+    id: 6,
+    icon: TvMinimalPlay,
+    title: "Live Output",
+    description:
+      "Preview exactly what your audience will see before projecting it.",
+  },
+  {
+    id: 7,
+    icon: Workflow,
+    title: "Service Management",
+    description: "Organize your service elements into a single workflow.",
+  },
+  {
+    id: 8,
+    icon: RotateCcwClock,
+    title: "Voice Command History",
+    description: "Review previous voice commands and recognized references.",
+  },
+];
+
+export const workFlowData = [
+  {
+    id: 1,
+    icon: MicAudioLines,
+    title: "Voice-first workflow",
+    description: "Get from reference to preview with fewer steps.",
+  },
+  {
+    id: 2,
+    icon: Zap,
+    title: "Fast Bible access",
+    description: "Search, browse, and prepare Bible passages for projection.",
+  },
+  {
+    id: 3,
+    icon: LayoutGrid,
+    title: "Centralized service workspace",
+    description: "Scripture, lyrics, slides, and media in one place.",
+  },
+  {
+    id: 4,
+    icon: SlidersHorizontal,
+    title: "Live presentation control",
+    description: "Preview, project, and dismiss with clear controls.",
+  },
+  {
+    id: 5,
+    icon: Film,
+    title: "Media and lyrics support",
+    description: "Bring songs and service media into the same flow.",
+  },
+  {
+    id: 6,
+    icon: UserGroup,
+    title: "Designed for production teams",
+    description: "Made for the booth, the pulpit, and everyone in between.",
   },
 ];

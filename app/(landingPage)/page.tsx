@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import LandingPageNavbar from "./components/landing-page-navbar";
+import LandingPageNavbar from "../../components/landingPage/landing-page-navbar";
 import FlowCard from "@/components/landingPage/flow-card";
 import VoiceProcessCard from "@/components/landingPage/voice-process-card";
 import Button from "@/components/ui/button";
@@ -27,9 +27,7 @@ export default function LandingPage() {
   return (
     <main className="space-y-60 min-h-screen overflow-hidden text-text">
       <header className="space-y-20">
-        <LandingPageNavbar />
-
-        <section className="relative isolate min-h-[calc(100vh-56px)] overflow-hidden border-t border-border">
+        <section className="relative isolate min-h-[calc(100vh-56px)] overflow-hidden">
           <div className="pointer-events-none absolute inset-0 -z-10">
             <div className="absolute inset-0 dark:hidden bg-[linear-gradient(color-mix(in_srgb,var(--text)_6%,transparent)_1px,transparent_1px),linear-gradient(90deg,color-mix(in_srgb,var(--text)_6%,transparent)_1px,transparent_1px)] bg-size-[60px_60px] mask-[linear-gradient(to_bottom,black_0%,black_55%,transparent_100%)]" />
 
@@ -154,7 +152,7 @@ export default function LandingPage() {
           <div className="flex items-center justify-center">
             <div className="flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1 text-sm text-primary">
               <div className="relative h-2 w-2 rounded-full bg-primary before:absolute before:inset-0 before:animate-ping before:rounded-full before:bg-primary" />
-              <p className="uppercase">The problem</p>
+              <p className="uppercase">Voice control</p>
             </div>
           </div>
 
