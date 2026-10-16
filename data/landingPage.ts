@@ -256,3 +256,86 @@ export const pricingData = [
     buttonLabel: "Get Started",
   },
 ];
+
+export const faqData = [
+  {
+    id: 1,
+    value: "voiceWorship",
+    trigger: "What is VoiceWorship?",
+    features: [
+      "VoiceWorship is church presentation software that lets you project Bible verses, worship lyrics, images, videos, and slides, with voice control as its core feature.",
+    ],
+  },
+  {
+    id: 2,
+    value: "voiceControlledBibleProjection",
+    trigger: "How does voice-controlled Bible projection work?",
+    features: [
+      'Simply speak a Bible reference, such as "Open Genesis chapter 1 verse 1." VoiceWorship recognizes your speech, identifies the reference, and loads the passage for preview. You remain in control of when it goes live.',
+    ],
+  },
+  {
+    id: 3,
+    value: "manualControl",
+    trigger: "Can I use VoiceWorship without voice control?",
+    features: [
+      "Yes. You can manually search for Bible passages, navigate presentations, and project content without using voice commands.",
+    ],
+  },
+  {
+    id: 4,
+    value: "bibleVersions",
+    trigger: "Does VoiceWorship support multiple Bible versions?",
+    features: [
+      "Support for multiple Bible versions is planned. The available translations will be announced at launch.",
+    ],
+  },
+  {
+    id: 5,
+    value: "worshipLyrics",
+    trigger: "Can I manage worship lyrics?",
+    features: [
+      "Yes. VoiceWorship includes lyrics management in its core workspace, with additional song management features planned for future updates.",
+    ],
+  },
+  {
+    id: 6,
+    value: "mediaProjection",
+    trigger: "Can I project videos and images?",
+    features: [
+      "Yes. VoiceWorship supports projecting images and videos, with additional advanced media features planned for future updates.",
+    ],
+  },
+  {
+    id: 7,
+    value: "teamManagement",
+    trigger: "Can multiple people use the same church account?",
+    features: [
+      "Multi-user access and team management are planned for the Church plan, making it easier for church teams to work together.",
+    ],
+  },
+  {
+    id: 8,
+    value: "platformCompatibility",
+    trigger: "Does VoiceWorship work on Windows and Mac?",
+    features: [
+      "Platform compatibility details will be announced ahead of launch so churches can confirm whether VoiceWorship works with their setup.",
+    ],
+  },
+  {
+    id: 9,
+    value: "smallChurches",
+    trigger: "Is VoiceWorship suitable for small churches?",
+    features: [
+      "Yes. The Free plan is designed to help churches get started with digital presentations and voice-controlled Bible projection.",
+    ],
+  },
+  {
+    id: 10,
+    value: "freePlan",
+    trigger: "Can I try VoiceWorship for free?",
+    features: [
+      "Yes. You can get started with the Free plan and explore VoiceWorship without needing to begin with a paid plan.",
+    ],
+  },
+];

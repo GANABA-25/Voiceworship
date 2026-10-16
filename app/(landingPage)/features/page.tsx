@@ -69,7 +69,7 @@ export default function Features() {
       </section>
 
       <section className="flex flex-col gap-8 lg:gap-0 lg:flex-row justify-between items-start">
-        <div className="space-y-8 md:space-y-12">
+        <div className="space-y-8">
           <div className="flex items-center w-50 gap-2 rounded-full border border-border bg-card px-4 py-1 text-sm text-primary">
             <div className="relative h-2 w-2 rounded-full bg-primary before:absolute before:inset-0 before:animate-ping before:rounded-full before:bg-primary" />
             <p className="uppercase">Why VoiceWorship</p>
