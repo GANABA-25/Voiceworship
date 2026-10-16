@@ -25,22 +25,26 @@ import {
 
 export default function LandingPage() {
   return (
-    <main className="space-y-60 min-h-screen overflow-hidden bg-background text-text">
+    <main className="space-y-60 min-h-screen overflow-hidden text-text">
       <header className="space-y-20">
         <LandingPageNavbar />
 
         <section className="relative isolate min-h-[calc(100vh-56px)] overflow-hidden border-t border-border">
           <div className="pointer-events-none absolute inset-0 -z-10">
-            <div className="absolute inset-0 bg-[linear-gradient(color-mix(in_srgb,var(--primary)_6%,transparent)_1px,transparent_1px),linear-gradient(90deg,color-mix(in_srgb,var(--primary)_6%,transparent)_1px,transparent_1px)] bg-size-[60px_60px] mask-[linear-gradient(to_bottom,black_0%,black_55%,transparent_100%)]" />
+            <div className="absolute inset-0 dark:hidden bg-[linear-gradient(color-mix(in_srgb,var(--text)_6%,transparent)_1px,transparent_1px),linear-gradient(90deg,color-mix(in_srgb,var(--text)_6%,transparent)_1px,transparent_1px)] bg-size-[60px_60px] mask-[linear-gradient(to_bottom,black_0%,black_55%,transparent_100%)]" />
 
-            <div className="absolute left-1/2 top-0 h-130 w-212.5 -translate-x-1/2 rounded-full bg-primary/10 blur-[140px]" />
+            <div className="absolute inset-0 hidden dark:block bg-[linear-gradient(color-mix(in_srgb,var(--primary)_6%,transparent)_1px,transparent_1px),linear-gradient(90deg,color-mix(in_srgb,var(--primary)_6%,transparent)_1px,transparent_1px)] bg-size-[60px_60px] mask-[linear-gradient(to_bottom,black_0%,black_55%,transparent_100%)]" />
+
+            <div className="absolute left-1/2 top-0 h-130 w-212.5 -translate-x-1/2 rounded-full bg-primary/15 blur-[140px]" />
             <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-background" />
           </div>
 
-          <div className="relative mx-auto flex w-full max-w-360 flex-col items-center gap-12 px-4 pt-40 text-center">
+          <div className="relative mx-auto flex w-full max-w-360 flex-col items-center gap-14 px-4 pt-40 text-center">
             <div className="flex items-center gap-2 border border-border rounded-full bg-card text-primary py-1 px-4 text-sm">
               <div className="relative h-2 w-2 rounded-full bg-primary before:absolute before:inset-0 before:animate-ping before:rounded-full before:bg-primary" />
-              <p className="uppercase">Voice-controlled church presentation</p>
+              <p className="text-xs md:text-base uppercase">
+                Voice-controlled church presentation
+              </p>
             </div>
             <h1 className="max-w-190 text-4xl font-bold leading-[1.08] tracking-tight text-text sm:text-5xl md:text-6xl lg:text-7xl">
               Your worship
@@ -58,8 +62,10 @@ export default function LandingPage() {
               focused on the service instead of the software.
             </p>
 
-            <div className="flex items-center gap-4">
-              <Button icon2={<MoveRight size={15} />} label="Start Free" />
+            <div className="flex flex-col md:flex-row items-center gap-4">
+              <span>
+                <Button icon2={<MoveRight size={15} />} label="Start Free" />
+              </span>
               <Button2
                 label="See how it works"
                 icon={<CirclePlay size={15} />}
@@ -83,32 +89,34 @@ export default function LandingPage() {
             Built for the people behind the worship experience.
           </p>
 
-          <div className="flex justify-center items-center gap-8">
+          <div className="flex flex-col md:flex-row justify-center items-center gap-8">
             <div className="flex items-center gap-2">
               <Church size={15} className="text-primary" />
-              <p className="text-text">Churches</p>
+              <p className="md:text-sm lg:text-base text-text">Churches</p>
             </div>
             <div className="flex items-center gap-2">
               <Users size={15} className="text-primary" />
-              <p className="text-text">Worship Teams</p>
+              <p className="md:text-sm lg:text-base text-text">Worship Teams</p>
             </div>
             <div className="flex items-center gap-2">
               <TvMinimalPlay size={15} className="text-primary" />
-              <p className="text-text">Media Teams</p>
+              <p className="md:text-sm lg:text-base text-text">Media Teams</p>
             </div>
             <div className="flex items-center gap-2">
               <BookOpen size={15} className="text-primary" />
-              <p className="text-text">Pastors</p>
+              <p className="md:text-sm lg:text-base text-text">Pastors</p>
             </div>
             <div className="flex items-center gap-2">
               <Clapperboard size={15} className="text-primary" />
-              <p className="text-text">Church Production Teams</p>
+              <p className="md:text-sm lg:text-base text-text">
+                Church Production Teams
+              </p>
             </div>
           </div>
         </section>
       </header>
 
-      <section className="space-y-16 mx-auto max-w-360">
+      <section className="space-y-16 mx-auto max-w-360 px-4 lg:px-0">
         <div className="mx-auto flex max-w-360 flex-col items-center justify-center space-y-8 text-center">
           <div className="flex items-center justify-center">
             <div className="flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1 text-sm text-primary">
@@ -117,9 +125,9 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <h1 className="text-text text-4xl font-bold">
-            Stop breaking the flow of
-            <br />
+          <h1 className="text-text text-2xl md:text-4xl font-bold">
+            Stop breaking the flow <br className="md:hidden" /> of
+            <br className="hidden md:block" />
             worship.
           </h1>
 
@@ -129,7 +137,7 @@ export default function LandingPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {worshipFlowData.map((flow) => (
             <FlowCard
               key={flow.id}
@@ -141,7 +149,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="space-y-16 mx-auto max-w-360">
+      <section className="space-y-16 mx-auto max-w-360 px-4 lg:px-0">
         <div className="mx-auto flex max-w-360 flex-col items-center justify-center space-y-8 text-center">
           <div className="flex items-center justify-center">
             <div className="flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1 text-sm text-primary">
@@ -150,8 +158,9 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <h1 className="text-text text-4xl font-bold">
-            Just speak. VoiceWorship <br /> handles the rest.
+          <h1 className="text-text text-2xl md:text-4xl font-bold">
+            Just speak. <br className="md:hidden" /> VoiceWorship{" "}
+            <br className="hidden md:block" /> handles the rest.
           </h1>
         </div>
 
@@ -162,7 +171,7 @@ export default function LandingPage() {
             </div>
 
             <div className="flex h-10 items-center justify-center gap-1">
-              {Array.from({ length: 40 }).map((_, i) => (
+              {Array.from({ length: 35 }).map((_, i) => (
                 <span
                   key={i}
                   className="w-1 rounded-full bg-primary animate-pulse"
@@ -187,7 +196,7 @@ export default function LandingPage() {
 
           <div className="bg-border w-full h-px" />
 
-          <div className="grid grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {voiceProcessData.map((process) => (
               <VoiceProcessCard
                 key={process.id}
@@ -201,7 +210,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="space-y-16 mx-auto max-w-360">
+      <section className="space-y-16 mx-auto max-w-360 px-4 lg:px-0">
         <div className="mx-auto flex max-w-360 flex-col items-center justify-center space-y-8 text-center">
           <div className="flex items-center justify-center">
             <div className="flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1 text-sm text-primary">
@@ -210,12 +219,13 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <h1 className="text-text text-4xl font-bold">
-            Designed for the people <br /> serving behind the scenes.
+          <h1 className="text-text text-2xl md:text-4xl font-bold">
+            Designed for the <br className="md:hidden" /> people{" "}
+            <br className="hidden md:block" /> serving behind the scenes.
           </h1>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {clientData.map((client) => (
             <div
               key={client.id}
@@ -235,11 +245,11 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="relative mx-auto max-w-360 space-y-16 overflow-hidden rounded-md border border-border bg-[linear-gradient(135deg,color-mix(in_srgb,var(--primary)_12%,var(--card))_0%,var(--card)_50%,color-mix(in_srgb,var(--primary)_6%,var(--background))_100%)] p-16 shadow-sm">
+      <section className="relative lg:mx-auto max-w-360 space-y-16 overflow-hidden rounded-md border border-border bg-[linear-gradient(135deg,color-mix(in_srgb,var(--primary)_12%,var(--card))_0%,var(--card)_50%,color-mix(in_srgb,var(--primary)_6%,var(--background))_100%)] p-16 shadow-sm mx-4">
         <div className="relative flex flex-col items-center justify-center gap-8 text-center">
-          <h1 className="text-4xl font-bold leading-[1.08] tracking-tight text-text sm:text-4xl md:text-5xl lg:text-6xl">
+          <h1 className="text-2xl md:text-4xl font-bold leading-[1.08] tracking-tight text-text">
             Bring a smarter workflow to
-            <br />
+            <br className="hidden md:block" />
             your next service.
           </h1>
 
@@ -248,8 +258,10 @@ export default function LandingPage() {
             the people on stage.
           </p>
 
-          <div className="flex items-center gap-4">
-            <Button icon2={<MoveRight size={15} />} label="Start Free" />
+          <div className="flex flex-col md:flex-row items-center gap-4">
+            <span>
+              <Button icon2={<MoveRight size={15} />} label="Start Free" />
+            </span>
             <Button2 label="Explore VoiceWorship" />
           </div>
         </div>

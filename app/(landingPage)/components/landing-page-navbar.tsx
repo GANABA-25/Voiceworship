@@ -4,20 +4,28 @@ import NavItems from "./nav-items";
 import Button from "@/components/ui/button";
 import Button2 from "@/components/ui/button-2";
 
+import { Menu } from "lucide-react";
+
 export default function LandingPageNavbar() {
   return (
-    <div className="fixed w-full z-10 border-y border-border rounded-md bg-background shadow-sm">
+    <div className="fixed w-full z-10 border-y border-border rounded-md bg-background/90 shadow-sm">
       <div className="max-w-360 m-auto flex justify-between items-center gap-4  p-4">
         <Logo />
         <NavItems />
 
-        <div className="flex items-center gap-4">
-          <button>Sign in</button>
-          <button className="flex cursor-pointer items-center justify-center gap-2 rounded-md bg-primary p-2 px-4 font-bold text-background shadow-xs transition-all duration-150 ease-out hover:-translate-y-0.5 hover:bg-primary-light hover:shadow-sm active:translate-y-0 active:scale-95 active:shadow-none">
-            Get Started
-          </button>
+        <div className="border border-border p-2 rounded-md md:hidden">
+          <Menu size={20} />
+        </div>
 
-          <ThemeToggle />
+        <div className="hidden md:flex items-center gap-4">
+          <button>Sign in</button>
+          <span>
+            <Button label="Get Started" />
+          </span>
+
+          <span className="md:hidden lg:block">
+            <ThemeToggle />
+          </span>
         </div>
       </div>
     </div>

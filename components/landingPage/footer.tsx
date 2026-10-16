@@ -3,7 +3,7 @@ import Logo from "../logo";
 export default function Footer() {
   return (
     <div className="border border-border bg-card mt-24">
-      <div className="max-w-360 mx-auto flex justify-between items-start p-12">
+      <div className="max-w-360 mx-auto flex flex-col gap-12 md:flex-row md:gap-0  justify-between items-start p-12">
         <div className="space-y-4">
           <Logo />
           <p className="text-sm text-muted">
