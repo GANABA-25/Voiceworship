@@ -36,7 +36,12 @@ export default function SignIn() {
           <p className="text-muted text-sm">Remember me</p>
         </div>
 
-        <button className="text-primary">Forgot Password?</button>
+        <Link
+          href="/auth?mode=reset-password"
+          className="text-primary cursor-pointer hover:text-primary-light"
+        >
+          Forgot Password?
+        </Link>
       </div>
 
       <Button2
