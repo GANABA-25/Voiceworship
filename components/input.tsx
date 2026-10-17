@@ -39,7 +39,7 @@ export default function Input({
     type === "password" || name?.toLowerCase()?.includes("password");
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-muted text-sm md:text-base">{label}</label>
+      <label className="text-sm md:text-base">{label}</label>
 
       <div className="relative">
         <input
