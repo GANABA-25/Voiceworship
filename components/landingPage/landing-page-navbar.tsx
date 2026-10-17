@@ -2,7 +2,6 @@ import Logo from "@/components/logo";
 import ThemeToggle from "@/components/theme-toggle";
 import NavItems from "./nav-items";
 import Button from "@/components/ui/button";
-import Button2 from "@/components/ui/button-2";
 
 import { Menu } from "lucide-react";
 
