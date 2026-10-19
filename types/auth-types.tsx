@@ -12,6 +12,11 @@ export type formState = {
   status?: "success" | "error";
   message?: string;
   errors?: Partial<Record<keyof createAccountType, string>>;
+  profile?: {
+    email: string;
+    phoneNumber: string;
+    organizationName: string;
+  };
 };
 
 // export type adminUserRequest = {
