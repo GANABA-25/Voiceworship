@@ -19,7 +19,7 @@ type SendEmailOptions = {
 
 export const sendEmail = async ({ to, subject, html }: SendEmailOptions) => {
   await transporter.sendMail({
-    from: `"GroupBox" <${process.env.EMAIL_USER}>`,
+    from: `"VoiceWorship" <${process.env.EMAIL_USER}>`,
     to,
     subject,
     html,

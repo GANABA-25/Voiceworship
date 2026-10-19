@@ -9,7 +9,7 @@ export default function Logo() {
         <MicAudioLines size={15} />
       </div>
 
-      <h1 className="whitespace-nowrap font-bold text-text">
+      <h1 className="whitespace-nowrap font-black text-text text-2xl">
         Voice<span className="text-primary">Worship</span>
       </h1>
     </Link>
