@@ -1,12 +1,119 @@
+"use client";
+
+import { toast } from "react-toastify";
+import { formState } from "@/types/auth-types";
+import { useActionState, useState, useEffect } from "react";
+import { signInType } from "@/types/auth-types";
+import { signIn } from "@/actions/signin";
 import Link from "next/link";
 import { Mail, LockKeyhole } from "lucide-react";
+import { validateSignInData } from "@/util/validations";
 
 import Input from "@/components/input";
 import Button2 from "@/components/ui/button-2";
 
 export default function SignIn() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [serverErrors, setServerErrors] = useState<
+    Partial<Record<keyof signInType, string>>
+  >({});
+
+  const [didEdit, setDidEdit] = useState({
+    email: false,
+    password: false,
+  });
+
+  const [signInData, setSignIntData] = useState<signInType>({
+    email: "",
+    password: "",
+  });
+
+  const [formState, formAction, isPending] = useActionState<
+    formState,
+    FormData
+  >(signIn, {
+    status: undefined,
+    message: "",
+    errors: {},
+  });
+
+  const validationErrors = validateSignInData(signInData);
+
+  const getFieldError = (field: keyof signInType) => {
+    if (didEdit[field]) {
+      return validationErrors[field];
+    }
+
+    return serverErrors[field];
+  };
+
+  const inputBlurHandler = (identifier: keyof signInType) => {
+    setDidEdit((prev) => ({
+      ...prev,
+      [identifier]: true,
+    }));
+  };
+
+  const inputChangeHandler = (
+    inputIdentifier: keyof signInType,
+    value: string,
+  ) => {
+    setSignIntData((prev) => ({
+      ...prev,
+      [inputIdentifier]: value,
+    }));
+
+    setDidEdit((prev) => ({
+      ...prev,
+      [inputIdentifier]: false,
+    }));
+
+    setServerErrors((prev) => ({
+      ...prev,
+      [inputIdentifier]: "",
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const validationErrors = validateSignInData(signInData);
+
+    setDidEdit({
+      email: true,
+      password: true,
+    });
+
+    if (Object.values(validationErrors).some((error) => error !== "")) {
+      e.preventDefault();
+    }
+  };
+
+  useEffect(() => {
+    if (!formState?.message) return;
+
+    if (formState.status === "success") {
+      setSignIntData({
+        email: "",
+        password: "",
+      });
+
+      setDidEdit({
+        email: false,
+        password: false,
+      });
+
+      setServerErrors({});
+
+      toast.success(formState.message);
+    }
+
+    if (formState.status === "error") {
+      setServerErrors(formState.errors || {});
+      toast.error(formState.message);
+    }
+  }, [formState]);
+
   return (
-    <div className="space-y-6">
+    <form action={formAction} className="space-y-6">
       <div className="space-y-4">
         <h1 className="text-4xl font-bold">Welcome back</h1>
         <p className="text-muted">
@@ -16,15 +123,29 @@ export default function SignIn() {
 
       <Input
         type="email"
+        name="email"
         icon={<Mail size={15} />}
         label="Email"
         placeholder="you@gmail.com"
+        value={signInData.email}
+        onChange={(event) => inputChangeHandler("email", event?.target.value)}
+        onBlur={() => inputBlurHandler("email")}
+        hasError={getFieldError("email")}
       />
       <Input
         type="password"
+        name="password"
         icon={<LockKeyhole size={15} />}
         label="Password"
         placeholder="Enter your password"
+        showPassword={showPassword}
+        onTogglePassword={() => setShowPassword((prev) => !prev)}
+        value={signInData.password}
+        onChange={(event) =>
+          inputChangeHandler("password", event?.target.value)
+        }
+        onBlur={() => inputBlurHandler("password")}
+        hasError={getFieldError("password")}
       />
 
       <div className="flex justify-between items-center ">
@@ -45,6 +166,8 @@ export default function SignIn() {
       </div>
 
       <Button2
+        type="submit"
+        isLoading={isPending}
         bg="bg-primary hover:bg-primary-light p-4 text-black w-full font-bold"
         label="Sign in"
       />
@@ -66,6 +189,6 @@ export default function SignIn() {
           Create an account
         </Link>
       </span>
-    </div>
+    </form>
   );
 }

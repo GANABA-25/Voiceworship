@@ -13,8 +13,6 @@ import Button2 from "@/components/ui/button-2";
 
 import { Mail, LockKeyhole, FileSpreadsheet } from "lucide-react";
 
-type ErrorType = Partial<Record<keyof createAccountType, string>>;
-
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -135,8 +133,6 @@ export default function SignUp() {
       setServerErrors({});
 
       toast.success(formState.message);
-
-      console.log("checking", formState);
     }
 
     if (formState.status === "error") {

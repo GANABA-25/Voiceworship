@@ -8,6 +8,11 @@ export type createAccountType = {
   organizationName: string;
 };
 
+export type signInType = {
+  email: string;
+  password: string;
+};
+
 export type formState = {
   status?: "success" | "error";
   message?: string;

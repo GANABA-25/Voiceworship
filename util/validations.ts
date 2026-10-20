@@ -1,4 +1,4 @@
-import { createAccountType } from "@/types/auth-types";
+import { createAccountType, signInType } from "@/types/auth-types";
 
 export const validateCreateAccountData = (
   createAccountData: createAccountType,
@@ -53,6 +53,22 @@ export const validateCreateAccountData = (
     organizationName: !organizationName.trim()
       ? "OrganizationName name is required"
       : "",
+  };
+
+  return errors;
+};
+
+export const validateSignInData = (signInData: signInType) => {
+  const { email, password } = signInData;
+
+  const errors = {
+    email: !email.trim()
+      ? "A valid email is required"
+      : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+        ? "Incorrect email format"
+        : "",
+
+    password: !password.trim() ? "Password is required" : "",
   };
 
   return errors;
