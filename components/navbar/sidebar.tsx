@@ -14,42 +14,42 @@ export default function SideBar() {
   const pathname = usePathname();
 
   return (
-    <aside
-      className={`fixed w-60 top-0 left-0 z-50 shadow-sm transition-all duration-300 hidden lg:flex flex-col h-screen border-r border-border bg-card mt-16`}
-    >
-      <span className="p-4">
-        <Button label="Create" icon={<Plus size={15} />} />
-      </span>
+    <aside className="fixed top-16 bottom-0 left-0 z-50 hidden w-60 flex-col border-r border-border bg-card shadow-sm transition-all duration-300 lg:flex">
+      <div className="min-h-0 flex-1 overflow-y-auto">
+        <span className="block p-4">
+          <Button label="Create" icon={<Plus size={15} />} />
+        </span>
 
-      <div className="space-y-3 pb-4">
-        {items.map((item) => (
-          <ListItem
-            isActive={pathname === item.href}
-            key={item.href}
-            label={item.label}
-            icon={item.icon}
-            href={item.href}
-          />
-        ))}
-      </div>
-
-      <div className="space-y-2 py-4 border-t border-border">
-        <h1 className="px-4 text-muted uppercase">Service Resources</h1>
-        <div>
-          {serviceResources.map((resource) => (
-            <ServiceResources
-              key={resource.label}
-              label={resource.label}
-              icon={resource.icon}
-              item={resource.item}
-              number={resource.number}
+        <div className="space-y-3 pb-4">
+          {items.map((item) => (
+            <ListItem
+              isActive={pathname === item.href}
+              key={item.href}
+              label={item.label}
+              icon={item.icon}
+              href={item.href}
             />
           ))}
         </div>
+
+        <div className="space-y-2 border-t border-border py-4">
+          <h1 className="px-4 uppercase text-muted">Service Resources</h1>
+          <div>
+            {serviceResources.map((resource) => (
+              <ServiceResources
+                key={resource.label}
+                label={resource.label}
+                icon={resource.icon}
+                item={resource.item}
+                number={resource.number}
+              />
+            ))}
+          </div>
+        </div>
       </div>
 
-      <div className="p-4">
-        <Button onClick={logout} label="log out" />
+      <div className="border-t border-border p-4">
+        <Button onClick={logout} label="Log out" />
       </div>
     </aside>
   );

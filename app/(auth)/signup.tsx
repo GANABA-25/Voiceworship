@@ -3,7 +3,7 @@
 import { validateCreateAccountData } from "@/util/validations";
 import { formState } from "@/types/auth-types";
 import { createAccountType } from "@/types/auth-types";
-import { createAccount } from "@/actions/create-account";
+import { createAccount } from "@/actions/auth/create-account";
 import { useActionState, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 

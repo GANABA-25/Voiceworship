@@ -5,7 +5,9 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import SignIn from "../signin";
 import SignUp from "../signup";
-import ResetPassword from "../reset-password";
+import Otp from "../otp";
+import ResetPasswordEmailVerification from "../reset-password-email-verification";
+import ResetPassword from "../resetPassword";
 import { useSearchParams } from "next/navigation";
 import Logo from "@/components/logo";
 
@@ -15,6 +17,9 @@ export default function AuthPage() {
 
   const isSignin = mode === "signin";
   const isSignup = mode === "signup";
+  const isResetPasswordEmailVerification =
+    mode === "reset-password-email-verification";
+  const otp = mode === "otp";
   const isResetPassword = mode === "reset-password";
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 min-h-dvh px-8 md:px-0">
@@ -59,6 +64,10 @@ export default function AuthPage() {
 
           {isSignin && <SignIn />}
           {isSignup && <SignUp />}
+          {isResetPasswordEmailVerification && (
+            <ResetPasswordEmailVerification />
+          )}
+          {otp && <Otp />}
           {isResetPassword && <ResetPassword />}
         </div>
       </section>

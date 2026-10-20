@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { formState } from "@/types/auth-types";
 import { useActionState, useState, useEffect } from "react";
 import { signInType } from "@/types/auth-types";
-import { signIn } from "@/actions/signin";
+import { signIn } from "@/actions/auth/signin";
 import Link from "next/link";
 import { Mail, LockKeyhole } from "lucide-react";
 import { validateSignInData } from "@/util/validations";
@@ -166,7 +166,7 @@ export default function SignIn() {
         </div>
 
         <Link
-          href="/auth?mode=reset-password"
+          href="/auth?mode=reset-password-email-verification"
           className="text-primary cursor-pointer hover:text-primary-light"
         >
           Forgot Password?

@@ -69,7 +69,7 @@ export async function createAccount(
 
   await sendEmail({
     to: signUpData.email,
-    subject: "Verify your institution",
+    subject: "Verify your email",
     html: verifyEmailTemplate(verifyUrl),
   });
 

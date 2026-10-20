@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
-import { signOut } from "@/actions/signout";
+import { signOut } from "@/actions/auth/signout";
 import { SignInResponse } from "@/types/auth-types";
 
 type AuthContextTypes = {

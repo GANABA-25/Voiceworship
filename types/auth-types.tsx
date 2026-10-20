@@ -13,10 +13,23 @@ export type signInType = {
   password: string;
 };
 
+export type resetPasswordEmailType = {
+  email: string;
+};
+
+export type OtpType = {
+  otp: string;
+};
+
+export type resetPasswordType = {
+  password: string;
+  confirmPassword: string;
+};
+
 export type formState = {
   status?: "success" | "error";
   message?: string;
-  errors?: Partial<Record<keyof createAccountType, string>>;
+  errors?: Partial<Record<keyof createAccountType | "otp", string>>;
   profile?: {
     firstName: string;
     lastName: string;

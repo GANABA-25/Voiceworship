@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { toast } from "react-toastify";
 import { ArrowRight, CircleX, ShieldCheck } from "lucide-react";
 
-import { verifyEmail } from "@/actions/verify-email";
+import { verifyEmail } from "@/actions/auth/verify-email";
 import Logo from "@/components/logo";
 import loadingAnimation from "@/public/svgs/loading.svg";
 
