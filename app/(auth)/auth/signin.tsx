@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { formState } from "@/types/auth-types";
 import { useActionState, useState, useEffect } from "react";
@@ -8,11 +9,14 @@ import { signIn } from "@/actions/signin";
 import Link from "next/link";
 import { Mail, LockKeyhole } from "lucide-react";
 import { validateSignInData } from "@/util/validations";
+import { useAuth } from "@/store/auth-context";
 
 import Input from "@/components/input";
 import Button2 from "@/components/ui/button-2";
 
 export default function SignIn() {
+  const router = useRouter();
+  const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [serverErrors, setServerErrors] = useState<
     Partial<Record<keyof signInType, string>>
@@ -90,7 +94,7 @@ export default function SignIn() {
   useEffect(() => {
     if (!formState?.message) return;
 
-    if (formState.status === "success") {
+    if (formState.status === "success" && formState.profile) {
       setSignIntData({
         email: "",
         password: "",
@@ -104,6 +108,10 @@ export default function SignIn() {
       setServerErrors({});
 
       toast.success(formState.message);
+
+      login(formState.profile);
+      router.replace("/dashboard");
+      router.refresh();
     }
 
     if (formState.status === "error") {
@@ -113,7 +121,7 @@ export default function SignIn() {
   }, [formState]);
 
   return (
-    <form action={formAction} className="space-y-6">
+    <form action={formAction} onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-4">
         <h1 className="text-4xl font-bold">Welcome back</h1>
         <p className="text-muted">

@@ -18,10 +18,18 @@ export type formState = {
   message?: string;
   errors?: Partial<Record<keyof createAccountType, string>>;
   profile?: {
+    firstName: string;
+    lastName: string;
     email: string;
-    phoneNumber: string;
     organizationName: string;
   };
+};
+
+export type SignInResponse = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  organizationName: string;
 };
 
 // export type adminUserRequest = {

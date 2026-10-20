@@ -10,11 +10,10 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 
-import { SignInResponse, Role } from "@/types/auth-types";
+import { SignInResponse } from "@/types/auth-types";
 
 type AuthContextTypes = {
   userData: SignInResponse | null;
-  role: Role | null;
   isAuthenticated: boolean;
   login: (user: SignInResponse) => void;
   logout: () => void;
@@ -48,7 +47,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const value = useMemo(
     () => ({
       userData,
-      role: userData?.user?.role ?? null,
       isAuthenticated: !!userData,
       login,
       logout,

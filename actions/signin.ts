@@ -1,12 +1,11 @@
 "use server";
 
-import { randomBytes, createHash } from "node:crypto";
-
+import { cookies } from "next/headers";
 import prisma from "@/lib/server/prisma";
+import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import type { formState } from "@/types/auth-types";
 import { validateSignInData } from "@/util/validations";
-import { verifyEmailTemplate } from "@/services/templates/verifyEmail";
 
 export async function signIn(
   previousState: formState,
@@ -16,8 +15,6 @@ export async function signIn(
     email: formData.get("email") as string,
     password: formData.get("password") as string,
   };
-
-  console.log(signInData);
 
   const errors = validateSignInData(signInData);
 
@@ -29,8 +26,59 @@ export async function signIn(
     };
   }
 
+  const user = await prisma.organization.findUnique({
+    where: {
+      email: signInData.email,
+    },
+  });
+
+  if (!user) {
+    return {
+      status: "error",
+      message: "Invalid email or password.",
+    };
+  }
+
+  const passwordMatch = await bcrypt.compare(
+    signInData.password,
+    user.passwordHash,
+  );
+
+  if (!passwordMatch) {
+    return {
+      status: "error",
+      message: "Invalid email or password.",
+    };
+  }
+
+  const token = jwt.sign(
+    {
+      email: user.email,
+      id: user.id,
+      role: user.phoneNumber,
+    },
+    process.env.JWT_SECRET!,
+    { expiresIn: "4h" },
+  );
+
+  const cookieStore = await cookies();
+
+  cookieStore.set("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 60 * 4,
+  });
+
   return {
+    message: "Sign in successful",
     status: "success",
-    message: "Account created. Please verify your email.",
+    profile: {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      organizationName: user?.organizationName,
+    },
   };
 }

@@ -76,10 +76,5 @@ export async function createAccount(
   return {
     status: "success",
     message: "Account created. Please verify your email.",
-    profile: {
-      email: signUpData.email,
-      phoneNumber: formattedPhoneNumber,
-      organizationName: signUpData.organizationName,
-    },
   };
 }
