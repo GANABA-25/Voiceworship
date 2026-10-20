@@ -1,9 +1,9 @@
 import {
   createAccountType,
   signInType,
-  resetPasswordEmailType,
+  forgotPasswordType,
   OtpType,
-  resetPasswordType,
+  newPasswordType,
 } from "@/types/auth-types";
 
 export const validateCreateAccountData = (
@@ -80,8 +80,8 @@ export const validateSignInData = (signInData: signInType) => {
   return errors;
 };
 
-export const validateResetPasswordEmail = (
-  resetPasswordEmail: resetPasswordEmailType,
+export const validateForgotPasswordEmail = (
+  resetPasswordEmail: forgotPasswordType,
 ) => {
   const { email } = resetPasswordEmail;
 
@@ -114,7 +114,7 @@ export const validateOtpData = (otpData: OtpType) => {
   return errors;
 };
 
-export const validateResetPasswordData = (newPassword: resetPasswordType) => {
+export const validateNewPasswordData = (newPassword: newPasswordType) => {
   const { password, confirmPassword } = newPassword;
 
   const errors = {

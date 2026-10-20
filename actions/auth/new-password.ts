@@ -5,9 +5,9 @@ import jwt from "jsonwebtoken";
 import prisma from "@/lib/server/prisma";
 import bcrypt from "bcryptjs";
 import type { formState } from "@/types/auth-types";
-import { validateResetPasswordData } from "@/util/validations";
+import { validateNewPasswordData } from "@/util/validations";
 
-export async function resetPassword(
+export async function newPassword(
   previousState: formState,
   formData: FormData,
 ): Promise<formState> {
@@ -17,7 +17,7 @@ export async function resetPassword(
       confirmPassword: formData.get("confirmPassword") as string,
     };
 
-    const errors = validateResetPasswordData(newPassword);
+    const errors = validateNewPasswordData(newPassword);
 
     if (Object.values(errors).some((error) => error !== "")) {
       return {

@@ -19,3 +19,21 @@ export async function getSession(): Promise<Session | null> {
     return null;
   }
 }
+
+export async function hasResetEmail(): Promise<boolean> {
+  return !!(await cookies()).get("reset_email")?.value;
+}
+
+export async function hasValidResetToken(): Promise<boolean> {
+  const token = (await cookies()).get("reset_token")?.value;
+  if (!token) return false;
+
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET!) as {
+      purpose?: string;
+    };
+    return payload.purpose === "password-reset";
+  } catch {
+    return false;
+  }
+}

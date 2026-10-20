@@ -1,9 +1,9 @@
 "use client";
 
-import { validateResetPasswordData } from "@/util/validations";
+import { validateNewPasswordData } from "@/util/validations";
 import { formState } from "@/types/auth-types";
-import { resetPasswordType } from "@/types/auth-types";
-import { resetPassword } from "@/actions/auth/reset-password";
+import { newPasswordType } from "@/types/auth-types";
+import { newPassword } from "@/actions/auth/new-password";
 import { useActionState, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
@@ -13,11 +13,11 @@ import Button2 from "@/components/ui/button-2";
 
 import { LockKeyhole } from "lucide-react";
 
-export default function ResetPassword() {
+export default function NewPassword() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [serverErrors, setServerErrors] = useState<
-    Partial<Record<keyof resetPasswordType, string>>
+    Partial<Record<keyof newPasswordType, string>>
   >({});
 
   const [didEdit, setDidEdit] = useState({
@@ -25,7 +25,7 @@ export default function ResetPassword() {
     confirmPassword: false,
   });
 
-  const [NewPassword, setNewPassword] = useState<resetPasswordType>({
+  const [NewPassword, setNewPassword] = useState<newPasswordType>({
     password: "",
     confirmPassword: "",
   });
@@ -33,15 +33,15 @@ export default function ResetPassword() {
   const [formState, formAction, isPending] = useActionState<
     formState,
     FormData
-  >(resetPassword, {
+  >(newPassword, {
     status: undefined,
     message: "",
     errors: {},
   });
 
-  const validationErrors = validateResetPasswordData(NewPassword);
+  const validationErrors = validateNewPasswordData(NewPassword);
 
-  const getFieldError = (field: keyof resetPasswordType) => {
+  const getFieldError = (field: keyof newPasswordType) => {
     if (didEdit[field]) {
       return validationErrors[field];
     }
@@ -49,7 +49,7 @@ export default function ResetPassword() {
     return serverErrors[field];
   };
 
-  const inputBlurHandler = (identifier: keyof resetPasswordType) => {
+  const inputBlurHandler = (identifier: keyof newPasswordType) => {
     setDidEdit((prev) => ({
       ...prev,
       [identifier]: true,
@@ -57,7 +57,7 @@ export default function ResetPassword() {
   };
 
   const inputChangeHandler = (
-    inputIdentifier: keyof resetPasswordType,
+    inputIdentifier: keyof newPasswordType,
     value: string,
   ) => {
     setNewPassword((prev) => ({
@@ -77,7 +77,7 @@ export default function ResetPassword() {
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    const validationErrors = validateResetPasswordData(NewPassword);
+    const validationErrors = validateNewPasswordData(NewPassword);
 
     setDidEdit({
       password: true,

@@ -166,7 +166,7 @@ export default function SignIn() {
         </div>
 
         <Link
-          href="/auth?mode=reset-password-email-verification"
+          href="/auth?mode=forgot-password"
           className="text-primary cursor-pointer hover:text-primary-light"
         >
           Forgot Password?

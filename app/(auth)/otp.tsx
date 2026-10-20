@@ -159,7 +159,7 @@ export default function Otp() {
 
       setServerErrors({});
       toast.success(formState.message);
-      router.push("/auth?mode=reset-password");
+      router.push("/auth?mode=new-password");
     }
 
     if (formState.status === "error") {

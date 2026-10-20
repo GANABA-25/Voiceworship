@@ -1,76 +1,96 @@
-"use client";
+// "use client";
 
-import Image from "next/image";
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
-import SignIn from "../signin";
-import SignUp from "../signup";
-import Otp from "../otp";
-import ResetPasswordEmailVerification from "../reset-password-email-verification";
-import ResetPassword from "../resetPassword";
-import { useSearchParams } from "next/navigation";
-import Logo from "@/components/logo";
+// import Image from "next/image";
+// import { ArrowLeft } from "lucide-react";
+// import Link from "next/link";
+// import SignIn from "../signin";
+// import SignUp from "../signup";
+// import Otp from "../otp";
+// import FortPassword from "../forgot-password";
+// import NewPassword from "../new-password";
+// import { useSearchParams } from "next/navigation";
+// import Logo from "@/components/logo";
 
-export default function AuthPage() {
-  const searchParams = useSearchParams();
-  const mode = searchParams.get("mode");
+// export default function AuthPage() {
+//   const searchParams = useSearchParams();
+//   const mode = searchParams.get("mode");
 
-  const isSignin = mode === "signin";
-  const isSignup = mode === "signup";
-  const isResetPasswordEmailVerification =
-    mode === "reset-password-email-verification";
-  const otp = mode === "otp";
-  const isResetPassword = mode === "reset-password";
-  return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 min-h-dvh px-8 md:px-0">
-      <div className="mt-12 md:hidden">
-        <Logo />
-      </div>
-      <section className="hidden lg:flex flex-col justify-between items-start relative isolate min-h-[calc(100vh-56px)] overflow-hidden border-r border-border p-16">
-        <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute left-1/2 top-0 h-130 w-212.5 -translate-x-1/2 rounded-full bg-primary/15 blur-[140px]" />
-          <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-background" />
-        </div>
-        <Logo />
+//   const isSignin = mode === "signin";
+//   const isSignup = mode === "signup";
+//   const forgotPassword = mode === "forgot-password";
+//   const otp = mode === "otp";
+//   const newPassword = mode === "new-password";
 
-        <h1 className="font-black text-5xl leading-16 uppercase">
-          Your worship <br /> presentation,{" "}
-          <span className="text-primary">
-            controlled <br /> by your voice.
-          </span>
-        </h1>
-        <Image
-          src="https://res.cloudinary.com/dkjlpfa1q/image/upload/v1792072434/Screenshot_2026-10-15_14-01-08_tczx5r.png"
-          alt="VoiceWorship"
-          width={1920}
-          height={1080}
-          priority
-          unoptimized
-          className="block h-auto w-300 rounded-md object-cover border border-border"
-        />
+//   return (
+//     <div className="grid grid-cols-1 lg:grid-cols-2 min-h-dvh px-8 md:px-0">
+//       <div className="mt-12 md:hidden">
+//         <Logo />
+//       </div>
+//       <section className="hidden lg:flex flex-col justify-between items-start relative isolate min-h-[calc(100vh-56px)] overflow-hidden border-r border-border p-16">
+//         <div className="pointer-events-none absolute inset-0 -z-10">
+//           <div className="absolute left-1/2 top-0 h-130 w-212.5 -translate-x-1/2 rounded-full bg-primary/15 blur-[140px]" />
+//           <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-background" />
+//         </div>
+//         <Logo />
 
-        <p className="text-muted">© VoiceWorship</p>
-      </section>
+//         <h1 className="font-black text-5xl leading-16 uppercase">
+//           Your worship <br /> presentation,{" "}
+//           <span className="text-primary">
+//             controlled <br /> by your voice.
+//           </span>
+//         </h1>
+//         <Image
+//           src="https://res.cloudinary.com/dkjlpfa1q/image/upload/v1792072434/Screenshot_2026-10-15_14-01-08_tczx5r.png"
+//           alt="VoiceWorship"
+//           width={1920}
+//           height={1080}
+//           priority
+//           unoptimized
+//           className="block h-auto w-300 rounded-md object-cover border border-border"
+//         />
 
-      <section className="flex md:justify-center md:items-center">
-        <div className="w-full max-w-xl space-y-8">
-          <Link
-            href="/"
-            className="hidden md:flex items-center gap-2 text-muted w-40"
-          >
-            <ArrowLeft size={15} />
-            <p>Back to home</p>
-          </Link>
+//         <p className="text-muted">© VoiceWorship</p>
+//       </section>
 
-          {isSignin && <SignIn />}
-          {isSignup && <SignUp />}
-          {isResetPasswordEmailVerification && (
-            <ResetPasswordEmailVerification />
-          )}
-          {otp && <Otp />}
-          {isResetPassword && <ResetPassword />}
-        </div>
-      </section>
-    </div>
-  );
+//       <section className="flex md:justify-center md:items-center">
+//         <div className="w-full max-w-xl space-y-8">
+//           <Link
+//             href="/"
+//             className="hidden md:flex items-center gap-2 text-muted w-40"
+//           >
+//             <ArrowLeft size={15} />
+//             <p>Back to home</p>
+//           </Link>
+
+//           {isSignin && <SignIn />}
+//           {isSignup && <SignUp />}
+//           {forgotPassword && <FortPassword />}
+//           {otp && <Otp />}
+//           {newPassword && <NewPassword />}
+//         </div>
+//       </section>
+//     </div>
+//   );
+// }
+
+import { redirect } from "next/navigation";
+import { hasResetEmail, hasValidResetToken } from "@/lib/session";
+import AuthView from "./auth-view";
+
+export default async function AuthPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ mode?: string }>;
+}) {
+  const { mode = "signin" } = await searchParams;
+
+  if (mode === "otp" && !(await hasResetEmail())) {
+    redirect("/auth?mode=forgot-password");
+  }
+
+  if (mode === "new-password" && !(await hasValidResetToken())) {
+    redirect("/auth?mode=forgot-password");
+  }
+
+  return <AuthView mode={mode} />;
 }

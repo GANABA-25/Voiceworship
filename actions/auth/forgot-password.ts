@@ -6,9 +6,9 @@ import prisma from "@/lib/server/prisma";
 import { sendEmail } from "@/services/email.service";
 import type { formState } from "@/types/auth-types";
 import { passwordResetEmailTemplate } from "@/services/templates/passwordReset";
-import { validateResetPasswordEmail } from "@/util/validations";
+import { validateForgotPasswordEmail } from "@/util/validations";
 
-export async function resetPasswordEmailVerification(
+export async function forgotPassword(
   previousState: formState,
   formData: FormData,
 ): Promise<formState> {
@@ -16,7 +16,7 @@ export async function resetPasswordEmailVerification(
     const resetPasswordEmail = {
       email: formData.get("email") as string,
     };
-    const errors = validateResetPasswordEmail(resetPasswordEmail);
+    const errors = validateForgotPasswordEmail(resetPasswordEmail);
 
     if (Object.values(errors).some((error) => error !== "")) {
       return {

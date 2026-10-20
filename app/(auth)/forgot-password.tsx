@@ -3,9 +3,9 @@
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { useActionState, useState, useEffect } from "react";
-import { validateResetPasswordEmail } from "@/util/validations";
-import { resetPasswordEmailVerification } from "@/actions/auth/reset-password-email-verification";
-import { resetPasswordEmailType } from "@/types/auth-types";
+import { validateForgotPasswordEmail } from "@/util/validations";
+import { forgotPassword } from "@/actions/auth/forgot-password";
+import { forgotPasswordType } from "@/types/auth-types";
 import { formState } from "@/types/auth-types";
 import { Mail, MoveLeft } from "lucide-react";
 import Link from "next/link";
@@ -13,32 +13,32 @@ import Link from "next/link";
 import Input from "@/components/input";
 import Button2 from "@/components/ui/button-2";
 
-export default function ResetPasswordEmailVerification() {
+export default function ForgotPassword() {
   const router = useRouter();
   const [serverErrors, setServerErrors] = useState<
-    Partial<Record<keyof resetPasswordEmailType, string>>
+    Partial<Record<keyof forgotPasswordType, string>>
   >({});
   const [didEdit, setDidEdit] = useState({
     email: false,
   });
 
   const [resetPasswordData, setResetPasswordData] =
-    useState<resetPasswordEmailType>({
+    useState<forgotPasswordType>({
       email: "",
     });
 
   const [formState, formAction, isPending] = useActionState<
     formState,
     FormData
-  >(resetPasswordEmailVerification, {
+  >(forgotPassword, {
     status: undefined,
     message: "",
     errors: {},
   });
 
-  const validationErrors = validateResetPasswordEmail(resetPasswordData);
+  const validationErrors = validateForgotPasswordEmail(resetPasswordData);
 
-  const getFieldError = (field: keyof resetPasswordEmailType) => {
+  const getFieldError = (field: keyof forgotPasswordType) => {
     if (didEdit[field]) {
       return validationErrors[field];
     }
@@ -46,7 +46,7 @@ export default function ResetPasswordEmailVerification() {
     return serverErrors[field];
   };
 
-  const inputBlurHandler = (identifier: keyof resetPasswordEmailType) => {
+  const inputBlurHandler = (identifier: keyof forgotPasswordType) => {
     setDidEdit((prev) => ({
       ...prev,
       [identifier]: true,
@@ -54,7 +54,7 @@ export default function ResetPasswordEmailVerification() {
   };
 
   const inputChangeHandler = (
-    inputIdentifier: keyof resetPasswordEmailType,
+    inputIdentifier: keyof forgotPasswordType,
     value: string,
   ) => {
     setResetPasswordData((prev) => ({
@@ -74,7 +74,7 @@ export default function ResetPasswordEmailVerification() {
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    const validationErrors = validateResetPasswordEmail(resetPasswordData);
+    const validationErrors = validateForgotPasswordEmail(resetPasswordData);
 
     setDidEdit({
       email: true,
