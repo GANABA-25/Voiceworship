@@ -2,10 +2,8 @@
 
 import {
   createContext,
-  useCallback,
   useContext,
   useEffect,
-  useMemo,
   useRef,
   useState,
   type ReactNode,
@@ -80,6 +78,7 @@ export function PresentationProvider({ children }: PresentationProviderProps) {
     volume: 1,
     muted: false,
   });
+
   const outputStateRef = useRef({
     liveSlide,
     isOnAir,
@@ -117,7 +116,7 @@ export function PresentationProvider({ children }: PresentationProviderProps) {
     channelRef.current?.postMessage({ type: "state", state });
   }, [liveSlide, isOnAir, isBlocked, videoPlayback]);
 
-  const openOutput = useCallback(() => {
+  const openOutput = () => {
     if (outputWindowRef.current && !outputWindowRef.current.closed) {
       outputWindowRef.current.focus();
       return;
@@ -128,9 +127,9 @@ export function PresentationProvider({ children }: PresentationProviderProps) {
       "output-window",
       "popup,width=1280,height=720",
     );
-  }, []);
+  };
 
-  const addLiveSlideToHistory = useCallback((slide: PresentationSlide) => {
+  const addLiveSlideToHistory = (slide: PresentationSlide) => {
     if (slide.type !== "bible") {
       return;
     }
@@ -150,59 +149,46 @@ export function PresentationProvider({ children }: PresentationProviderProps) {
         ...currentHistory,
       ];
     });
-  }, []);
+  };
 
-  const goLive = useCallback(
-    (item: PresentationSlide) => {
-      setLiveSlide(item);
-      addLiveSlideToHistory(item);
+  const goLive = (item: PresentationSlide) => {
+    setLiveSlide(item);
+    addLiveSlideToHistory(item);
 
-      const index = queue.findIndex((slide) => slide.id === item.id);
-
-      if (index !== -1) {
-        setCurrentIndex(index);
-      }
-    },
-    [queue, addLiveSlideToHistory],
-  );
-
-  const goLivePreview = useCallback(() => {
-    if (!previewSlide) {
-      return;
-    }
-
-    setLiveSlide(previewSlide);
-    addLiveSlideToHistory(previewSlide);
-
-    const index = queue.findIndex((slide) => slide.id === previewSlide.id);
+    const index = queue.findIndex((slide) => slide.id === item.id);
 
     if (index !== -1) {
       setCurrentIndex(index);
     }
-  }, [previewSlide, queue, addLiveSlideToHistory]);
+  };
 
-  const preview = useCallback((item: PresentationSlide) => {
+  const goLivePreview = () => {
+    if (!previewSlide) {
+      return;
+    }
+
+    goLive(previewSlide);
+  };
+
+  const preview = (item: PresentationSlide) => {
     setPreviewSlide(item);
-  }, []);
+  };
 
-  const presentSlides = useCallback(
-    (slides: PresentationSlide[]) => {
-      if (slides.length === 0) {
-        return;
-      }
+  const presentSlides = (slides: PresentationSlide[]) => {
+    if (slides.length === 0) {
+      return;
+    }
 
-      const firstSlide = slides[0];
+    const firstSlide = slides[0];
 
-      setQueue(slides);
-      setCurrentIndex(0);
-      setPreviewSlide(firstSlide);
-      setLiveSlide(firstSlide);
-      addLiveSlideToHistory(firstSlide);
-    },
-    [addLiveSlideToHistory],
-  );
+    setQueue(slides);
+    setCurrentIndex(0);
+    setPreviewSlide(firstSlide);
+    setLiveSlide(firstSlide);
+    addLiveSlideToHistory(firstSlide);
+  };
 
-  const addToQueue = useCallback((item: PresentationSlide) => {
+  const addToQueue = (item: PresentationSlide) => {
     setQueue((currentQueue) => {
       const exists = currentQueue.some((slide) => slide.id === item.id);
 
@@ -212,130 +198,81 @@ export function PresentationProvider({ children }: PresentationProviderProps) {
 
       return [...currentQueue, item];
     });
-  }, []);
+  };
 
-  const removeFromQueue = useCallback((id: string) => {
+  const removeFromQueue = (id: string) => {
     setQueue((currentQueue) => currentQueue.filter((slide) => slide.id !== id));
-  }, []);
+  };
 
-  const clearQueue = useCallback(() => {
+  const clearQueue = () => {
     setQueue([]);
     setCurrentIndex(-1);
-  }, []);
+  };
 
-  const clearPreview = useCallback(() => {
+  const clearPreview = () => {
     setPreviewSlide(null);
-  }, []);
+  };
 
-  const clearLive = useCallback(() => {
+  const clearLive = () => {
     setLiveSlide(null);
-  }, []);
+  };
 
-  const previousSlide = useCallback(() => {
-    if (queue.length === 0) {
+  const goToIndex = (index: number) => {
+    const slide = queue[index];
+
+    if (!slide) {
       return;
     }
 
-    const previousIndex = currentIndex - 1;
-
-    if (previousIndex < 0) {
-      return;
-    }
-
-    const slide = queue[previousIndex];
-
-    setCurrentIndex(previousIndex);
+    setCurrentIndex(index);
     setLiveSlide(slide);
     setPreviewSlide(slide);
     addLiveSlideToHistory(slide);
-  }, [queue, currentIndex, addLiveSlideToHistory]);
+  };
 
-  const nextSlide = useCallback(() => {
-    if (queue.length === 0) {
-      return;
-    }
+  const previousSlide = () => goToIndex(currentIndex - 1);
 
-    const nextIndex = currentIndex + 1;
+  const nextSlide = () => goToIndex(currentIndex + 1);
 
-    if (nextIndex >= queue.length) {
-      return;
-    }
-
-    const slide = queue[nextIndex];
-
-    setCurrentIndex(nextIndex);
-    setLiveSlide(slide);
-    setPreviewSlide(slide);
-    addLiveSlideToHistory(slide);
-  }, [queue, currentIndex, addLiveSlideToHistory]);
-
-  const toggleBlock = useCallback(() => {
+  const toggleBlock = () => {
     setIsBlocked((current) => !current);
-  }, []);
+  };
 
-  const toggleOnAir = useCallback(() => {
+  const toggleOnAir = () => {
     setIsOnAir((current) => !current);
-  }, []);
+  };
 
-  const clearHistory = useCallback(() => {
+  const clearHistory = () => {
     setHistory([]);
-  }, []);
+  };
 
-  const value = useMemo(
-    () => ({
-      liveSlide,
-      previewSlide,
-      queue,
-      currentIndex,
-      isOnAir,
-      isBlocked,
-      setPreviewSlide,
-      goLive,
-      goLivePreview,
-      preview,
-      presentSlides,
-      addToQueue,
-      removeFromQueue,
-      clearQueue,
-      clearPreview,
-      clearLive,
-      previousSlide,
-      nextSlide,
-      toggleBlock,
-      toggleOnAir,
-      history,
-      clearHistory,
-      openOutput,
-      videoPlayback,
-      setVideoPlayback,
-    }),
-    [
-      liveSlide,
-      previewSlide,
-      queue,
-      currentIndex,
-      isOnAir,
-      isBlocked,
-      goLive,
-      goLivePreview,
-      preview,
-      presentSlides,
-      addToQueue,
-      removeFromQueue,
-      clearQueue,
-      clearPreview,
-      clearLive,
-      previousSlide,
-      nextSlide,
-      toggleBlock,
-      toggleOnAir,
-      history,
-      clearHistory,
-      openOutput,
-      videoPlayback,
-      setVideoPlayback,
-    ],
-  );
+  const value = {
+    liveSlide,
+    previewSlide,
+    queue,
+    currentIndex,
+    isOnAir,
+    isBlocked,
+    setPreviewSlide,
+    goLive,
+    goLivePreview,
+    preview,
+    presentSlides,
+    addToQueue,
+    removeFromQueue,
+    clearQueue,
+    clearPreview,
+    clearLive,
+    previousSlide,
+    nextSlide,
+    toggleBlock,
+    toggleOnAir,
+    history,
+    clearHistory,
+    openOutput,
+    videoPlayback,
+    setVideoPlayback,
+  };
 
   return (
     <PresentationContext.Provider value={value}>

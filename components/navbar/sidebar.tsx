@@ -1,13 +1,16 @@
 "use client";
+
 import { usePathname } from "next/navigation";
 import ListItem from "./list-item";
 import { items, serviceResources } from "@/data/navBar";
 import ServiceResources from "./service-resources";
 import Button from "@/components/ui/button";
+import { useAuth } from "@/store/auth-context";
 
 import { Plus } from "lucide-react";
 
 export default function SideBar() {
+  const { logout } = useAuth();
   const pathname = usePathname();
 
   return (
@@ -43,6 +46,10 @@ export default function SideBar() {
             />
           ))}
         </div>
+      </div>
+
+      <div className="p-4">
+        <Button onClick={logout} label="log out" />
       </div>
     </aside>
   );

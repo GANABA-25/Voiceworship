@@ -1,11 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowLeft, Mail, LockKeyhole, Plus } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import SignIn from "./signin";
-import SignUp from "./signup";
-import ResetPassword from "./reset-password";
+import SignIn from "../signin";
+import SignUp from "../signup";
+import ResetPassword from "../reset-password";
 import { useSearchParams } from "next/navigation";
 import Logo from "@/components/logo";
 

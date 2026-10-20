@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useState,
-  useMemo,
-  useCallback,
-  type ReactNode,
-} from "react";
+import { createContext, useContext, useState, type ReactNode } from "react";
 
 import { biblePassage, bibleReference } from "@/types/bible";
 
@@ -33,29 +26,26 @@ export function BibleProvider({ children }: BibleProviderProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const searchedPassage = useCallback((data: biblePassage) => {
+  const searchedPassage = (data: biblePassage) => {
     setPassage(data);
     setError(null);
-  }, []);
+  };
 
-  const clearPassage = useCallback(() => {
+  const clearPassage = () => {
     setPassage(null);
     setReference(null);
     setError(null);
-  }, []);
+  };
 
-  const value = useMemo(
-    () => ({
-      passage,
-      reference,
-      isLoading,
-      error,
-      searchedPassage,
-      setPassage,
-      clearPassage,
-    }),
-    [passage, reference, isLoading, error, searchedPassage, clearPassage],
-  );
+  const value = {
+    passage,
+    reference,
+    isLoading,
+    error,
+    searchedPassage,
+    setPassage,
+    clearPassage,
+  };
 
   return (
     <BibleContext.Provider value={value}>{children}</BibleContext.Provider>

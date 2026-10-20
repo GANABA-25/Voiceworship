@@ -1,22 +1,15 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useState,
-  useMemo,
-  useCallback,
-  type ReactNode,
-} from "react";
+import { createContext, useContext, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
-
+import { signOut } from "@/actions/signout";
 import { SignInResponse } from "@/types/auth-types";
 
 type AuthContextTypes = {
   userData: SignInResponse | null;
   isAuthenticated: boolean;
   login: (user: SignInResponse) => void;
-  logout: () => void;
+  logout: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextTypes | undefined>(undefined);
@@ -29,30 +22,28 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const router = useRouter();
   const [userData, setUserData] = useState<SignInResponse | null>(null);
 
-  const login = useCallback((user: SignInResponse) => {
+  const login = (user: SignInResponse) => {
     setUserData(user);
-  }, []);
+  };
 
-  const logout = useCallback(async () => {
+  const logout = async () => {
     try {
-      //   await logOut();
+      await signOut();
     } catch (error) {
       console.error(error);
     } finally {
       setUserData(null);
-      router.replace("/");
+      router.replace("/auth?mode=signin");
+      router.refresh();
     }
-  }, [router]);
+  };
 
-  const value = useMemo(
-    () => ({
-      userData,
-      isAuthenticated: !!userData,
-      login,
-      logout,
-    }),
-    [userData, login, logout],
-  );
+  const value = {
+    userData,
+    isAuthenticated: !!userData,
+    login,
+    logout,
+  };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
