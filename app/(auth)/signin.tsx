@@ -94,7 +94,11 @@ export default function SignIn() {
   useEffect(() => {
     if (!formState?.message) return;
 
-    if (formState.status === "success" && formState.profile) {
+    if (
+      formState.status === "success" &&
+      formState.profile &&
+      formState.redirectTo
+    ) {
       setSignIntData({
         email: "",
         password: "",
@@ -107,10 +111,9 @@ export default function SignIn() {
 
       setServerErrors({});
 
-      toast.success(formState.message);
-
       login(formState.profile);
       router.replace("/dashboard");
+      // router.push(formState.redirectTo);
       router.refresh();
     }
 

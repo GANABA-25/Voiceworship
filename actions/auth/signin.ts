@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import type { formState } from "@/types/auth-types";
 import { validateSignInData } from "@/util/validations";
+import { getSubscriptionAccess } from "@/lib/server/subscription";
 
 export async function signIn(
   previousState: formState,
@@ -80,9 +81,12 @@ export async function signIn(
       maxAge: 60 * 60 * 4,
     });
 
+    const { hasAccess } = await getSubscriptionAccess(user.id);
+
     return {
       message: "Sign in successful",
       status: "success",
+      redirectTo: hasAccess ? "/dashboard" : "/pricing",
       profile: {
         firstName: user.firstName,
         lastName: user.lastName,

@@ -36,6 +36,7 @@ export type formState = {
     email: string;
     organizationName: string;
   };
+  redirectTo?: string;
 };
 
 export type SignInResponse = {
