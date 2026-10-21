@@ -26,7 +26,7 @@ export default function Button2({
     <button
       type={type}
       onClick={onClick}
-      className={`flex cursor-pointer items-center justify-center gap-2 rounded-md border border-border ${bg ?? "bg-border"} : " bg-border hover:bg-hover text-text"} p-2 px-4 shadow-xs transition-all duration-150 ease-out hover:-translate-y-0.5  hover:shadow-sm active:translate-y-0 active:scale-95 active:shadow-none`}
+      className={`flex  items-center justify-center gap-2 rounded-md border border-border ${bg ?? "bg-border cursor-pointer"} : " bg-border hover:bg-hover text-text"} p-2 px-4 shadow-xs transition-all duration-150 ease-out hover:-translate-y-0.5  hover:shadow-sm active:translate-y-0 active:scale-95 active:shadow-none`}
     >
       {isLoading ? (
         <img

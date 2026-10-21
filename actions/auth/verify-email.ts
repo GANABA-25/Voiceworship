@@ -3,6 +3,8 @@
 import { createHash } from "node:crypto";
 import prisma from "@/lib/server/prisma";
 import type { formState } from "@/types/auth-types";
+import { sendEmail } from "@/services/email.service";
+import { welcomeEmailTemplate } from "@/services/templates/welcome";
 
 export async function verifyEmail(token: string): Promise<formState> {
   try {
@@ -59,6 +61,16 @@ export async function verifyEmail(token: string): Promise<formState> {
         verificationToken: null,
         verificationTokenExpiresAt: null,
       },
+    });
+
+    await sendEmail({
+      to: organization.email,
+      subject: "VoiceWorship Account Created",
+      html: welcomeEmailTemplate({
+        firstName: organization.firstName,
+        organizationName: organization.organizationName,
+        signInUrl: `${process.env.CLIENT_URL}/auth?mode=signin`,
+      }),
     });
 
     return {

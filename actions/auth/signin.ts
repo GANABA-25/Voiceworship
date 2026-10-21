@@ -39,6 +39,14 @@ export async function signIn(
     };
   }
 
+  if (!user.emailVerifiedAt) {
+    return {
+      status: "error",
+      message:
+        "Please verify your email before signing in. Check your inbox for the verification link.",
+    };
+  }
+
   const passwordMatch = await bcrypt.compare(
     signInData.password,
     user.passwordHash,

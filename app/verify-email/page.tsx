@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -89,6 +90,7 @@ function StatusIcon({
 }
 
 export default function VerifyEmailPage() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
@@ -116,6 +118,7 @@ export default function VerifyEmailPage() {
         if (result.status === "success") {
           setStatus("success");
           toast.success(result.message ?? "Your email has been verified.");
+          router.replace("/auth?mode=signin");
         } else {
           setStatus("error");
           setMessage(result.message ?? null);

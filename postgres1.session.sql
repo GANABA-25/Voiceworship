@@ -1,4 +1,4 @@
 -- CREATE DATABASE voiceworship;
 
 DELETE FROM "Organization"
-WHERE id = 'cmvftr9nq00033suug5a5yg6o';
+WHERE id = 'cmvhch36u0005mguuj9icnon2';

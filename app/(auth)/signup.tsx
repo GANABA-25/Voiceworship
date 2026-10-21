@@ -10,10 +10,12 @@ import { toast } from "react-toastify";
 import Link from "next/link";
 import Input from "@/components/input";
 import Button2 from "@/components/ui/button-2";
+import VerifyEmailNotice from "./verify-email-notice";
 
 import { Mail, LockKeyhole, FileSpreadsheet } from "lucide-react";
 
 export default function SignUp() {
+  const [submittedEmail, setSubmittedEmail] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [serverErrors, setServerErrors] = useState<
@@ -110,6 +112,7 @@ export default function SignUp() {
     if (!formState?.message) return;
 
     if (formState.status === "success") {
+      setSubmittedEmail(createAccountData.email);
       setCreateAccountData({
         firstName: "",
         lastName: "",
@@ -131,15 +134,17 @@ export default function SignUp() {
       });
 
       setServerErrors({});
-
       toast.success(formState.message);
     }
 
     if (formState.status === "error") {
       setServerErrors(formState.errors || {});
-      toast.error(formState.message);
     }
   }, [formState]);
+
+  if (submittedEmail) {
+    return <VerifyEmailNotice email={submittedEmail} />;
+  }
 
   return (
     <div className="space-y-6 my-8 md:my-0">
