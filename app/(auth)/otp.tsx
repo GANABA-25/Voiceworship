@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { verifyOtp } from "@/actions/auth/verify-otp";
 import { validateOtpData } from "@/util/validations";
+import { resendOtp } from "@/actions/auth/resend-otp";
 
 import { useActionState, useState, useEffect } from "react";
 import { OtpType } from "@/types/auth-types";
@@ -25,6 +26,7 @@ const formatTime = (totalSeconds: number) => {
 };
 
 export default function Otp() {
+  const [isResending, setIsResending] = useState(false);
   const router = useRouter();
   const [serverErrors, setServerErrors] = useState<
     Partial<Record<keyof OtpType, string>>
@@ -126,25 +128,6 @@ export default function Otp() {
     }
   };
 
-  const handleResend = async () => {
-    if (!canResend) return;
-
-    try {
-      // TODO: call your resend server action here, e.g. await resendOtp();
-      // It needs the user's email or phone, so pass it in via props or
-      // read it from a short-lived cookie set by the reset-password action.
-
-      setOtpData({ otp: "" });
-      setDidEdit({ otp: false });
-      setServerErrors({});
-      setTimerKey((prev) => prev + 1); // restarts the countdown
-      toast.success("A new verification code has been sent.");
-    } catch (error) {
-      console.error(error);
-      toast.error("We couldn't resend the code. Please try again.");
-    }
-  };
-
   useEffect(() => {
     if (!formState?.message) return;
 
@@ -167,6 +150,25 @@ export default function Otp() {
       toast.error(formState.message);
     }
   }, [formState]);
+
+  const handleResend = async () => {
+    if (!canResend || isResending) return;
+    setIsResending(true);
+
+    const result = await resendOtp();
+
+    if (result.status === "success") {
+      setOtpData({ otp: "" });
+      setDidEdit({ otp: false });
+      setServerErrors({});
+      setTimerKey((prev) => prev + 1);
+      toast.success(result.message);
+    } else {
+      toast.error(result.message);
+    }
+
+    setIsResending(false);
+  };
 
   return (
     <div className="space-y-6 my-8 md:my-0">
@@ -219,20 +221,19 @@ export default function Otp() {
         )}
       </div>
 
-      <p className="text-muted text-center">
-        Didn't receive the code?{" "}
+      <p className="text-muted text-center">Didn't receive the code? </p>
+
+      <div className="flex justify-center items-center">
         {canResend ? (
-          <button
-            type="button"
+          <Button2
+            isLoading={isResending}
             onClick={handleResend}
-            className="text-primary cursor-pointer hover:text-primary-light"
-          >
-            Resend
-          </button>
+            label="Resend"
+          />
         ) : (
           <span className="text-muted tabular-nums">Resend in {resendIn}s</span>
         )}
-      </p>
+      </div>
     </div>
   );
 }
