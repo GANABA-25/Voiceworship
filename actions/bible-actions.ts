@@ -69,10 +69,11 @@ async function fetchBiblePassage(
         })),
       },
     };
-  } catch {
+  } catch (error) {
     return {
       success: false,
-      message: "Failed to fetch Bible passage.",
+      message:
+        "An error occurred while processing your request. Please try again later.",
     };
   }
 }
@@ -81,17 +82,26 @@ export async function getBiblePassage(
   _prevState: BiblePassageState,
   formData: FormData,
 ): Promise<BiblePassageState> {
-  const searchWord = String(formData.get("searchWord") ?? "").trim();
-  const reference = parseBibleReference(searchWord);
+  try {
+    const searchWord = String(formData.get("searchWord") ?? "").trim();
+    const reference = parseBibleReference(searchWord);
 
-  if (!reference) {
+    if (!reference) {
+      return {
+        success: false,
+        message: "Invalid Bible reference.",
+      };
+    }
+
+    return fetchBiblePassage(reference);
+  } catch (error) {
+    console.error("[setNewPassword] failed:", error);
     return {
       success: false,
-      message: "Invalid Bible reference.",
+      message:
+        "An error occurred while processing your request. Please try again later.",
     };
   }
-
-  return fetchBiblePassage(reference);
 }
 
 export async function getBiblePassageByReference(

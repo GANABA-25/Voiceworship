@@ -156,15 +156,7 @@ export default function SignIn() {
         hasError={getFieldError("password")}
       />
 
-      <div className="flex justify-between items-center ">
-        <div className="flex items-center gap-2">
-          <input
-            type="select"
-            className="w-5 h-5 border border-border bg-white"
-          />
-          <p className="text-muted text-sm">Remember me</p>
-        </div>
-
+      <div className="flex justify-end items-center ">
         <Link
           href="/auth?mode=forgot-password"
           className="text-primary cursor-pointer hover:text-primary-light"

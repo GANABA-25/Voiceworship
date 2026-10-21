@@ -1,7 +1,8 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Get a free hosted Postgres database in seconds: `npx create-db`
+ // This is your Prisma schema file,
+ // learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+ // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
   provider = "prisma-client"
@@ -20,7 +21,12 @@ enum SubscriptionStatus {
   EXPIRED
 }
 
-model Organization {
+enum PaymentProvider {
+  PAYSTACK
+  HUBTEL
+}
+
+model User {
   id String @id @default(cuid())
   firstName String
   lastName String
@@ -31,7 +37,7 @@ model Organization {
   emailVerifiedAt DateTime?
   passwordResetAt DateTime?
   subscription Subscription?
-  verificationToken String?
+  verificationToken String? @unique
   verificationTokenExpiresAt DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -39,22 +45,22 @@ model Organization {
 
 model Subscription {
   id String @id @default(cuid())
-  organizationId String @unique
-  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId String @unique
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   plan String
   status SubscriptionStatus @default(PENDING)
-  paystackCustomerCode String?
-  paystackSubscriptionCode String?
+  paymentProvider PaymentProvider
+  providerCustomerId String?
+  providerSubscriptionId String?
   currentPeriodStart DateTime?
   currentPeriodEnd DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-
 model Translation {
   id Int @id @default(autoincrement())
   name String
-  abbreviation String   @unique
+  abbreviation String @unique
   language String
   books Book[]
   createdAt DateTime @default(now())

@@ -36,7 +36,7 @@ export async function verifyOtp(
       };
     }
 
-    const user = await prisma.organization.findUnique({ where: { email } });
+    const user = await prisma.user.findUnique({ where: { email } });
 
     if (!user) {
       return {

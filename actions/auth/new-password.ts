@@ -52,7 +52,7 @@ export async function newPassword(
 
     const passwordHash = await bcrypt.hash(newPassword.password, 12);
 
-    await prisma.organization.update({
+    await prisma.user.update({
       where: { id: payload.id },
       data: { passwordHash },
     });
@@ -67,7 +67,8 @@ export async function newPassword(
     console.error("[setNewPassword] failed:", error);
     return {
       status: "error",
-      message: "We couldn't update your password. Please try again.",
+      message:
+        "An error occurred while processing your request. Please try again later.",
     };
   }
 }

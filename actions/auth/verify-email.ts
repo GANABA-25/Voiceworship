@@ -18,13 +18,13 @@ export async function verifyEmail(token: string): Promise<formState> {
 
     const hashedToken = createHash("sha256").update(token).digest("hex");
 
-    const organization = await prisma.organization.findFirst({
+    const user = await prisma.user.findFirst({
       where: {
         verificationToken: hashedToken,
       },
     });
 
-    if (!organization) {
+    if (!user) {
       return {
         status: "error",
         message: "This verification link is invalid or has already been used.",
@@ -32,7 +32,7 @@ export async function verifyEmail(token: string): Promise<formState> {
       };
     }
 
-    if (organization.emailVerifiedAt) {
+    if (user.emailVerifiedAt) {
       return {
         status: "success",
         message: "Your email has already been verified.",
@@ -41,8 +41,8 @@ export async function verifyEmail(token: string): Promise<formState> {
     }
 
     if (
-      !organization.verificationTokenExpiresAt ||
-      organization.verificationTokenExpiresAt < new Date()
+      !user.verificationTokenExpiresAt ||
+      user.verificationTokenExpiresAt < new Date()
     ) {
       return {
         status: "error",
@@ -52,9 +52,9 @@ export async function verifyEmail(token: string): Promise<formState> {
       };
     }
 
-    await prisma.organization.update({
+    await prisma.user.update({
       where: {
-        id: organization.id,
+        id: user.id,
       },
       data: {
         emailVerifiedAt: new Date(),
@@ -64,11 +64,11 @@ export async function verifyEmail(token: string): Promise<formState> {
     });
 
     await sendEmail({
-      to: organization.email,
+      to: user.email,
       subject: "VoiceWorship Account Created",
       html: welcomeEmailTemplate({
-        firstName: organization.firstName,
-        organizationName: organization.organizationName,
+        firstName: user.firstName,
+        organizationName: user.organizationName,
         signInUrl: `${process.env.CLIENT_URL}/auth?mode=signin`,
       }),
     });
@@ -76,15 +76,13 @@ export async function verifyEmail(token: string): Promise<formState> {
     return {
       status: "success",
       message: "Your email has been verified successfully.",
-      errors: {},
     };
   } catch (error) {
-    console.error("Email verification failed:", error);
-
+    console.error("[setNewPassword] failed:", error);
     return {
       status: "error",
-      message: "Something went wrong. Please try again later.",
-      errors: {},
+      message:
+        "An error occurred while processing your request. Please try again later.",
     };
   }
 }

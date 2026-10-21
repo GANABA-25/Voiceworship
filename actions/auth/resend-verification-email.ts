@@ -17,11 +17,11 @@ export async function resendVerificationEmail(
       return { status: "error", message: "Invalid request." };
     }
 
-    const organization = await prisma.organization.findUnique({
+    const user = await prisma.user.findUnique({
       where: { email },
     });
 
-    if (!organization) {
+    if (!user) {
       return {
         status: "error",
         message:
@@ -29,16 +29,16 @@ export async function resendVerificationEmail(
       };
     }
 
-    if (organization.emailVerifiedAt) {
+    if (user.emailVerifiedAt) {
       return {
         status: "success",
         message: "Your email address is already verified. You're all set!",
       };
     }
 
-    if (organization.verificationTokenExpiresAt) {
+    if (user.verificationTokenExpiresAt) {
       const lastSentAt =
-        organization.verificationTokenExpiresAt.getTime() - TOKEN_TTL_MS;
+        user.verificationTokenExpiresAt.getTime() - TOKEN_TTL_MS;
 
       if (Date.now() - lastSentAt < COOLDOWN_MS) {
         return {
@@ -52,8 +52,8 @@ export async function resendVerificationEmail(
 
     const hashedToken = createHash("sha256").update(rawToken).digest("hex");
 
-    await prisma.organization.update({
-      where: { id: organization.id },
+    await prisma.user.update({
+      where: { id: user.id },
       data: {
         verificationToken: hashedToken,
         verificationTokenExpiresAt: new Date(Date.now() + TOKEN_TTL_MS),
@@ -63,7 +63,7 @@ export async function resendVerificationEmail(
     const verifyUrl = `${process.env.CLIENT_URL}/verify-email?token=${rawToken}`;
 
     await sendEmail({
-      to: organization.email,
+      to: user.email,
       subject: "Verify your email - VoiceWorship",
       html: verifyEmailTemplate(verifyUrl),
     });
@@ -74,10 +74,11 @@ export async function resendVerificationEmail(
         "A new verification email has been sent. Please check your inbox and spam folder.",
     };
   } catch (error) {
-    console.error("[resendVerificationEmail] failed:", error);
+    console.error("[setNewPassword] failed:", error);
     return {
       status: "error",
-      message: "We couldn't resend the email. Please try again later.",
+      message:
+        "An error occurred while processing your request. Please try again later.",
     };
   }
 }

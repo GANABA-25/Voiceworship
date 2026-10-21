@@ -26,7 +26,7 @@ export async function forgotPassword(
       };
     }
 
-    const user = await prisma.organization.findUnique({
+    const user = await prisma.user.findUnique({
       where: {
         email: resetPasswordEmail.email,
       },
