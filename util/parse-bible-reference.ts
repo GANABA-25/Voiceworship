@@ -1,6 +1,6 @@
-import { bibleReference } from "@/types/bible";
+import { parsedReference } from "@/types/bible";
 
-export function parseBibleReference(input: string): bibleReference | null {
+export function parseBibleReference(input: string): parsedReference | null {
   const value = input
     .trim()
     .replace(/^(open|show|display|read)\s+/i, "")

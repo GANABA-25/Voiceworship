@@ -1,22 +1,43 @@
 "use client";
 
+import { useState } from "react";
 import { useBible } from "@/store/bible-context";
 
 import SearchInput from "@/components/search-Input";
 import BibleVerseCard from "@/components/bible/bible-verse-card";
 import EmptyState from "@/components/empty-state";
 import BiblePassageFilters from "@/features/bible/components/bible-passage-filters";
+import SelectInput from "@/components/select-input";
 
 import { Dot } from "lucide-react";
 
 export default function page() {
+  const [translation, setTranslation] = useState("kjv");
   const { passage } = useBible();
 
   return (
     <section className="space-y-4 min-h-0 overflow-y-auto scrollbar-yellow ">
       <header className="flex items-center justify-between border-b border-border bg-card p-4">
-        <SearchInput placeHolder="Enter a Bible reference, e.g. Genesis 1:2-5" />
-        <BiblePassageFilters />
+        <SearchInput
+          translation={translation}
+          placeHolder="Enter a Bible reference, e.g. Genesis 1:2-5"
+        />
+        <div className="flex items-center gap-2">
+          <SelectInput
+            name="TRANSLATION"
+            label="Version"
+            value={translation}
+            options={[
+              { value: "KJV" },
+              { value: "NIV" },
+              { value: "ESV" },
+              { value: "NKJ" },
+              { value: "NLT" },
+            ]}
+            onChange={setTranslation}
+          />
+          <BiblePassageFilters translation={translation} />
+        </div>
       </header>
       <main className="space-y-4 m-4">
         {!passage ? (

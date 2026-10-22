@@ -14,11 +14,11 @@ export default async function DashboardLayout({
     redirect("/auth?mode=signin");
   }
 
-  const { hasAccess } = await getSubscriptionAccess(session.id);
+  // const { hasAccess } = await getSubscriptionAccess(session.id);
 
-  if (!hasAccess) {
-    redirect("/pricing");
-  }
+  // if (!hasAccess) {
+  //   redirect("/pricing");
+  // }
 
   return <DashboardShell>{children}</DashboardShell>;
 }

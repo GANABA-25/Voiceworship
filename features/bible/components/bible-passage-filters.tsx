@@ -1,30 +1,27 @@
 "use client";
+
 import { useState } from "react";
 
 import SelectInput from "@/components/select-input";
 
-export default function BiblePassageFilters() {
-  const [translation, setTranslation] = useState("kjv");
-  return (
-    <div className="flex items-center gap-4">
-      <SelectInput
-        name="TRANSLATION"
-        label="Version"
-        value={translation}
-        options={[
-          { value: "KJV" },
-          { value: "NIV" },
-          { value: "ESV" },
-          { value: "NKJ" },
-          { value: "NLT" },
-        ]}
-        onChange={setTranslation}
-      />
+type biblePassageFilterProps = {
+  translation?: string;
+};
 
+export default function BiblePassageFilters({
+  translation,
+}: biblePassageFilterProps) {
+  const [filterPassage, setFilterPassage] = useState({
+    book: "",
+    chapter: "",
+    verse: "",
+  });
+  return (
+    <div className="flex items-center gap-2">
       <SelectInput
         name="BOOK"
         label="Book"
-        value={translation}
+        value={filterPassage.book}
         options={[
           { value: "Genesis" },
           { value: "Exodos" },
@@ -32,13 +29,13 @@ export default function BiblePassageFilters() {
           { value: "Proverbs" },
           { value: "Isaiah" },
         ]}
-        onChange={setTranslation}
+        // onChange={() => setFilterPassage(else.valuye)}
       />
 
       <SelectInput
         name="CHAPTER"
         label="chapter"
-        value={translation}
+        value={filterPassage.chapter}
         options={[
           { value: "1" },
           { value: "2" },
@@ -46,13 +43,13 @@ export default function BiblePassageFilters() {
           { value: "4" },
           { value: "5" },
         ]}
-        onChange={setTranslation}
+        // onChange={setTranslation}
       />
 
       <SelectInput
         name="VERSES"
         label="Verse"
-        value={translation}
+        value={filterPassage.verse}
         options={[
           { value: "1" },
           { value: "2" },
@@ -60,7 +57,7 @@ export default function BiblePassageFilters() {
           { value: "4" },
           { value: "5" },
         ]}
-        onChange={setTranslation}
+        // onChange={setTranslation}
       />
     </div>
   );

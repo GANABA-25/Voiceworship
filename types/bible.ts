@@ -11,12 +11,15 @@ export type biblePassage = {
   verses: bibleVerse[];
 };
 
-export type bibleReference = {
+export type parsedReference = {
   book: string;
   chapter: number;
   verseStart: number;
   verseEnd: number;
-  translation: string;
+};
+
+export type bibleReference = parsedReference & {
+  translation?: string; // optional: server defaults to "KJV"
 };
 
 export type BiblePassageState = {

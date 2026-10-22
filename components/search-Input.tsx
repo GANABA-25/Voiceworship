@@ -1,65 +1,65 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
-import { Search, Funnel } from "lucide-react";
+import { getBiblePassageByReference } from "@/actions/bible/bible-actions";
+import { useState, useTransition } from "react";
+import { Search } from "lucide-react";
 import { toast } from "react-toastify";
-
-import { getBiblePassage } from "@/actions/bible-actions";
-import { BiblePassageState } from "@/types/bible";
+import SelectInput from "./select-input";
+import { parseBibleReference } from "@/util/parse-bible-reference";
 import { useBible } from "@/store/bible-context";
 
 type SearchInputProps = {
   placeHolder: string;
+  translation?: string;
 };
 
-const initialState: BiblePassageState = {
-  success: false,
-  message: "",
-};
-
-export default function SearchInput({ placeHolder }: SearchInputProps) {
+export default function SearchInput({
+  placeHolder,
+  translation,
+}: SearchInputProps) {
   const { searchedPassage } = useBible();
   const [searchWord, setSearchWord] = useState("");
+  const [isPending, startTransition] = useTransition();
 
-  const [state, formAction, isPending] = useActionState(
-    getBiblePassage,
-    initialState,
-  );
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!searchWord.trim()) return;
 
-  useEffect(() => {
-    if (!state.message) return;
+    const reference = parseBibleReference(searchWord.trim());
 
-    if (state.success && state.passage) {
-      console.log("checking passage", state.passage);
-      searchedPassage(state.passage);
-    } else {
-      toast.error(state.message);
+    if (!reference) {
+      toast.error("Invalid Bible reference.");
+      return;
     }
-  }, [state, searchedPassage]);
+
+    startTransition(async () => {
+      const result = await getBiblePassageByReference({
+        ...reference,
+        translation,
+      });
+
+      if (result.success && result.passage) {
+        searchedPassage(result.passage);
+      } else {
+        toast.error(result.message);
+      }
+    });
+  };
 
   return (
-    <form action={formAction} className="relative hidden w-100 lg:block">
+    <form onSubmit={handleSubmit} className="relative hidden w-100 lg:block">
       <input
         className="h-10 w-full rounded-md border border-border bg-background pl-9 pr-20 text-sm text-text placeholder:text-muted outline-none transition focus:border-primary-light focus:ring-1 focus:ring-primary-light"
         type="text"
-        name="searchWord"
         placeholder={placeHolder}
         value={searchWord}
-        onChange={(event) => setSearchWord(event.target.value)}
-        disabled={isPending}
+        onChange={(e) => setSearchWord(e.target.value)}
+        readOnly={isPending}
       />
 
       <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted">
         <Search size={15} />
       </div>
-
-      <button
-        type="button"
-        className="absolute right-2 top-1/2 flex -translate-y-1/2 items-center gap-1.5 rounded-lg px-2 py-1 text-xs font-medium text-muted transition-colors hover:bg-primary-light hover:text-text"
-      >
-        <Funnel size={10} />
-        <span>Filter</span>
-      </button>
     </form>
   );
 }
