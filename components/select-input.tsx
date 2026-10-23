@@ -8,6 +8,7 @@ type SelectOption = {
 };
 
 type SelectInputProps = {
+  width: string;
   name?: string;
   label?: string;
   value: string;
@@ -19,6 +20,7 @@ type SelectInputProps = {
 };
 
 export default function SelectInput({
+  width,
   name,
   label,
   value,
@@ -39,7 +41,7 @@ export default function SelectInput({
         </label>
       )}
 
-      <div className="relative flex h-full min-w-0 items-center">
+      <div className="relative flex h-full items-center">
         <select
           id={name}
           name={name}
@@ -48,7 +50,7 @@ export default function SelectInput({
           disabled={disabled}
           required={required}
           aria-label={label ? undefined : name}
-          className="h-full min-w-0 cursor-pointer bg-background pr-5 text-sm text-text outline-none disabled:cursor-not-allowed disabled:opacity-50"
+          className={`h-full ${width}  cursor-pointer bg-background pr-5 text-sm text-text outline-none disabled:cursor-not-allowed disabled:opacity-50`}
         >
           <option value="" disabled>
             {placeholder}

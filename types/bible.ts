@@ -36,3 +36,24 @@ export type BiblePassageState = {
     }[];
   };
 };
+
+export type BibleFilterOption = {
+  value: string;
+  label: string;
+};
+
+export type BibleFilterReference = {
+  translation?: string;
+  book?: string;
+  chapter?: number;
+  verse?: number;
+};
+
+export type BookData = {
+  success: boolean;
+  message?: string;
+  books: BibleFilterOption[];
+  chapters: BibleFilterOption[];
+  verses: BibleFilterOption[];
+  passage?: biblePassage;
+};

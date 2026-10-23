@@ -8,6 +8,7 @@ type BibleContextTypes = {
   passage: biblePassage | null;
   reference: bibleReference | null;
   isLoading: boolean;
+  setIsLoading: (value: boolean) => void;
   error: string | null;
   searchedPassage: (data: biblePassage) => void;
   setPassage: (data: biblePassage | null) => void;
@@ -45,6 +46,7 @@ export function BibleProvider({ children }: BibleProviderProps) {
     searchedPassage,
     setPassage,
     clearPassage,
+    setIsLoading,
   };
 
   return (

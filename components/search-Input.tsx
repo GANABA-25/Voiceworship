@@ -17,7 +17,7 @@ export default function SearchInput({
   placeHolder,
   translation,
 }: SearchInputProps) {
-  const { searchedPassage } = useBible();
+  const { searchedPassage, setIsLoading } = useBible();
   const [searchWord, setSearchWord] = useState("");
   const [isPending, startTransition] = useTransition();
 
@@ -33,14 +33,17 @@ export default function SearchInput({
     }
 
     startTransition(async () => {
+      setIsLoading(true);
       const result = await getBiblePassageByReference({
         ...reference,
         translation,
       });
 
       if (result.success && result.passage) {
+        setIsLoading(false);
         searchedPassage(result.passage);
       } else {
+        setIsLoading(false);
         toast.error(result.message);
       }
     });
